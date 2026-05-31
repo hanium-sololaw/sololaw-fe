@@ -2,6 +2,7 @@ import { useOutletContext } from "react-router-dom";
 
 import DashboardHeader from "./ui/DashboardHeader";
 import DashboardBanner from "./ui/DashboardBanner";
+import DashboardSummary from "./ui/DashboardCard";
 
 type LayoutContext = {
   isCollapsed: boolean;
@@ -12,9 +13,12 @@ export default function DashboardPage() {
 
   return (
     <div className="flex flex-col">
-      <main>
-        <DashboardHeader />
-        <DashboardBanner sidebarCollapsed={isCollapsed} />
+      <main className="flex flex-col gap-8">
+        <div>
+          <DashboardHeader />
+          <DashboardBanner sidebarCollapsed={isCollapsed} />
+        </div>
+        <DashboardSummary />
       </main>
     </div>
   );
