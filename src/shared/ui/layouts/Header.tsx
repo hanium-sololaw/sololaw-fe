@@ -2,7 +2,7 @@ import AlertIcon from "@/assets/dashboard/Icon_Dashboard.svg";
 
 export default function Header() {
   return (
-    <header className="flex items-center justify-end border-b px-6 py-5.5">
+    <header className="flex items-center justify-end px-6 py-5.5">
       <div className="flex items-center gap-6">
         <button className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 text-gray-500">
           <img src={AlertIcon} alt="알림" />
