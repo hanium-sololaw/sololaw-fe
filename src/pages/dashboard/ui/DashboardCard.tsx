@@ -42,21 +42,38 @@ function SummaryCardItem({ title, value, badge }: SummaryCardItemProps) {
   return (
     <div
       className="
-    flex h-47 flex-col justify-between
-    rounded-[20px]
-    border border-gray-200
-    px-9 pt-6 pb-7.5
-    bg-[linear-gradient(180deg,#FFFFFF_55%,#F3F8FF_100%)]
-    shadow-[inset_0_6px_10px_-2px_rgba(130,130,132,0.08)]
-  "
+        relative
+        overflow-hidden
+        flex h-47 flex-col justify-between
+        rounded-[20px]
+        border border-gray-200
+        bg-white
+        px-9 pt-6 pb-7.5
+        shadow-[inset_0_6px_10px_-2px_rgba(130,130,132,0.08)]
+      "
     >
-      <div className="flex flex-col gap-1">
+      <div
+        className="
+    pointer-events-none
+    absolute
+    left-5
+    right-5
+    bottom-3
+    h-16
+    rounded-[20px]
+    bg-[linear-gradient(180deg,transparent_0%,#F8FBFF_30%,#EDF5FF_100%)]
+    blur-lg
+    opacity-70
+  "
+      />
+
+      <div className="relative z-10 flex flex-col gap-1">
         <h3 className="text-xl font-semibold text-blue-700">{title}</h3>
 
         <p className="text-3xl font-bold text-blue-700">{value}</p>
       </div>
 
-      <div>
+      <div className="relative z-10">
         <span
           className="
             inline-flex items-center
