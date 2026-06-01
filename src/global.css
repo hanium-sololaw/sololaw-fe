@@ -12,3 +12,15 @@
     color: #191f28;
   }
 }
+
+@font-face {
+  font-family: "Paperlogy";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url("./assets/fonts/Paperlogy-7Bold.woff2") format("woff2");
+}
+
+@theme {
+  --font-paperlogy: "Paperlogy", sans-serif;
+}

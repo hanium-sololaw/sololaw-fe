@@ -1,46 +1,86 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Icon from "@/shared/ui/Icon";
-import LogoIcon from "@/assets/icons/LogoIcon";
+import LogoSvg from "@/assets/icons/logo.svg?react";
 
 const NAV_ITEMS = [
-  { label: "홈", href: "/" },
-  { label: "서비스 소개", href: "/service" },
-  { label: "사용 방법", href: "/guide" },
-  { label: "기반 법률상담", href: "/consult" },
+  { label: "홈", sectionId: "home" },
+  { label: "서비스 소개", sectionId: "service" },
+  { label: "이용 절차", sectionId: "guide" },
+  { label: "자주 묻는 질문", sectionId: "faq" },
 ];
 
+function scrollToSection(id: string) {
+  const el = document.getElementById(id);
+  if (el) {
+    const offset = 64;
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: "smooth" });
+  }
+}
+
+function useActiveSection(ids: string[]) {
+  const [active, setActive] = useState(ids[0]);
+
+  useEffect(() => {
+    const handler = () => {
+      const offset = window.innerHeight * 0.4;
+      for (let i = ids.length - 1; i >= 0; i--) {
+        const el = document.getElementById(ids[i]);
+        if (el && el.getBoundingClientRect().top <= offset) {
+          setActive(ids[i]);
+          return;
+        }
+      }
+      setActive(ids[0]);
+    };
+
+    window.addEventListener("scroll", handler, { passive: true });
+    handler();
+    return () => window.removeEventListener("scroll", handler);
+  }, [ids]);
+
+  return active;
+}
+
 export default function Navbar() {
-  const location = useLocation();
+  const activeSection = useActiveSection(NAV_ITEMS.map((i) => i.sectionId));
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <Icon icon={LogoIcon} size={30} />
-          <span className="font-700 text-[#64A8FF)] text-[18px]">
+          <Icon icon={LogoSvg} size={30} />
+          <span className="font-paperlogy font-bold text-[#64A8FF] text-[18px]">
             나홀로법에
           </span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              to={item.href}
-              className={`text-sm transition-colors ${
-                location.pathname === item.href
-                  ? "text-blue-600 font-medium"
-                  : "text-gray-600 hover:text-gray-900"
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            const isActive = activeSection === item.sectionId;
+            return (
+              <button
+                key={item.sectionId}
+                onClick={() => scrollToSection(item.sectionId)}
+                className={`relative text-sm pb-1 transition-colors ${
+                  isActive
+                    ? "text-blue-300 font-medium"
+                    : "text-gray-400 hover:text-gray-900"
+                }`}
+              >
+                {item.label}
+                {isActive && (
+                  <span className="absolute -bottom-[5px] left-0 right-0 h-[1px] bg-blue-300 rounded-full" />
+                )}
+              </button>
+            );
+          })}
         </nav>
 
         <Link
           to="/login"
-          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-5 py-2 rounded-md transition-colors"
+          className="border-1 border-blue-300 text-blue-300 text-[15px] font-medium px-[16px] py-[8px] rounded-[8px] transition-colors"
         >
           시작하기
         </Link>
