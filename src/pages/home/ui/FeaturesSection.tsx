@@ -38,9 +38,9 @@ function getCardStyle(pos: number): React.CSSProperties {
 
   return {
     ...base,
-    width: 240,
+    width: 250,
     height: 270,
-    transform: `translate(calc(-50% ${pos < 0 ? "-" : "+"} 294px), -55%)`,
+    transform: `translate(calc(-50% ${pos < 0 ? "-" : "+"} 289px), -55%)`,
     zIndex: 10,
     boxShadow: "none",
   };
@@ -118,7 +118,7 @@ export default function FeaturesSection() {
                 transform: "translate(calc(-50% - 380px), -55%)",
               }}
             >
-              <img src={arrowLeft} alt="이전" className="w-5 h-5" />
+              <img src={arrowLeft} alt="이전" className="w-[30px] h-[30px]" />
             </button>
 
             <button
@@ -130,7 +130,7 @@ export default function FeaturesSection() {
                 transform: "translate(calc(-50% + 380px), -55%)",
               }}
             >
-              <img src={arrowRight} alt="다음" className="w-5 h-5" />
+              <img src={arrowRight} alt="다음" className="w-[30px] h-[30px]" />
             </button>
           </div>
         </div>
