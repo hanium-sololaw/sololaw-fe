@@ -22,7 +22,8 @@ function getCardStyle(pos: number): React.CSSProperties {
     top: "50%",
     left: "50%",
     overflow: "hidden",
-    borderRadius: 16,
+    borderRadius: 8,
+    transition: "transform 0.4s ease, width 0.4s ease, height 0.4s ease, box-shadow 0.4s ease",
   };
 
   if (pos === 0) {
@@ -105,6 +106,15 @@ export default function FeaturesSection() {
                     alt={feature.label}
                     className="w-full h-full object-cover"
                   />
+                  {pos !== 0 && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        backgroundColor: "rgba(0, 0, 0, 0.3)",
+                      }}
+                    />
+                  )}
                 </div>
               );
             })}
@@ -136,7 +146,7 @@ export default function FeaturesSection() {
         </div>
 
         <div className="text-center mt-4">
-          <h3 className="text-lg font-bold text-gray-900 mb-2">
+          <h3 className="text-lg font-bold text-gray-900 mb-1">
             {FEATURES[active].title}
           </h3>
           <p className="text-sm text-gray-500 max-w-sm mx-auto leading-relaxed">

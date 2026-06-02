@@ -56,7 +56,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden sm:flex items-center gap-8">
           {NAV_ITEMS.map((item) => {
             const isActive = activeSection === item.sectionId;
             return (

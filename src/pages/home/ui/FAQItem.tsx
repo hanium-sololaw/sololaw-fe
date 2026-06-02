@@ -22,11 +22,16 @@ export default function FAQItem({ question, answer }: FAQItemProps) {
           className={`flex-shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         />
       </button>
-      {open && (
-        <p className="text-sm text-gray-500 leading-relaxed pb-5 pr-6">
-          {answer}
-        </p>
-      )}
+      <div
+        className="grid transition-[grid-template-rows] duration-300 ease-in-out"
+        style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
+      >
+        <div className="overflow-hidden">
+          <p className="text-sm text-gray-600 leading-relaxed pb-5 pr-6">
+            {answer}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

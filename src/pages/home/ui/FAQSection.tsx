@@ -11,7 +11,7 @@ export default function FAQSection() {
           description="나홀로법에 서비스에 대해 궁금하신 점을 확인해보세요"
         />
 
-        <div className="bg-white rounded-xl px-6">
+        <div>
           {FAQ_ITEMS.map((item) => (
             <FAQItem
               key={item.question}

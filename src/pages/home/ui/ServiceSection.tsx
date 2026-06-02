@@ -10,8 +10,8 @@ export default function ServiceSection() {
           description="나홀로 소송에 꼭 필요한 법률 서류를 한곳에서 제공합니다"
         />
 
-        <div className="flex flex-col md:flex-row gap-10 items-center">
-          <div className="md:w-[45%] flex-shrink-0">
+        <div className="flex flex-col sm:flex-row gap-10 items-center">
+          <div className="sm:w-[45%] flex-shrink-0">
             <div className="rounded-xl overflow-hidden aspect-[16/9]">
               <img
                 src={service}
@@ -21,7 +21,7 @@ export default function ServiceSection() {
             </div>
           </div>
 
-          <div className="md:flex-1 space-y-5">
+          <div className="sm:flex-1 space-y-5">
             <p className="text-[15px] text-gray-700 leading-relaxed">
               나홀로 소송은 변호사 없이 직접 준비해야 하는 감정 절차를 이해하고
               필요한 서류를 준비하는 과정이 쉽지 않습니다.
