@@ -3,7 +3,7 @@ import React from "react";
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   size?: number;
   color?: string;
-  icon: React.FC<React.SVGProps<SVGSVGElement>>;
+  icon: React.FC<React.ComponentProps<"svg">>;
 }
 
 const Icon = ({

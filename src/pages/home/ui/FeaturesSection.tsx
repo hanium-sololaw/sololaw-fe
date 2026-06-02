@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { FEATURES } from "../dummy/features";
-import arrowLeft from "@/assets/icons/arrow_left.svg";
-import arrowRight from "@/assets/icons/arrow_right.svg";
+import Icon from "@/shared/ui/Icon";
+import ArrowLeftIcon from "@/assets/icons/arrow_left.svg?react";
+import ArrowRightIcon from "@/assets/icons/arrow_right.svg?react";
 import SectionHeader from "./SectionHeader";
 
 const DESIGN_WIDTH = 810;
@@ -128,7 +129,7 @@ export default function FeaturesSection() {
                 transform: "translate(calc(-50% - 380px), -55%)",
               }}
             >
-              <img src={arrowLeft} alt="이전" className="w-[30px] h-[30px]" />
+              <Icon icon={ArrowLeftIcon} size={30} />
             </button>
 
             <button
@@ -140,7 +141,7 @@ export default function FeaturesSection() {
                 transform: "translate(calc(-50% + 380px), -55%)",
               }}
             >
-              <img src={arrowRight} alt="다음" className="w-[30px] h-[30px]" />
+              <Icon icon={ArrowRightIcon} size={30} />
             </button>
           </div>
         </div>
