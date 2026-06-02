@@ -1,5 +1,6 @@
 import { useState } from "react";
-import ArrowBottomIcon from "@/assets/icons/arrow_bottom.svg";
+import Icon from "@/shared/ui/Icon";
+import ArrowBottomIcon from "@/assets/icons/arrow_bottom.svg?react";
 
 interface FAQItemProps {
   question: string;
@@ -18,7 +19,8 @@ export default function FAQItem({ question, answer }: FAQItemProps) {
         <span className="text-[16px] text-gray-700 font-semibold">
           {question}
         </span>
-        <ArrowBottomIcon
+        <Icon
+          icon={ArrowBottomIcon}
           className={`flex-shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         />
       </button>

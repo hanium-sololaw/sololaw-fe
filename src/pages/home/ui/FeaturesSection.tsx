@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { FEATURES } from "../dummy/features";
-import ArrowLeftIcon from "@/assets/icons/arrow_left.svg";
-import ArrowRightIcon from "@/assets/icons/arrow_right.svg";
+import Icon from "@/shared/ui/Icon";
+import ArrowLeftIcon from "@/assets/icons/arrow_left.svg?react";
+import ArrowRightIcon from "@/assets/icons/arrow_right.svg?react";
 import SectionHeader from "./SectionHeader";
 
 const DESIGN_WIDTH = 810;
@@ -128,7 +129,7 @@ export default function FeaturesSection() {
                 transform: "translate(calc(-50% - 380px), -55%)",
               }}
             >
-              <ArrowLeftIcon width={30} height={30} />
+              <Icon icon={ArrowLeftIcon} size={30} />
             </button>
 
             <button
@@ -140,7 +141,7 @@ export default function FeaturesSection() {
                 transform: "translate(calc(-50% + 380px), -55%)",
               }}
             >
-              <ArrowRightIcon width={30} height={30} />
+              <Icon icon={ArrowRightIcon} size={30} />
             </button>
           </div>
         </div>

@@ -5,7 +5,7 @@ import svgr from 'vite-plugin-svgr'
 import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
-  plugins: [tailwindcss(), react(), svgr({ include: "**/*.svg" })],
+  plugins: [tailwindcss(), react(), svgr()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

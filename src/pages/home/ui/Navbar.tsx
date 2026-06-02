@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import LogoSvg from "@/assets/icons/logo.svg";
+import Icon from "@/shared/ui/Icon";
+import LogoSvg from "@/assets/icons/logo.svg?react";
 
 const NAV_ITEMS = [
   { label: "홈", sectionId: "home" },
@@ -49,7 +50,7 @@ export default function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <LogoSvg width={30} height={30} />
+          <Icon icon={LogoSvg} size={30} />
           <span className="font-paperlogy font-bold text-[#64A8FF] text-[18px]">
             나홀로법에
           </span>
