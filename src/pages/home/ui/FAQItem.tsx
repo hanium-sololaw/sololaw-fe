@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ArrowBottomIcon from "@/assets/icons/arrow_bottom.svg?react";
+import ArrowBottomIcon from "@/assets/icons/arrow_bottom.svg";
 
 interface FAQItemProps {
   question: string;
