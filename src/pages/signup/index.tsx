@@ -1,9 +1,9 @@
-import LoginForm from './ui/LoginForm'
+import SignupForm from './ui/SignupForm'
 
-export default function LoginPage() {
+export default function SignupPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
-      <LoginForm />
+      <SignupForm />
     </div>
   )
 }
