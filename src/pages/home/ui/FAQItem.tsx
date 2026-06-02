@@ -21,6 +21,7 @@ export default function FAQItem({ question, answer }: FAQItemProps) {
         </span>
         <Icon
           icon={ArrowBottomIcon}
+          size={20}
           className={`flex-shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         />
       </button>
