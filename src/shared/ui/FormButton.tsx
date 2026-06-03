@@ -5,7 +5,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost";
 }
 
-export function Button({
+export function FormButton({
   variant = "primary",
   className,
   ...props
@@ -13,8 +13,8 @@ export function Button({
   return (
     <button
       className={cn(
-        "rounded-lg px-4 py-2 font-medium transition-colors",
-        variant === "primary" && "bg-blue-600 text-white hover:bg-blue-700",
+        "rounded-[8px] px-4 py-2 font-medium transition-colors",
+        variant === "primary" && "bg-blue-400 text-white disabled:bg-blue-500",
         variant === "secondary" && "border border-gray-300 hover:bg-gray-50",
         variant === "ghost" && "hover:bg-gray-100",
         className,

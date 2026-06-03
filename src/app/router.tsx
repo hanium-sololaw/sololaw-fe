@@ -4,7 +4,6 @@ import HomePage from "@/pages/home";
 import LoginPage from "@/pages/login";
 import SignupPage from "@/pages/signup";
 import DashboardPage from "@/pages/dashboard";
-import SearchPage from "@/pages/search";
 
 export const router = createBrowserRouter([
   {
@@ -13,7 +12,6 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "dashboard", element: <DashboardPage /> },
-      { path: "search", element: <SearchPage /> },
     ],
   },
   {
