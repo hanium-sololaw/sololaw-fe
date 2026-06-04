@@ -4,6 +4,7 @@ import DashboardHeader from "./ui/DashboardHeader";
 import DashboardBanner from "./ui/DashboardBanner";
 import DashboardSummary from "./ui/DashboardCard";
 import DashboardSchedule from "./ui/DashboardSchedule";
+import DashboardRecentActivity from "./ui/DashboardRecentActivity";
 
 type LayoutContext = {
   isCollapsed: boolean;
@@ -22,13 +23,13 @@ export default function DashboardPage() {
 
         <DashboardSummary />
 
-        <div className="grid grid-cols-[520px_1fr] gap-6">
+        <div className="grid grid-cols-[auto_1fr] gap-6">
           {/* 좌측 */}
           <DashboardSchedule />
 
           {/* 우측 */}
-          <div className="rounded-[28px] border border-gray-200 bg-white">
-            우측 컨텐츠
+          <div className="flex flex-col gap-6">
+            <DashboardRecentActivity />
           </div>
         </div>
       </main>
