@@ -54,17 +54,16 @@ function SummaryCardItem({ title, value, badge }: SummaryCardItemProps) {
     >
       <div
         className="
-    pointer-events-none
-    absolute
-    left-5
-    right-5
-    bottom-3
-    h-16
-    rounded-[20px]
-    bg-[linear-gradient(180deg,transparent_0%,#F8FBFF_30%,#EDF5FF_100%)]
-    blur-lg
-    opacity-70
-  "
+        pointer-events-none
+        absolute
+        left-5
+        right-5
+        bottom-3
+        h-16
+        rounded-[20px]
+        bg-[linear-gradient(180deg,transparent_0%,#F6FAFF_30%,#E8F2FF_100%)]    blur-lg
+        opacity-70
+      "
       />
 
       <div className="relative z-10 flex flex-col gap-1">
