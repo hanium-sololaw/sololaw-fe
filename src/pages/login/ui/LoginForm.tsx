@@ -6,9 +6,12 @@ import { Logo } from "@/shared/ui/Logo";
 
 export default function LoginForm() {
   const {
-    username, setUsername,
-    password, setPassword,
-    keepLogin, setKeepLogin,
+    username,
+    setUsername,
+    password,
+    setPassword,
+    keepLogin,
+    setKeepLogin,
     handleSubmit,
   } = useLoginForm();
 
@@ -49,9 +52,9 @@ export default function LoginForm() {
           />
           로그인 상태 유지
         </label>
-        <Link to="#" className="text-sm text-blue-400">
+        {/* <Link to="#" className="text-sm text-blue-400">
           비밀번호 찾기
-        </Link>
+        </Link> */}
       </div>
 
       <FormButton type="submit" className="w-full rounded-xl py-4 text-base">
