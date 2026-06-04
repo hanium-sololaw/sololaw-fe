@@ -1,4 +1,4 @@
-import { FAQ_ITEMS } from "../dummy/faq";
+import { FAQ_ITEMS } from "../data/faq";
 import SectionHeader from "./SectionHeader";
 import FAQItem from "./FAQItem";
 

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { FEATURES } from "../dummy/features";
+import { FEATURES } from "../data/features";
 import Icon from "@/shared/ui/Icon";
 import ArrowLeftIcon from "@/assets/icons/arrow_left.svg?react";
 import ArrowRightIcon from "@/assets/icons/arrow_right.svg?react";
@@ -24,7 +24,8 @@ function getCardStyle(pos: number): React.CSSProperties {
     left: "50%",
     overflow: "hidden",
     borderRadius: 8,
-    transition: "transform 0.4s ease, width 0.4s ease, height 0.4s ease, box-shadow 0.4s ease",
+    transition:
+      "transform 0.4s ease, width 0.4s ease, height 0.4s ease, box-shadow 0.4s ease",
   };
 
   if (pos === 0) {
