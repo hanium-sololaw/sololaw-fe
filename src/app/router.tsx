@@ -7,23 +7,18 @@ import SignupPage from "@/pages/signup";
 import DashboardPage from "@/pages/dashboard";
 
 export const router = createBrowserRouter([
+  { path: "/", element: <HomePage /> },
   {
-    path: "/",
-    element: <HomePage />,
-  },
-  {
-    path: "/",
     element: <AuthLayout />,
     children: [
-      { path: "login", element: <LoginPage /> },
-      { path: "signup", element: <SignupPage /> },
+      { path: "/login", element: <LoginPage /> },
+      { path: "/signup", element: <SignupPage /> },
     ],
   },
   {
-    path: "/",
     element: <MainLayout />,
     children: [
-      { path: "dashboard", element: <DashboardPage /> },
+      { path: "/dashboard", element: <DashboardPage /> },
     ],
   },
 ]);
