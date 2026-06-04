@@ -80,7 +80,7 @@ export default function Navbar() {
 
         <Link
           to="/login"
-          className="border-1 border-blue-300 text-blue-300 text-[15px] font-medium px-[16px] py-[8px] rounded-[8px] transition-colors"
+          className="border-1 border-blue-300 text-blue-300 text-[15px] font-medium px-[16px] py-[8px] rounded-[10px] transition-colors"
         >
           시작하기
         </Link>

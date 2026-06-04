@@ -14,7 +14,8 @@ function getPosition(idx: number, active: number): number {
   const diff = (((idx - active) % N) + N) % N;
   if (diff === 0) return 0;
   if (diff === 1) return 1;
-  return -1;
+  if (diff === N - 1) return -1;
+  return -2;
 }
 
 function getCardStyle(pos: number): React.CSSProperties {
@@ -25,7 +26,7 @@ function getCardStyle(pos: number): React.CSSProperties {
     overflow: "hidden",
     borderRadius: 8,
     transition:
-      "transform 0.4s ease, width 0.4s ease, height 0.4s ease, box-shadow 0.4s ease",
+      "transform 0.4s ease, width 0.4s ease, height 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease",
   };
 
   if (pos === 0) {
@@ -36,6 +37,18 @@ function getCardStyle(pos: number): React.CSSProperties {
       transform: "translate(-50%, calc(-50% + 40px))",
       zIndex: 20,
       boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)",
+    };
+  }
+
+  if (pos === -2) {
+    return {
+      ...base,
+      width: 250,
+      height: 270,
+      transform: `translate(calc(-50% - 289px), -55%)`,
+      zIndex: 0,
+      opacity: 0,
+      pointerEvents: "none",
     };
   }
 
@@ -65,6 +78,13 @@ export default function FeaturesSection() {
     });
     obs.observe(el);
     return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActive((i) => (i + 1) % N);
+    }, 3000);
+    return () => clearInterval(timer);
   }, []);
 
   const outerHeight = DESIGN_HEIGHT * scale + SHADOW_PADDING;
@@ -101,7 +121,7 @@ export default function FeaturesSection() {
                   key={feature.id}
                   style={getCardStyle(pos)}
                   onClick={pos === -1 ? prev : pos === 1 ? next : undefined}
-                  className={pos !== 0 ? "cursor-pointer" : undefined}
+                  className={pos === -1 || pos === 1 ? "cursor-pointer" : undefined}
                 >
                   <img
                     src={feature.image}
