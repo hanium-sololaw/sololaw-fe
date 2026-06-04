@@ -1,7 +1,7 @@
 import { apiClient } from '@/shared/api/client'
 
 interface LoginRequest {
-  email: string
+  username: string
   password: string
 }
 
