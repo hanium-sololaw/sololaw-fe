@@ -4,7 +4,7 @@ import AuthLayout from "@/shared/layouts/AuthLayout";
 import HomePage from "@/pages/home";
 import LoginPage from "@/pages/login";
 import SignupPage from "@/pages/signup";
-import DashboardPage from "@/pages/dashboard";
+import DashboardPage from "@/pages/dashboard/index";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
@@ -17,8 +17,6 @@ export const router = createBrowserRouter([
   },
   {
     element: <MainLayout />,
-    children: [
-      { path: "/dashboard", element: <DashboardPage /> },
-    ],
+    children: [{ path: "/dashboard", element: <DashboardPage /> }],
   },
 ]);
