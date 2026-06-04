@@ -4,7 +4,7 @@ import AuthLayout from "@/shared/layouts/AuthLayout";
 import HomePage from "@/pages/home";
 import LoginPage from "@/pages/login";
 import SignupPage from "@/pages/signup";
-import DashboardPage from "@/pages/dashboard/index";
+import DashboardPage from "@/pages/dashboard";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
