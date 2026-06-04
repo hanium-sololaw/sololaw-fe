@@ -50,8 +50,8 @@ export default function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <Icon icon={LogoSvg} size={30} />
-          <span className="font-paperlogy font-bold text-[#64A8FF] text-[18px]">
+          <Icon icon={LogoSvg} size={32} />
+          <span className="font-paperlogy font-bold text-[#64A8FF] text-[20px]">
             나홀로법에
           </span>
         </Link>
@@ -63,7 +63,7 @@ export default function Navbar() {
               <button
                 key={item.sectionId}
                 onClick={() => scrollToSection(item.sectionId)}
-                className={`relative text-sm pb-1 transition-colors ${
+                className={`relative text-[15px] font-medium pb-1 transition-colors ${
                   isActive
                     ? "text-blue-300 font-medium"
                     : "text-gray-400 hover:text-gray-900"
