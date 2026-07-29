@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(yarn tsc *)",
+      "Bash(yarn eslint *)",
+      "Bash(npx playwright *)",
+      "Bash(node shot.mjs)",
+      "Bash(lsof -ti:5174)",
+      "Bash(xargs kill)",
+      "Bash(sips -g pixelHeight -g pixelWidth acc-1-low.png acc-3-high.png)",
+      "Bash(python3 -c ' *)",
+      "Bash(lsof -nP -iTCP:5173 -sTCP:LISTEN)",
+      "Bash(lsof -nP -iTCP:5174 -sTCP:LISTEN)",
+      "Bash(curl -s http://localhost:5173/@vite/client -o /dev/null -w \"vite client: %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:5173/src/pages/case-search/ui/AnalysisInfoCard.tsx -o /dev/null -w \"AnalysisInfoCard.tsx: %{http_code}\\\\n\")",
+      "Bash(curl -s \"http://localhost:5173/src/pages/case-search/ui/AnalysisInfoCard.tsx\")"
+    ]
+  }
+}
