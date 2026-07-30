@@ -81,7 +81,7 @@ function SummaryCardItem({ title, value, badge }: SummaryCardItemProps) {
             px-4 py-1
             text-xl
             font-normal
-            text-blue-300
+            text-blue-400
           "
         >
           {badge}

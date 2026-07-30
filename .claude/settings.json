@@ -24,7 +24,8 @@
       "Bash(sed -i '' 's/stroke=\"#8B95A1\"/stroke=\"currentColor\"/g' documentIcon.svg judgeIcon.svg bookIcon.svg dataIcon.svg)",
       "Bash(sed -i '' 's/fill=\"#8B95A1\"/fill=\"currentColor\"/g' bellIcon.svg)",
       "Bash(sed -i '' 's/fill=\"#6B7684\"/fill=\"currentColor\"/g' guideIcon.svg)",
-      "Bash(sed -i '' 's/stroke=\"#6B7684\"/stroke=\"currentColor\"/g' logoutIcon.svg)"
+      "Bash(sed -i '' 's/stroke=\"#6B7684\"/stroke=\"currentColor\"/g' logoutIcon.svg)",
+      "Bash(git rev-list *)"
     ]
   }
 }

@@ -67,7 +67,7 @@ export default function DashboardBanner() {
           {aiTasks.map((task) => (
             <button
               key={task.label}
-              className="flex h-9.25 items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-1.75 text-sm font-medium text-blue-300"
+              className="flex h-9.25 items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-1.75 text-sm font-medium text-blue-400"
             >
               {task.label}
 

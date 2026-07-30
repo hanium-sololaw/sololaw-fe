@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 import LogoIcon from "@/assets/layout/Logo.svg?react";
-import LogominiIcon from "@/assets/layout/Logo_mini.svg?react";
+import LogominiIcon from "@/assets/icons/logo.svg?react";
 import DashboardIcon from "@/assets/layout/dashboardIcon.svg?react";
 import DocumentIcon from "@/assets/layout/documentIcon.svg?react";
 import JudgeIcon from "@/assets/layout/judgeIcon.svg?react";
@@ -40,7 +40,7 @@ function NavItem({ to, icon: Icon, label, small = false }: NavItemProps) {
         `flex shrink-0 items-center justify-center overflow-hidden whitespace-nowrap rounded-[10px] font-medium
         lg:w-full lg:justify-start lg:px-4
         ${small ? "h-10 w-10 text-sm" : "h-12 w-12 text-base"}
-        ${isActive ? "bg-blue-300 text-white" : "text-gray-500"}`
+        ${isActive ? "bg-blue-400 text-white" : "text-gray-500"}`
       }
     >
       <span className="flex h-5 w-5 shrink-0 items-center justify-center">
