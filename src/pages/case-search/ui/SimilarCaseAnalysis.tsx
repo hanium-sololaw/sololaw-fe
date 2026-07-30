@@ -1,7 +1,7 @@
 import { useState } from "react";
-import DocumentIcon from "@/assets/layout/documentIcon.svg?react";
-import PaperIcon from "@/assets/icons/paper_icon.svg?react";
-import ShineIcon from "@/assets/icons/shine_icon.svg?react";
+import DocumentIcon from "@/assets/icons/shared/document-icon.svg?react";
+import PaperIcon from "@/assets/icons/case-search/paper-icon.svg?react";
+import ShineIcon from "@/assets/icons/case-search/shine-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
 
 type SimilarCaseAnalysisProps = {

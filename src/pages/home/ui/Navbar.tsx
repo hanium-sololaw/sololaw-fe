@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Icon from "@/shared/ui/Icon";
-import LogoSvg from "@/assets/icons/logo.svg?react";
+import LogoSvg from "@/assets/icons/shared/logo.svg?react";
 
 const NAV_ITEMS = [
   { label: "홈", sectionId: "home" },

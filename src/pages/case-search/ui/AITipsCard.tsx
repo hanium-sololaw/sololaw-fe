@@ -1,4 +1,4 @@
-import LightIcon from "@/assets/icons/light_icon.svg?react";
+import LightIcon from "@/assets/icons/case-search/light-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
 
 const aiTips = [

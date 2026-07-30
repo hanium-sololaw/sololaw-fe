@@ -1,4 +1,4 @@
-import BookIcon from "@/assets/layout/bookIcon.svg?react";
+import BookIcon from "@/assets/icons/shared/book-icon.svg?react";
 
 const relatedLaws = [
   {

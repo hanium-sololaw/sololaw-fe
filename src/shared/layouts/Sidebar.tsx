@@ -1,15 +1,15 @@
 import { NavLink } from "react-router-dom";
 
-import LogoIcon from "@/assets/layout/Logo.svg?react";
-import LogominiIcon from "@/assets/icons/logo.svg?react";
-import DashboardIcon from "@/assets/layout/dashboardIcon.svg?react";
-import DocumentIcon from "@/assets/layout/documentIcon.svg?react";
-import JudgeIcon from "@/assets/layout/judgeIcon.svg?react";
-import BookIcon from "@/assets/layout/bookIcon.svg?react";
-import DataIcon from "@/assets/layout/dataIcon.svg?react";
-import BellIcon from "@/assets/layout/bellIcon.svg?react";
-import GuideIcon from "@/assets/layout/guideIcon.svg?react";
-import LogoutIcon from "@/assets/layout/logoutIcon.svg?react";
+import LogoIcon from "@/assets/icons/shared/logo-full.svg?react";
+import LogominiIcon from "@/assets/icons/shared/logo.svg?react";
+import DashboardIcon from "@/assets/icons/shared/dashboard-icon.svg?react";
+import DocumentIcon from "@/assets/icons/shared/document-icon.svg?react";
+import JudgeIcon from "@/assets/icons/shared/judge-icon.svg?react";
+import BookIcon from "@/assets/icons/shared/book-icon.svg?react";
+import DataIcon from "@/assets/icons/shared/data-icon.svg?react";
+import BellIcon from "@/assets/icons/shared/bell-icon.svg?react";
+import GuideIcon from "@/assets/icons/shared/guide-icon.svg?react";
+import LogoutIcon from "@/assets/icons/shared/logout-icon.svg?react";
 
 const mainNavItems = [
   { to: "/dashboard", icon: DashboardIcon, label: "대시보드" },

@@ -1,4 +1,4 @@
-import GraphIcon from "@/assets/icons/graph_icon.svg?react";
+import GraphIcon from "@/assets/icons/case-search/graph-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
 
 const mockStats = [

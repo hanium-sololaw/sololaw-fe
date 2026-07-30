@@ -1,7 +1,7 @@
-import BannerSvg from "@/assets/dashboard/banner_1.svg?react";
-import BannerWideSvg from "@/assets/dashboard/banner_2.svg?react";
-import ArrowUpRightIcon from "@/assets/dashboard/tabler_arrow-up.svg?react";
-import DiamondIcon from "@/assets/dashboard/search_icon.svg?react";
+import BannerSvg from "@/assets/dashboard/banner-1.svg?react";
+import BannerWideSvg from "@/assets/dashboard/banner-2.svg?react";
+import ArrowUpRightIcon from "@/assets/icons/dashboard/tabler-arrow-up.svg?react";
+import DiamondIcon from "@/assets/icons/dashboard/search-icon.svg?react";
 
 type AiTask = {
   label: string;

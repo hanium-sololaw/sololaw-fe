@@ -1,7 +1,7 @@
 import { useState } from "react";
-import CheckIcon from "@/assets/dashboard/check_icon.svg?react";
-import WriteIcon from "@/assets/icons/write_icon.svg?react";
-import UploadIcon from "@/assets/icons/upload_icon.svg?react";
+import CheckIcon from "@/assets/icons/shared/check-icon.svg?react";
+import WriteIcon from "@/assets/icons/case-search/write-icon.svg?react";
+import UploadIcon from "@/assets/icons/case-search/upload-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
 import {
   accuracyStyles,

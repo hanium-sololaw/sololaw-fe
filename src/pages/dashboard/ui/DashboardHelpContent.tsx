@@ -1,6 +1,6 @@
-import PlayIcon from "@/assets/dashboard/video_icon.svg?react";
-import BookIcon from "@/assets/dashboard/guide_icon.svg?react";
-import FileIcon from "@/assets/dashboard/tamplate_icon.svg?react";
+import PlayIcon from "@/assets/icons/dashboard/video-icon.svg?react";
+import BookIcon from "@/assets/icons/dashboard/guide-icon.svg?react";
+import FileIcon from "@/assets/icons/dashboard/tamplate-icon.svg?react";
 
 type ContentItem = {
   id: string;

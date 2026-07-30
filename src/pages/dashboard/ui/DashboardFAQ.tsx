@@ -1,5 +1,5 @@
-import ChatIcon from "@/assets/dashboard/chat_icon.svg?react";
-import ArrowRightIcon from "@/assets/dashboard/arrow_right.svg?react";
+import ChatIcon from "@/assets/icons/dashboard/chat-icon.svg?react";
+import ArrowRightIcon from "@/assets/icons/dashboard/arrow-right.svg?react";
 
 type FAQItem = {
   id: string;

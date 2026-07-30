@@ -1,4 +1,4 @@
-import ShineIcon from "@/assets/icons/shine_icon.svg?react";
+import ShineIcon from "@/assets/icons/case-search/shine-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
 
 type MockCase = {

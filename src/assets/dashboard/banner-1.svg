@@ -27,7 +27,7 @@
 <feGaussianBlur stdDeviation="25"/>
 <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
 <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.4 0"/>
-<feBlend mode="plus-lighter" in2="effect2_innerShadow_207_32379" result="effect3_innerShadow_207_32379"/>
+<feBlend mode="normal" in2="effect2_innerShadow_207_32379" result="effect3_innerShadow_207_32379"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feMorphology radius="2" operator="dilate" in="SourceAlpha" result="effect4_innerShadow_207_32379"/>
 <feOffset dy="6"/>

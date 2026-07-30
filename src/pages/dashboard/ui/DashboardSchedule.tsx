@@ -1,7 +1,7 @@
-import ProgressIcon from "@/assets/dashboard/progress_bar.svg?react";
-import InProgressIcon from "@/assets/dashboard/in_progress_bar.svg?react";
-import ClockIcon from "@/assets/dashboard/clock_icon.svg?react";
-import CheckIcon from "@/assets/dashboard/check_icon.svg?react";
+import ProgressIcon from "@/assets/dashboard/progress-bar.svg?react";
+import InProgressIcon from "@/assets/dashboard/in-progress-bar.svg?react";
+import ClockIcon from "@/assets/icons/dashboard/clock-icon.svg?react";
+import CheckIcon from "@/assets/icons/shared/check-icon.svg?react";
 
 type WeekDay = {
   day: string;
