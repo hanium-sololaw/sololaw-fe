@@ -1,26 +1,20 @@
 import { myCases } from "../data/myCases";
+import { useCaseSearchStore } from "../store/useCaseSearchStore";
 
-type CaseSelectionCardProps = {
-  selectedId: string;
-  onSelect: (id: string) => void;
-  onConfirm: () => void;
-};
-
-export default function CaseSelectionCard({
-  selectedId,
-  onSelect,
-  onConfirm,
-}: CaseSelectionCardProps) {
+export default function CaseSelectionCard() {
+  const selectedId = useCaseSearchStore((state) => state.selectedCaseId);
+  const onSelect = useCaseSearchStore((state) => state.selectCase);
+  const onConfirm = useCaseSearchStore((state) => state.confirmCase);
   return (
     <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-8">
       <div className="flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-500">
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-300 text-xs font-semibold text-white">
             1
           </span>
           분석할 내 사건 선택
         </h2>
-        <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-500">
+        <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-500">
           AI 분석
         </span>
       </div>
@@ -49,8 +43,8 @@ export default function CaseSelectionCard({
                 )}
               </span>
               <div className="flex flex-col gap-0.5">
-                <p className="font-semibold text-gray-800">{item.title}</p>
-                <p className="text-sm text-gray-400">
+                <p className="font-semibold text-gray-900">{item.title}</p>
+                <p className="text-sm text-gray-500">
                   {item.caseNumber} · {item.type}
                 </p>
               </div>
@@ -59,7 +53,7 @@ export default function CaseSelectionCard({
         })}
       </div>
 
-      <p className="text-sm text-gray-400">
+      <p className="text-sm text-gray-500">
         선택한 사건의 쟁점을 분석해 관련도 높은 판례와 승소율(표본)을
         보여드려요.
       </p>

@@ -3,15 +3,11 @@ import DocumentIcon from "@/assets/icons/shared/document-icon.svg?react";
 import PaperIcon from "@/assets/icons/case-search/paper-icon.svg?react";
 import ShineIcon from "@/assets/icons/case-search/shine-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
+import { useCaseSearchStore } from "../store/useCaseSearchStore";
 
-type SimilarCaseAnalysisProps = {
-  onAnalyze: (situation: string) => void;
-};
-
-export default function SimilarCaseAnalysis({
-  onAnalyze,
-}: SimilarCaseAnalysisProps) {
+export default function SimilarCaseAnalysis() {
   const [situation, setSituation] = useState("");
+  const analyze = useCaseSearchStore((state) => state.analyze);
 
   return (
     <section className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-8">
@@ -28,10 +24,8 @@ export default function SimilarCaseAnalysis({
         <div className="flex items-center gap-3">
           <DocumentIcon className="h-6 w-6 shrink-0 text-gray-500" />
           <div className="flex flex-col gap-0.5">
-            <p className="font-semibold text-gray-800">
-              등록된 사건이 없어요
-            </p>
-            <p className="text-sm text-gray-400">
+            <p className="font-semibold text-gray-800">등록된 사건이 없어요</p>
+            <p className="text-sm text-gray-500">
               판례를 분석하려면 먼저 내 사건을 등록해야 해요.
             </p>
           </div>
@@ -46,7 +40,8 @@ export default function SimilarCaseAnalysis({
       </div>
 
       <div className="flex items-center gap-4 text-sm text-gray-400">
-        <span className="h-px flex-1 bg-gray-200" />또는
+        <span className="h-px flex-1 bg-gray-200" />
+        또는
         <span className="h-px flex-1 bg-gray-200" />
       </div>
 
@@ -67,7 +62,7 @@ export default function SimilarCaseAnalysis({
         <button
           type="button"
           disabled={situation.trim() === ""}
-          onClick={() => onAnalyze(situation)}
+          onClick={() => analyze()}
           className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-blue-400 py-3.5 text-base font-medium text-white disabled:bg-blue-200"
         >
           <Icon icon={PaperIcon} size={16} className="text-white" />이 내용으로

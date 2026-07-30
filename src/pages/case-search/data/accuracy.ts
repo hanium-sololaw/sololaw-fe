@@ -10,14 +10,13 @@ export const accuracyStyles: Record<
   AccuracyLevel,
   { badge: string; bar: string }
 > = {
-  낮음: { badge: "bg-red-50 text-red-400", bar: "bg-red-400" },
-  보통: { badge: "bg-orange-50 text-orange-500", bar: "bg-orange-400" },
-  높음: { badge: "bg-blue-50 text-blue-500", bar: "bg-blue-400" },
+  낮음: { badge: "bg-red-50 text-red-500", bar: "bg-red-500" },
+  보통: { badge: "bg-yellow-50 text-yellow-500", bar: "bg-yellow-500" },
+  높음: { badge: "bg-blue-50 text-blue-500", bar: "bg-blue-500" },
 };
 
-const TOTAL_CHECKLIST_ITEMS = 3;
+const ACCURACY_PERCENT_BY_COUNT = [5, 25, 60, 95] as const;
 
 export function getAccuracyPercent(checkedCount: number): number {
-  if (checkedCount === 0) return 5;
-  return Math.round((checkedCount / TOTAL_CHECKLIST_ITEMS) * 100);
+  return ACCURACY_PERCENT_BY_COUNT[checkedCount] ?? 95;
 }

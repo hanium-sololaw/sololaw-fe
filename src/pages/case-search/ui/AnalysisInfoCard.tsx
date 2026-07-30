@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CheckIcon from "@/assets/icons/shared/check-icon.svg?react";
+import CheckIcon from "@/assets/icons/case-search/check-icon.svg?react";
 import WriteIcon from "@/assets/icons/case-search/write-icon.svg?react";
 import UploadIcon from "@/assets/icons/case-search/upload-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
@@ -8,50 +8,22 @@ import {
   getAccuracyLevel,
   getAccuracyPercent,
 } from "../data/accuracy";
-
-type ChecklistId = "basic" | "complaint" | "evidence";
-
-const checklistMeta: Record<
-  ChecklistId,
-  {
-    title: string;
-    pendingDescription: string;
-    doneDescription: (caseTitle: string) => string;
-  }
-> = {
-  basic: {
-    title: "사건 기본 정보",
-    pendingDescription:
-      "아직 없음 — 등록하면 유형·청구금액·상대방이 자동 반영돼요",
-    doneDescription: () => "유형·청구금액·상대방 자동 반영됨",
-  },
-  complaint: {
-    title: "소장",
-    pendingDescription: "아직 없음 — 작성하면 정확도가 크게 올라가요",
-    doneDescription: (caseTitle) =>
-      `${caseTitle.replace(/ /g, "_")}_소장.pdf 내용 자동 반영`,
-  },
-  evidence: {
-    title: "증거·준비서면",
-    pendingDescription: "아직 없음 — 등록하면 정확도가 올라가요",
-    doneDescription: () => "증거 14건·준비서면 1차 자동 반영됨",
-  },
-};
+import { checklistMeta, type ChecklistId } from "../data/checklistMeta";
+import { useCaseSearchStore } from "../store/useCaseSearchStore";
 
 type AnalysisInfoCardProps = {
   caseTitle: string;
-  checkedItems: Record<ChecklistId, boolean>;
-  onToggleItem: (id: ChecklistId) => void;
-  onAnalyze: () => void;
 };
 
 export default function AnalysisInfoCard({
   caseTitle,
-  checkedItems,
-  onToggleItem,
-  onAnalyze,
 }: AnalysisInfoCardProps) {
   const [context, setContext] = useState("");
+  const checkedItems = useCaseSearchStore((state) => state.checkedItems);
+  const onToggleItem = useCaseSearchStore(
+    (state) => state.toggleChecklistItem,
+  );
+  const onAnalyze = useCaseSearchStore((state) => state.analyze);
 
   const checkedCount = Object.values(checkedItems).filter(Boolean).length;
   const accuracy = getAccuracyLevel(checkedCount);
@@ -62,13 +34,13 @@ export default function AnalysisInfoCard({
     <section className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-8">
       <div className="flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-500">
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-300 text-xs font-semibold text-white">
             2
           </span>
           분석에 사용할 정보
         </h2>
         <span
-          className={`rounded-full px-3 py-1 text-xs font-medium ${style.badge}`}
+          className={`rounded-xl px-3 py-1.5 text-xs font-semibold ${style.badge}`}
         >
           정확도 {accuracy}
         </span>
@@ -81,7 +53,7 @@ export default function AnalysisInfoCard({
             style={{ width: `${percent}%` }}
           />
         </div>
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-gray-500">
           정보가 많을수록 유사 판례 관련도·정확도가 올라가요.
         </p>
       </div>
@@ -98,13 +70,13 @@ export default function AnalysisInfoCard({
             >
               <div className="flex items-center gap-3">
                 {checked ? (
-                  <Icon icon={CheckIcon} size={16} />
+                  <Icon icon={CheckIcon} size={20} className="shrink-0" />
                 ) : (
-                  <span className="h-4 w-4 shrink-0 rounded-full border-2 border-gray-300" />
+                  <span className="h-5 w-5 shrink-0 rounded-full border-2 border-gray-300" />
                 )}
                 <div className="flex flex-col gap-0.5">
-                  <p className="font-semibold text-gray-800">{meta.title}</p>
-                  <p className="text-sm text-gray-400">
+                  <p className="font-semibold text-gray-900">{meta.title}</p>
+                  <p className="text-sm text-gray-500">
                     {checked
                       ? meta.doneDescription(caseTitle)
                       : meta.pendingDescription}
@@ -115,7 +87,7 @@ export default function AnalysisInfoCard({
               <button
                 type="button"
                 onClick={() => onToggleItem(id)}
-                className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium ${
+                className={`shrink-0 rounded-xl px-3 py-1.5 text-xs font-semibold ${
                   checked
                     ? "bg-gray-100 text-gray-500"
                     : "bg-blue-50 text-blue-500"
@@ -137,7 +109,7 @@ export default function AnalysisInfoCard({
           onChange={(e) => setContext(e.target.value)}
           rows={3}
           placeholder="예: 명도는 완료했는데 임대인이 원상회복 비용을 이유로 보증금 반환을 미루고 있어요."
-          className="w-full resize-none rounded-xl border border-gray-200 p-4 text-sm text-gray-700 outline-none placeholder:text-gray-400 focus:border-blue-400"
+          className="w-full resize-none rounded-xl border border-gray-200 p-4 text-sm text-gray-700 outline-none placeholder:text-gray-500 focus:border-blue-400"
         />
       </div>
 
@@ -145,14 +117,14 @@ export default function AnalysisInfoCard({
         <div className="flex gap-2">
           <button
             type="button"
-            className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700"
+            className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700"
           >
             <Icon icon={WriteIcon} size={14} />
             소장 작성
           </button>
           <button
             type="button"
-            className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700"
+            className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700"
           >
             <Icon icon={UploadIcon} size={14} />
             소장 업로드
@@ -162,7 +134,7 @@ export default function AnalysisInfoCard({
         <button
           type="button"
           onClick={onAnalyze}
-          className="flex items-center gap-1.5 rounded-lg bg-blue-400 px-5 py-2.5 text-sm font-medium text-white"
+          className="flex items-center gap-1.5 rounded-lg bg-blue-400 px-5 py-2.5 text-sm font-semibold text-white"
         >
           이 정보로 유사 판례 분석
         </button>

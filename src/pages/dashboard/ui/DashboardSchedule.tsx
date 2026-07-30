@@ -1,7 +1,7 @@
 import ProgressIcon from "@/assets/dashboard/progress-bar.svg?react";
 import InProgressIcon from "@/assets/dashboard/in-progress-bar.svg?react";
 import ClockIcon from "@/assets/icons/dashboard/clock-icon.svg?react";
-import CheckIcon from "@/assets/icons/shared/check-icon.svg?react";
+import CheckIcon from "@/assets/icons/dashboard/check-icon.svg?react";
 
 type WeekDay = {
   day: string;
@@ -205,7 +205,7 @@ export default function DashboardSchedule() {
           <div className="flex flex-col gap-3">
             {completedTasks.map((task) => (
               <div key={task.id} className="flex items-center gap-4">
-                <CheckIcon />
+                <CheckIcon className="shrink-0" />
 
                 <p className="text-base font-medium text-gray-700">
                   {task.title}

@@ -1,22 +1,5 @@
 import BookIcon from "@/assets/icons/shared/book-icon.svg?react";
-
-const relatedLaws = [
-  {
-    id: "1",
-    title: "민법 제618조 (임대차의 의의)",
-    description: "관련 가능성이 있는 조항입니다",
-  },
-  {
-    id: "2",
-    title: "주택임대차보호법 제3조의2 (보증금의 회수)",
-    description: "관련 가능성이 있는 조항입니다",
-  },
-  {
-    id: "3",
-    title: "민사소송법 제251조 (장래 이행의 소)",
-    description: "관련 가능성이 있는 조항입니다",
-  },
-];
+import { relatedLaws } from "../data/relatedLaws";
 
 export default function RelatedLawsCard() {
   return (
@@ -28,12 +11,9 @@ export default function RelatedLawsCard() {
 
       <div className="flex flex-col gap-3">
         {relatedLaws.map((law) => (
-          <div
-            key={law.id}
-            className="rounded-xl border border-gray-200 p-3.5"
-          >
-            <p className="font-semibold text-gray-800">{law.title}</p>
-            <p className="text-sm text-gray-400">{law.description}</p>
+          <div key={law.id} className="rounded-xl border border-gray-200 p-3.5">
+            <p className="font-semibold text-gray-900">{law.title}</p>
+            <p className="text-sm text-gray-500">{law.description}</p>
           </div>
         ))}
       </div>
