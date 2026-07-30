@@ -1,6 +1,6 @@
 import AboutIcon from "@/assets/icons/case-search/about-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
-import { aboutItems } from "../data/aboutItems";
+import { aboutItems } from "../../data/aboutItems";
 
 export default function AboutSearchCard() {
   return (

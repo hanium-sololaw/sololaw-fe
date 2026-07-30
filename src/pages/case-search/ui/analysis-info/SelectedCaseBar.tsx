@@ -1,7 +1,7 @@
 import HomeIcon from "@/assets/icons/case-search/home-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
-import type { MyCase } from "../data/myCases";
-import { useCaseSearchStore } from "../store/useCaseSearchStore";
+import type { MyCase } from "../../data/myCases";
+import { useCaseSearchStore } from "../../store/useCaseSearchStore";
 
 type SelectedCaseBarProps = {
   caseItem: MyCase;
@@ -16,7 +16,7 @@ export default function SelectedCaseBar({ caseItem }: SelectedCaseBarProps) {
           <Icon icon={HomeIcon} size={16} />
         </span>
         <div className="flex flex-col gap-0.5">
-          <p className="text-sm text-gray-400">분석 기준 사건</p>
+          <p className="text-sm text-gray-500">분석 기준 사건</p>
           <p className="font-semibold text-gray-900">
             {caseItem.title} · {caseItem.caseNumber}
           </p>

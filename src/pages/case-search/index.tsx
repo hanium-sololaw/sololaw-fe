@@ -1,16 +1,17 @@
-import CaseSearchHeader from "./ui/CaseSearchHeader";
-import CaseSearchTabs from "./ui/CaseSearchTabs";
-import SimilarCaseAnalysis from "./ui/SimilarCaseAnalysis";
-import CaseSelectionCard from "./ui/CaseSelectionCard";
-import SelectedCaseBar from "./ui/SelectedCaseBar";
-import AnalysisInfoCard from "./ui/AnalysisInfoCard";
-import CaseResultPanel from "./ui/CaseResultPanel";
-import RelatedStatsCard from "./ui/RelatedStatsCard";
-import RelatedLawsCard from "./ui/RelatedLawsCard";
-import AITipsCard from "./ui/AITipsCard";
-import AboutSearchCard from "./ui/AboutSearchCard";
+import CaseSearchHeader from "./ui/header/CaseSearchHeader";
+import CaseSearchTabs from "./ui/header/CaseSearchTabs";
+import SimilarCaseAnalysis from "./ui/analysis-info/SimilarCaseAnalysis";
+import CaseSelectionCard from "./ui/analysis-info/CaseSelectionCard";
+import SelectedCaseBar from "./ui/analysis-info/SelectedCaseBar";
+import AnalysisInfoCard from "./ui/analysis-info/AnalysisInfoCard";
+import AccuracyBanner from "./ui/analysis-info/AccuracyBanner";
+import CaseAnalysisLoading from "./ui/result/CaseAnalysisLoading";
+import CaseResultPanel from "./ui/result/CaseResultPanel";
+import RelatedStatsCard from "./ui/result/RelatedStatsCard";
+import RelatedLawsCard from "./ui/sidebar/RelatedLawsCard";
+import AITipsCard from "./ui/sidebar/AITipsCard";
+import AboutSearchCard from "./ui/sidebar/AboutSearchCard";
 import KeywordSearchTab from "./ui/KeywordSearchTab";
-import AccuracyBanner from "./ui/AccuracyBanner";
 import { myCases } from "./data/myCases";
 import { useCaseSearchStore } from "./store/useCaseSearchStore";
 
@@ -18,6 +19,8 @@ export default function CaseSearchPage() {
   const activeTab = useCaseSearchStore((state) => state.activeTab);
   const selectedCaseId = useCaseSearchStore((state) => state.selectedCaseId);
   const caseConfirmed = useCaseSearchStore((state) => state.caseConfirmed);
+  const hasAnalyzed = useCaseSearchStore((state) => state.hasAnalyzed);
+  const isAnalyzing = useCaseSearchStore((state) => state.isAnalyzing);
 
   const selectedCase = myCases.find((item) => item.id === selectedCaseId)!;
 
@@ -44,12 +47,15 @@ export default function CaseSearchPage() {
                       <CaseSelectionCard />
                     )}
 
-                    <AnalysisInfoCard caseTitle={selectedCase.title} />
-
-                    <AccuracyBanner />
+                    {!hasAnalyzed && (
+                      <>
+                        <AnalysisInfoCard caseTitle={selectedCase.title} />
+                        <AccuracyBanner />
+                      </>
+                    )}
                   </>
                 )}
-                <CaseResultPanel />
+                {isAnalyzing ? <CaseAnalysisLoading /> : <CaseResultPanel />}
               </div>
 
               <div className="flex flex-col gap-6">

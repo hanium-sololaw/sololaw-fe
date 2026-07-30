@@ -1,7 +1,7 @@
 import Icon from "@/shared/ui/Icon";
 import WarningIcon from "@/assets/icons/case-search/warning-icon.svg?react";
-import { getAccuracyLevel } from "../data/accuracy";
-import { useCaseSearchStore } from "../store/useCaseSearchStore";
+import { getAccuracyLevel } from "../../data/accuracy";
+import { useCaseSearchStore } from "../../store/useCaseSearchStore";
 
 export default function AccuracyBanner() {
   const checkedItems = useCaseSearchStore((state) => state.checkedItems);

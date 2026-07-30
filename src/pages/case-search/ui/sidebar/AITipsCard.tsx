@@ -1,6 +1,6 @@
 import LightIcon from "@/assets/icons/case-search/light-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
-import { aiTips } from "../data/aiTips";
+import { aiTips } from "../../data/aiTips";
 
 export default function AITipsCard() {
   return (

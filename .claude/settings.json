@@ -31,7 +31,8 @@
       "Bash(xargs -n1 basename)",
       "Bash(yarn -v)",
       "Bash(yarn add *)",
-      "Bash(npx vite *)"
+      "Bash(npx vite *)",
+      "Bash(git mv *)"
     ]
   }
 }

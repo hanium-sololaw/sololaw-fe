@@ -1,5 +1,5 @@
-import { myCases } from "../data/myCases";
-import { useCaseSearchStore } from "../store/useCaseSearchStore";
+import { myCases } from "../../data/myCases";
+import { useCaseSearchStore } from "../../store/useCaseSearchStore";
 
 export default function CaseSelectionCard() {
   const selectedId = useCaseSearchStore((state) => state.selectedCaseId);

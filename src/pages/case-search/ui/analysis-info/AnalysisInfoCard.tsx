@@ -7,9 +7,9 @@ import {
   accuracyStyles,
   getAccuracyLevel,
   getAccuracyPercent,
-} from "../data/accuracy";
-import { checklistMeta, type ChecklistId } from "../data/checklistMeta";
-import { useCaseSearchStore } from "../store/useCaseSearchStore";
+} from "../../data/accuracy";
+import { checklistMeta, type ChecklistId } from "../../data/checklistMeta";
+import { useCaseSearchStore } from "../../store/useCaseSearchStore";
 
 type AnalysisInfoCardProps = {
   caseTitle: string;

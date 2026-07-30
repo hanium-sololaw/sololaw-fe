@@ -1,5 +1,5 @@
 import BookIcon from "@/assets/icons/shared/book-icon.svg?react";
-import { relatedLaws } from "../data/relatedLaws";
+import { relatedLaws } from "../../data/relatedLaws";
 
 export default function RelatedLawsCard() {
   return (

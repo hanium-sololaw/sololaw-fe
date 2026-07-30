@@ -9,8 +9,11 @@ const emptyChecklist: Record<ChecklistId, boolean> = {
   evidence: false,
 };
 
+const ANALYSIS_DURATION_MS = 1800;
+
 type CaseSearchState = {
   activeTab: CaseSearchTab;
+  isAnalyzing: boolean;
   hasAnalyzed: boolean;
   selectedCaseId: string;
   caseConfirmed: boolean;
@@ -25,12 +28,18 @@ type CaseSearchState = {
 
 export const useCaseSearchStore = create<CaseSearchState>((set) => ({
   activeTab: "similar",
+  isAnalyzing: false,
   hasAnalyzed: false,
   selectedCaseId: myCases[1].id,
   caseConfirmed: true,
   checkedItems: emptyChecklist,
   setActiveTab: (tab) => set({ activeTab: tab }),
-  analyze: () => set({ hasAnalyzed: true }),
+  analyze: () => {
+    set({ isAnalyzing: true });
+    setTimeout(() => {
+      set({ isAnalyzing: false, hasAnalyzed: true });
+    }, ANALYSIS_DURATION_MS);
+  },
   selectCase: (id) => set({ selectedCaseId: id }),
   confirmCase: () => set({ caseConfirmed: true, checkedItems: emptyChecklist }),
   editCase: () => set({ caseConfirmed: false }),

@@ -1,5 +1,5 @@
-import { tabs } from "../data/tabs";
-import { useCaseSearchStore } from "../store/useCaseSearchStore";
+import { tabs } from "../../data/tabs";
+import { useCaseSearchStore } from "../../store/useCaseSearchStore";
 
 export default function CaseSearchTabs() {
   const activeTab = useCaseSearchStore((state) => state.activeTab);

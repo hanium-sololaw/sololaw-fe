@@ -3,7 +3,7 @@ import DocumentIcon from "@/assets/icons/shared/document-icon.svg?react";
 import PaperIcon from "@/assets/icons/case-search/paper-icon.svg?react";
 import ShineIcon from "@/assets/icons/case-search/shine-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
-import { useCaseSearchStore } from "../store/useCaseSearchStore";
+import { useCaseSearchStore } from "../../store/useCaseSearchStore";
 
 export default function SimilarCaseAnalysis() {
   const [situation, setSituation] = useState("");
