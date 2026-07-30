@@ -8,10 +8,6 @@ type AiTask = {
   urgent?: boolean;
 };
 
-type DashboardBannerProps = {
-  sidebarCollapsed: boolean;
-};
-
 const aiTasks: AiTask[] = [
   {
     label: "준비서면 작성 권장",
@@ -25,17 +21,14 @@ const aiTasks: AiTask[] = [
   },
 ];
 
-export default function DashboardBanner({
-  sidebarCollapsed,
-}: DashboardBannerProps) {
-  const Banner = sidebarCollapsed ? BannerWideSvg : BannerSvg;
-
+export default function DashboardBanner() {
   return (
     <div className="flex items-center justify-between gap-4">
       {/* 왼쪽 */}
       <div>
         <div className="grid h-full w-full">
-          <Banner className="col-start-1 row-start-1" />
+          <BannerWideSvg className="col-start-1 row-start-1 lg:hidden" />
+          <BannerSvg className="col-start-1 row-start-1 hidden lg:block" />
 
           <div className="col-start-1 row-start-1 flex justify-end">
             <button className="flex h-14 items-center gap-2 rounded-2xl border border-gray-200 bg-white px-8 text-lg font-semibold text-gray-600 shadow-[inset_0_6px_10px_-2px_rgba(130,130,132,0.10),inset_0_-10px_50px_-6px_rgba(255,255,255,0.40),inset_0_-40px_30px_-8px_#E2E8F0,inset_0_-80px_60px_-30px_#F7F9FF]">

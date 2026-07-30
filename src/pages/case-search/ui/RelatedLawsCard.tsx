@@ -22,7 +22,7 @@ export default function RelatedLawsCard() {
   return (
     <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6">
       <h2 className="flex items-center gap-2 text-base font-semibold text-gray-900">
-        <BookIcon className="h-4 w-4" />
+        <BookIcon className="h-4 w-4 text-gray-500" />
         관련 법령
       </h2>
 
