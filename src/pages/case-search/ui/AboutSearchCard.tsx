@@ -1,4 +1,4 @@
-import AboutIcon from "@/assets/icons/about_icon.svg?react";
+import AboutIcon from "@/assets/icons/case-search/about-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
 
 const aboutItems = [

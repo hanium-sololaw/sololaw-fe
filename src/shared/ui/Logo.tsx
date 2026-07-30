@@ -1,4 +1,4 @@
-import LogoSvg from '@/assets/icons/logo.svg?react'
+import LogoSvg from "@/assets/icons/shared/logo.svg?react";
 
 export function Logo() {
   return (

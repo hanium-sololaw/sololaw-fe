@@ -24,7 +24,11 @@
       "Bash(sed -i '' 's/stroke=\"#8B95A1\"/stroke=\"currentColor\"/g' documentIcon.svg judgeIcon.svg bookIcon.svg dataIcon.svg)",
       "Bash(sed -i '' 's/fill=\"#8B95A1\"/fill=\"currentColor\"/g' bellIcon.svg)",
       "Bash(sed -i '' 's/fill=\"#6B7684\"/fill=\"currentColor\"/g' guideIcon.svg)",
-      "Bash(sed -i '' 's/stroke=\"#6B7684\"/stroke=\"currentColor\"/g' logoutIcon.svg)"
+      "Bash(sed -i '' 's/stroke=\"#6B7684\"/stroke=\"currentColor\"/g' logoutIcon.svg)",
+      "Bash(git rev-list *)",
+      "Bash(sed -i '' \"s|@/assets/icons/logo.svg|@/assets/icons/shared/logo.svg|g\" src/pages/case-search/ui/AnalysisInfoCard.tsx)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(xargs -n1 basename)"
     ]
   }
 }

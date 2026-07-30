@@ -1,7 +1,7 @@
-import ProgressIcon from "@/assets/dashboard/progress_bar.svg?react";
-import InProgressIcon from "@/assets/dashboard/in_progress_bar.svg?react";
-import ClockIcon from "@/assets/dashboard/clock_icon.svg?react";
-import CheckIcon from "@/assets/dashboard/check_icon.svg?react";
+import ProgressIcon from "@/assets/dashboard/progress-bar.svg?react";
+import InProgressIcon from "@/assets/dashboard/in-progress-bar.svg?react";
+import ClockIcon from "@/assets/icons/dashboard/clock-icon.svg?react";
+import CheckIcon from "@/assets/icons/shared/check-icon.svg?react";
 
 type WeekDay = {
   day: string;
@@ -154,7 +154,7 @@ export default function DashboardSchedule() {
                     pl-3.75
                     ${
                       item.active
-                        ? "bg-blue-300 text-white pt-3.5 pb-4.5"
+                        ? "bg-blue-400 text-white pt-3.5 pb-4.5"
                         : "bg-gray-100 text-gray-900 py-2 h-15"
                     }
                   `}

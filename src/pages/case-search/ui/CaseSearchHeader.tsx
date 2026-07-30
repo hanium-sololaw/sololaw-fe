@@ -1,4 +1,4 @@
-import DocumentIcon from "@/assets/layout/documentIcon.svg?react";
+import DocumentIcon from "@/assets/icons/shared/document-icon.svg?react";
 
 type CaseSearchHeaderProps = {
   citationCount: number;

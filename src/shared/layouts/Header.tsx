@@ -1,4 +1,4 @@
-import AlertIcon from "@/assets/dashboard/Icon_Dashboard.svg?react";
+import AlertIcon from "@/assets/icons/shared/alert-bell-icon.svg?react";
 
 export default function Header() {
   return (

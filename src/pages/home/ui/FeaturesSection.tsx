@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { FEATURES } from "../data/features";
 import Icon from "@/shared/ui/Icon";
-import ArrowLeftIcon from "@/assets/icons/arrow_left.svg?react";
-import ArrowRightIcon from "@/assets/icons/arrow_right.svg?react";
+import ArrowLeftIcon from "@/assets/icons/home/arrow-left.svg?react";
+import ArrowRightIcon from "@/assets/icons/home/arrow-right.svg?react";
 import SectionHeader from "./SectionHeader";
 
 const DESIGN_WIDTH = 810;

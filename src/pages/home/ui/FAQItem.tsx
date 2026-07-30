@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Icon from "@/shared/ui/Icon";
-import ArrowBottomIcon from "@/assets/icons/arrow_bottom.svg?react";
+import ArrowBottomIcon from "@/assets/icons/home/arrow-bottom.svg?react";
 
 interface FAQItemProps {
   question: string;

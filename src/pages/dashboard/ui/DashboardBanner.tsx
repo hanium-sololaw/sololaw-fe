@@ -1,7 +1,7 @@
-import BannerSvg from "@/assets/dashboard/banner_1.svg?react";
-import BannerWideSvg from "@/assets/dashboard/banner_2.svg?react";
-import ArrowUpRightIcon from "@/assets/dashboard/tabler_arrow-up.svg?react";
-import DiamondIcon from "@/assets/dashboard/search_icon.svg?react";
+import BannerSvg from "@/assets/dashboard/banner-1.svg?react";
+import BannerWideSvg from "@/assets/dashboard/banner-2.svg?react";
+import ArrowUpRightIcon from "@/assets/icons/dashboard/tabler-arrow-up.svg?react";
+import DiamondIcon from "@/assets/icons/dashboard/search-icon.svg?react";
 
 type AiTask = {
   label: string;
@@ -67,7 +67,7 @@ export default function DashboardBanner() {
           {aiTasks.map((task) => (
             <button
               key={task.label}
-              className="flex h-9.25 items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-1.75 text-sm font-medium text-blue-300"
+              className="flex h-9.25 items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-1.75 text-sm font-medium text-blue-400"
             >
               {task.label}
 

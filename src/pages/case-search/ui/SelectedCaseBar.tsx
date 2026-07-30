@@ -1,4 +1,4 @@
-import HomeIcon from "@/assets/icons/home_icon.svg?react";
+import HomeIcon from "@/assets/icons/case-search/home-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
 import type { MyCase } from "../data/myCases";
 
