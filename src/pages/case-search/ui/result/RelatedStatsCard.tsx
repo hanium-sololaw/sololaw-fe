@@ -1,6 +1,7 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import GraphIcon from "@/assets/icons/case-search/graph-icon.svg?react";
+import AboutIcon from "@/assets/icons/case-search/about-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
 import {
   mockStats,
@@ -60,9 +61,9 @@ export default function RelatedStatsCard() {
           <span className="text-3xl font-bold text-blue-500">
             {winRatePercent}%
           </span>
-          <span className="text-sm font-medium text-gray-500">원고 승소</span>
+          <span className="text-sm font-semibold text-gray-500">원고 승소</span>
         </p>
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-gray-500">
           이 사건과 유사한 판례 {totalSimilarCaseCount}건 중 {wonCaseCount}건
           승소
         </p>
@@ -72,12 +73,12 @@ export default function RelatedStatsCard() {
         {mockStats.map((stat) => (
           <div key={stat.label} className="flex flex-col gap-1">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500">{stat.label}</span>
-              <span className="font-medium text-gray-900">{stat.count}건</span>
+              <span className="text-gray-500 font-semibold">{stat.label}</span>
+              <span className="font-medium text-gray-700">{stat.count}건</span>
             </div>
             <div className="h-1.5 w-full rounded-full bg-gray-100">
               <div
-                className="h-1.5 rounded-full bg-blue-400"
+                className={`h-1.5 rounded-full ${stat.barColor}`}
                 style={{ width: `${stat.percent}%` }}
               />
             </div>
@@ -85,10 +86,13 @@ export default function RelatedStatsCard() {
         ))}
       </div>
 
-      <p className="rounded-lg bg-gray-50 px-3 py-2.5 text-xs text-gray-400">
-        ⓘ 검색된 판례는 표본 기준이에요. 전국 통계나 재판 결과 예측이 아니며,
-        전체 판례를 대표하지 않습니다.
-      </p>
+      <div className="flex items-start gap-1.5 rounded-lg bg-gray-50 px-3 py-2.5 text-gray-500">
+        <Icon icon={AboutIcon} size={14} className="mt-0.5 shrink-0" />
+        <p className="text-xs">
+          검색된 판례는 표본 기준이에요. 전국 통계나 재판 결과 예측이 아니며,
+          전체 판례를 대표하지 않습니다.
+        </p>
+      </div>
     </section>
   );
 }

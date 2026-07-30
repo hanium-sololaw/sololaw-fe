@@ -1,4 +1,4 @@
-export type CaseOutcome = "원고 승소" | "원고일부승소";
+export type CaseOutcome = "원고 승소" | "원고 일부승소";
 
 export type MockCase = {
   id: string;
@@ -13,7 +13,7 @@ export type MockCase = {
 
 export const outcomeStyles: Record<CaseOutcome, string> = {
   "원고 승소": "bg-blue-50 text-blue-500",
-  원고일부승소: "bg-yellow-50 text-yellow-600",
+  "원고 일부승소": "bg-blue-50 text-blue-500",
 };
 
 export const mockCases: MockCase[] = [
@@ -31,7 +31,7 @@ export const mockCases: MockCase[] = [
   {
     id: "2",
     title: "보증금 반환청구권과 필요비상환청구권의 동시이행",
-    outcome: "원고일부승소",
+    outcome: "원고 일부승소",
     court: "대법원",
     caseNumber: "2021다456789",
     date: "2022.11.30",
@@ -42,7 +42,7 @@ export const mockCases: MockCase[] = [
   {
     id: "3",
     title: "임대차보증금 반환 및 지연손해금 청구",
-    outcome: "원고일부승소",
+    outcome: "원고 일부승소",
     court: "서울고등법원",
     caseNumber: "2023나987654",
     date: "2023.08.22",

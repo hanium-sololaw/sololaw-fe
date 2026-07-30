@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DocumentIcon from "@/assets/icons/shared/document-icon.svg?react";
 import PaperIcon from "@/assets/icons/case-search/paper-icon.svg?react";
-import ShineIcon from "@/assets/icons/case-search/shine-icon.svg?react";
+import ShineSolidIcon from "@/assets/icons/case-search/shine-solid-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
 import { useCaseSearchStore } from "../../store/useCaseSearchStore";
 
@@ -47,7 +47,7 @@ export default function SimilarCaseAnalysis() {
 
       <div className="flex flex-col gap-3">
         <p className="flex items-center gap-1.5 text-sm font-semibold text-blue-500">
-          <Icon icon={ShineIcon} size={16} />
+          <Icon icon={ShineSolidIcon} size={16} />
           사건 등록 없이, 상황만 적고 바로 분석하기
         </p>
 
