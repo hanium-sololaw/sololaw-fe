@@ -1,3 +1,6 @@
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 export default function CaseAnalysisLoading() {
   return (
     <section className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-6">
@@ -18,15 +21,15 @@ export default function CaseAnalysisLoading() {
             className="flex flex-col gap-2 rounded-xl border border-gray-200 p-4"
           >
             <div className="flex items-center gap-2">
-              <div className="h-4 w-40 animate-pulse rounded bg-gray-200" />
-              <div className="h-4 w-14 animate-pulse rounded-full bg-gray-100" />
+              <Skeleton width={160} height={16} />
+              <Skeleton width={56} height={16} borderRadius={999} />
             </div>
-            <div className="h-3 w-full animate-pulse rounded bg-gray-100" />
-            <div className="h-3 w-5/6 animate-pulse rounded bg-gray-100" />
+            <Skeleton />
+            <Skeleton width="85%" />
             <div className="flex gap-2 pt-1">
-              <div className="h-6 w-20 animate-pulse rounded-lg bg-gray-100" />
-              <div className="h-6 w-14 animate-pulse rounded-lg bg-gray-100" />
-              <div className="h-6 w-14 animate-pulse rounded-lg bg-gray-100" />
+              <Skeleton width={80} height={24} borderRadius={8} />
+              <Skeleton width={56} height={24} borderRadius={8} />
+              <Skeleton width={56} height={24} borderRadius={8} />
             </div>
           </div>
         ))}

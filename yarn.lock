@@ -2152,6 +2152,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-loading-skeleton@npm:^3.5.0":
+  version: 3.5.0
+  resolution: "react-loading-skeleton@npm:3.5.0"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 10c0/a081f561c9700fead6ba98b91e3fe77a36a680e3fd69dbf4eecbaa5fabcb7173049c6d6fb7487355331a770bed432356edaa147702f3d46ddf0d6caa623e779f
+  languageName: node
+  linkType: hard
+
 "react-router-dom@npm:^7.15.1":
   version: 7.16.0
   resolution: "react-router-dom@npm:7.16.0"
@@ -2328,6 +2337,7 @@ __metadata:
     globals: "npm:^17.6.0"
     react: "npm:^19.2.6"
     react-dom: "npm:^19.2.6"
+    react-loading-skeleton: "npm:^3.5.0"
     react-router-dom: "npm:^7.15.1"
     tailwind-merge: "npm:^3.6.0"
     tailwindcss: "npm:^4.3.0"

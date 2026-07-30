@@ -1,3 +1,5 @@
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import GraphIcon from "@/assets/icons/case-search/graph-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
 import {
@@ -16,17 +18,17 @@ export default function RelatedStatsCard() {
     return (
       <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6">
         <div className="flex items-center gap-2">
-          <div className="h-4 w-4 animate-pulse rounded bg-gray-200" />
-          <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
+          <Skeleton width={16} height={16} />
+          <Skeleton width={96} height={16} />
         </div>
         <div className="flex flex-col gap-3 rounded-xl bg-gray-50 p-4">
-          <div className="h-5 w-32 animate-pulse rounded bg-gray-200" />
-          <div className="h-3 w-full animate-pulse rounded bg-gray-200" />
-          <div className="h-3 w-4/5 animate-pulse rounded bg-gray-200" />
+          <Skeleton width={128} height={20} />
+          <Skeleton />
+          <Skeleton width="80%" />
           <div className="flex gap-2 pt-1">
-            <div className="h-6 w-16 animate-pulse rounded-lg bg-gray-200" />
-            <div className="h-6 w-16 animate-pulse rounded-lg bg-gray-200" />
-            <div className="h-6 w-16 animate-pulse rounded-lg bg-gray-200" />
+            <Skeleton width={64} height={24} borderRadius={8} />
+            <Skeleton width={64} height={24} borderRadius={8} />
+            <Skeleton width={64} height={24} borderRadius={8} />
           </div>
         </div>
       </section>
