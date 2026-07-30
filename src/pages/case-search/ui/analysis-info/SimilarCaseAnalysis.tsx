@@ -15,7 +15,7 @@ export default function SimilarCaseAnalysis() {
         <h2 className="text-lg font-semibold text-gray-900">
           분석할 내 사건 선택
         </h2>
-        <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-500">
+        <span className="rounded-full bg-blue-50 px-3 py-1 text-xs text-blue-500">
           AI 분석
         </span>
       </div>
@@ -33,7 +33,7 @@ export default function SimilarCaseAnalysis() {
 
         <button
           type="button"
-          className="flex shrink-0 items-center gap-1.5 rounded-lg bg-blue-400 px-4 py-2.5 text-sm font-medium text-white"
+          className="flex shrink-0 items-center gap-1.5 rounded-lg bg-blue-400 px-4 py-2.5 text-sm text-white"
         >
           <DocumentIcon className="h-4 w-4" />새 사건 만들기
         </button>
@@ -63,7 +63,7 @@ export default function SimilarCaseAnalysis() {
           type="button"
           disabled={situation.trim() === ""}
           onClick={() => analyze()}
-          className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-blue-400 py-3.5 text-base font-medium text-white disabled:bg-blue-200"
+          className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-blue-400 py-3.5 text-base text-white disabled:bg-blue-200"
         >
           <Icon icon={PaperIcon} size={16} className="text-white" />이 내용으로
           유사 판례 분석

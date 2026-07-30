@@ -61,7 +61,7 @@ export default function CaseSelectionCard() {
       <button
         type="button"
         onClick={onConfirm}
-        className="w-full rounded-xl bg-blue-400 py-3.5 text-base font-medium text-white"
+        className="w-full rounded-xl bg-blue-400 py-3.5 text-base text-white"
       >
         선택 완료
       </button>

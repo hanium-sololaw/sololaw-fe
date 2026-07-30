@@ -58,7 +58,6 @@ export default function DashboardRecentActivity() {
             type="button"
             className="
       text-sm
-      font-medium
       text-blue-400"
           >
             전체보기 →
@@ -71,7 +70,7 @@ export default function DashboardRecentActivity() {
               <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-700" />
 
               <div className="flex flex-col gap-0.75">
-                <p className="text-base font-medium text-gray-800">
+                <p className="text-base text-gray-800">
                   {activity.title}
                 </p>
 

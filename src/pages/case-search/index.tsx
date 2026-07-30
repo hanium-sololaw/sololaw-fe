@@ -31,7 +31,7 @@ export default function CaseSearchPage() {
       <div className="flex flex-col">
         <CaseSearchTabs />
 
-        <div className="rounded-b-2xl rounded-tr-2xl border border-t-0 border-gray-200 bg-white p-6">
+        <div className="rounded-b-2xl rounded-tr-2xl bg-white p-6">
           {activeTab === "keyword" ? (
             <KeywordSearchTab />
           ) : (

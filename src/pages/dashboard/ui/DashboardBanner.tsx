@@ -45,7 +45,7 @@ export default function DashboardBanner() {
                 지금 바로 작성하세요!
               </p>
 
-              <p className="text-sm font-medium text-gray-500">
+              <p className="text-sm text-gray-500">
                 서울중앙지방법원 2024가단12345 | 7월 1일(월) 오전 10시까지 제출
               </p>
             </div>
@@ -67,7 +67,7 @@ export default function DashboardBanner() {
           {aiTasks.map((task) => (
             <button
               key={task.label}
-              className="flex h-9.25 items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-1.75 text-sm font-medium text-blue-400"
+              className="flex h-9.25 items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-1.75 text-sm text-blue-400"
             >
               {task.label}
 

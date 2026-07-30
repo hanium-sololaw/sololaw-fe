@@ -101,7 +101,7 @@ export default function AnalysisInfoCard({
       </div>
 
       <div className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-gray-700">
+        <p className="text-sm text-gray-700">
           맥락 추가 (선택) — 자유롭게 적으면 정확도가 더 올라가요
         </p>
         <textarea

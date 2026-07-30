@@ -74,7 +74,7 @@ export default function RelatedStatsCard() {
           <div key={stat.label} className="flex flex-col gap-1">
             <div className="flex items-center justify-between text-sm">
               <span className="text-gray-500 font-semibold">{stat.label}</span>
-              <span className="font-medium text-gray-700">{stat.count}건</span>
+              <span className="text-gray-700">{stat.count}건</span>
             </div>
             <div className="h-1.5 w-full rounded-full bg-gray-100">
               <div
@@ -88,7 +88,7 @@ export default function RelatedStatsCard() {
 
       <div className="flex items-start gap-1.5 rounded-lg bg-gray-50 px-3 py-2.5 text-gray-500">
         <Icon icon={AboutIcon} size={14} className="mt-0.5 shrink-0" />
-        <p className="text-xs">
+        <p className="text-sm">
           검색된 판례는 표본 기준이에요. 전국 통계나 재판 결과 예측이 아니며,
           전체 판례를 대표하지 않습니다.
         </p>

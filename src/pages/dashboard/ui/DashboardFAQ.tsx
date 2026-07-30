@@ -79,7 +79,7 @@ export default function DashboardFAQ() {
             <div className="flex w-full items-center justify-between gap-2">
               <div className="flex gap-2">
                 <ChatIcon className="mt-1 shrink-0" />
-                <p className="text-base font-medium text-gray-800">
+                <p className="text-base text-gray-800">
                   {item.title}
                 </p>
               </div>

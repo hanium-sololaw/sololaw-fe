@@ -37,7 +37,7 @@ function NavItem({ to, icon: Icon, label, small = false }: NavItemProps) {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `flex shrink-0 items-center justify-center overflow-hidden whitespace-nowrap rounded-[10px] font-medium
+        `flex shrink-0 items-center justify-center overflow-hidden whitespace-nowrap rounded-[10px]
         lg:w-full lg:justify-start lg:px-4
         ${small ? "h-10 w-10 text-sm" : "h-12 w-12 text-base"}
         ${isActive ? "bg-blue-400 text-white" : "text-gray-500"}`

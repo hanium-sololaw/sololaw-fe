@@ -7,6 +7,9 @@ import StarSolidIcon from "@/assets/icons/case-search/star-solid-icon.svg?react"
 import ArrowUpRightIcon from "@/assets/icons/shared/tabler-arrow-up.svg?react";
 import LockIcon from "@/assets/icons/case-search/lock-icon.svg?react";
 import CrownIcon from "@/assets/icons/case-search/crown-icon.svg?react";
+import BuildingIcon from "@/assets/icons/case-search/building-icon.svg?react";
+import PaperTextIcon from "@/assets/icons/case-search/paper-text-icon.svg?react";
+import DateIcon from "@/assets/icons/case-search/date-icon.svg?react";
 
 import Icon from "@/shared/ui/Icon";
 import {
@@ -46,7 +49,7 @@ export default function CaseResultPanel() {
           내 사건과 유사한 판례{" "}
           <span className="text-blue-500">{mockCases.length}건</span>
         </h2>
-        <div className="flex gap-1 rounded-lg bg-gray-100 p-1 text-sm font-medium">
+        <div className="flex gap-1 rounded-lg bg-gray-100 p-1 text-sm">
           <button
             type="button"
             onClick={() => setResultTab("search")}
@@ -103,11 +106,20 @@ export default function CaseResultPanel() {
 
               <div className="flex flex-wrap items-center gap-2">
                 <p className="flex flex-wrap items-center gap-x-2 text-sm text-gray-500">
-                  <span>{item.court}</span>
-                  <span>·</span>
-                  <span>{item.caseNumber}</span>
-                  <span>·</span>
-                  <span>{item.date}</span>
+                  <span className="flex items-center gap-1">
+                    <Icon icon={BuildingIcon} size={14} />
+                    {item.court}
+                  </span>
+
+                  <span className="flex items-center gap-1">
+                    <Icon icon={PaperTextIcon} size={14} />
+                    {item.caseNumber}
+                  </span>
+
+                  <span className="flex items-center gap-1">
+                    <Icon icon={DateIcon} size={14} />
+                    {item.date}
+                  </span>
                 </p>
                 <span className="flex items-center gap-1 rounded-xl text-xs font-semibold text-yellow-500">
                   <Icon icon={StarSolidIcon} size={14} />
@@ -116,7 +128,9 @@ export default function CaseResultPanel() {
               </div>
 
               <div className="bg-gray-50 px-3.5 py-3 rounded-lg">
-                <p className="text-sm font-500 text-gray-600">{item.summary}</p>
+                <p className="text-sm text-gray-600">
+                  {item.summary}
+                </p>
               </div>
 
               <div className="flex gap-2 pt-1">
@@ -168,7 +182,9 @@ export default function CaseResultPanel() {
                 <Icon icon={CrownIcon} size={15} />
                 프리미엄으로 전체 보기 →
               </button>
-              <p className="text-xs text-gray-400">월 9,900원 · 언제든 해지</p>
+              <p className="text-xs text-gray-400">
+                월 9,900원 · 언제든 해지
+              </p>
             </div>
           </div>
         </>

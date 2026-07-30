@@ -13,7 +13,7 @@ export default function RelatedLawsCard() {
         {relatedLaws.map((law) => (
           <div key={law.id} className="rounded-xl border border-gray-200 p-3.5">
             <p className="font-semibold text-gray-900 mb-1">{law.title}</p>
-            <p className="text-sm text-gray-500 font-[14px]">
+            <p className="text-sm text-gray-500 font-sm">
               {law.description}
             </p>
           </div>
