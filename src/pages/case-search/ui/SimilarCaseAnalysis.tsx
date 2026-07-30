@@ -26,7 +26,7 @@ export default function SimilarCaseAnalysis({
 
       <div className="flex items-center justify-between gap-4 rounded-xl bg-gray-50 p-5">
         <div className="flex items-center gap-3">
-          <DocumentIcon className="h-6 w-6 shrink-0" />
+          <DocumentIcon className="h-6 w-6 shrink-0 text-gray-500" />
           <div className="flex flex-col gap-0.5">
             <p className="font-semibold text-gray-800">
               등록된 사건이 없어요

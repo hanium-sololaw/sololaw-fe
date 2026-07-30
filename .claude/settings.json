@@ -13,7 +13,18 @@
       "Bash(lsof -nP -iTCP:5174 -sTCP:LISTEN)",
       "Bash(curl -s http://localhost:5173/@vite/client -o /dev/null -w \"vite client: %{http_code}\\\\n\")",
       "Bash(curl -s http://localhost:5173/src/pages/case-search/ui/AnalysisInfoCard.tsx -o /dev/null -w \"AnalysisInfoCard.tsx: %{http_code}\\\\n\")",
-      "Bash(curl -s \"http://localhost:5173/src/pages/case-search/ui/AnalysisInfoCard.tsx\")"
+      "Bash(curl -s \"http://localhost:5173/src/pages/case-search/ui/AnalysisInfoCard.tsx\")",
+      "Bash(npx eslint *)",
+      "Bash(command -v chromium-cli)",
+      "Bash(NODE_PATH=/Users/tgyeong/Project/stocket/node_modules node /private/tmp/claude-502/-Users-tgyeong-Project-sololaw-fe/42900a57-5f26-40c6-bd0d-7c21c993a70c/scratchpad/screenshot.mjs)",
+      "Bash(cp /private/tmp/claude-502/-Users-tgyeong-Project-sololaw-fe/42900a57-5f26-40c6-bd0d-7c21c993a70c/scratchpad/screenshot.mjs /Users/tgyeong/Project/stocket/screenshot_sololaw.mjs)",
+      "Bash(node screenshot_sololaw.mjs)",
+      "Bash(rm /Users/tgyeong/Project/stocket/screenshot_sololaw.mjs)",
+      "Bash(sed -i '' 's/stroke=\"white\"/stroke=\"currentColor\"/g' dashboardIcon.svg)",
+      "Bash(sed -i '' 's/stroke=\"#8B95A1\"/stroke=\"currentColor\"/g' documentIcon.svg judgeIcon.svg bookIcon.svg dataIcon.svg)",
+      "Bash(sed -i '' 's/fill=\"#8B95A1\"/fill=\"currentColor\"/g' bellIcon.svg)",
+      "Bash(sed -i '' 's/fill=\"#6B7684\"/fill=\"currentColor\"/g' guideIcon.svg)",
+      "Bash(sed -i '' 's/stroke=\"#6B7684\"/stroke=\"currentColor\"/g' logoutIcon.svg)"
     ]
   }
 }

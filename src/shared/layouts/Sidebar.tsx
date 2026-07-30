@@ -25,77 +25,56 @@ const bottomNavItems = [
   { to: "/logout", icon: LogoutIcon, label: "로그아웃" },
 ];
 
-type SidebarProps = {
-  collapsed: boolean;
-  setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
 type NavItemProps = {
   to: string;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   label: string;
-  collapsed: boolean;
   small?: boolean;
 };
 
-function NavItem({
-  to,
-  icon: Icon,
-  label,
-  collapsed,
-  small = false,
-}: NavItemProps) {
+function NavItem({ to, icon: Icon, label, small = false }: NavItemProps) {
   return (
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `flex shrink-0 items-center overflow-hidden whitespace-nowrap rounded-xl font-medium
-        ${small ? "h-10 px-6 py-3 text-sm" : "h-12 text-base"}
-        ${isActive ? "bg-blue-400 text-white" : "text-gray-500"}
-        ${collapsed ? "justify-center px-3" : "px-4"}
-        w-full`
+        `flex shrink-0 items-center justify-center overflow-hidden whitespace-nowrap rounded-[10px] font-medium
+        lg:w-full lg:justify-start lg:px-4
+        ${small ? "h-10 w-10 text-sm" : "h-12 w-12 text-base"}
+        ${isActive ? "bg-blue-300 text-white" : "text-gray-500"}`
       }
     >
       <span className="flex h-5 w-5 shrink-0 items-center justify-center">
         <Icon />
       </span>
 
-      {!collapsed && <span className="pl-3">{label}</span>}
+      <span className="hidden pl-3 lg:inline">{label}</span>
     </NavLink>
   );
 }
 
-export default function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
+export default function Sidebar() {
   return (
-    <aside
-      className={`flex h-screen shrink-0 flex-col overflow-hidden bg-white ${
-        collapsed ? "w-26" : "w-71.25"
-      }`}
-    >
-      <div
-        className={`flex h-25 shrink-0 cursor-pointer items-center justify-center ${
-          collapsed ? "px-5.5 py-5" : "h-24.5"
-        }`}
-        onClick={() => setCollapsed((prev) => !prev)}
-      >
-        {collapsed ? <LogominiIcon /> : <LogoIcon />}
+    <aside className="flex h-screen w-20 shrink-0 flex-col overflow-hidden bg-white lg:w-64">
+      <div className="flex h-20 shrink-0 items-center justify-center">
+        <LogominiIcon width={40} height={40} className="lg:hidden" />
+        <LogoIcon width={150} height={45} className="hidden lg:block" />
       </div>
 
-      <nav className="flex flex-1 flex-col items-center gap-1 px-5">
-        <div className={`w-full ${collapsed ? "px-1.5" : "px-3"}`}>
-          <div className="flex h-8 w-full shrink-0 items-center px-4 text-sm text-gray-400">
-            {!collapsed && "메인 메뉴"}
+      <nav className="flex flex-1 flex-col items-center gap-1 px-2 lg:px-4">
+        <div className="flex w-full flex-col items-center gap-1 px-1 lg:px-3">
+          <div className="hidden h-8 w-full shrink-0 items-center text-sm text-gray-500 lg:flex">
+            메인 메뉴
           </div>
 
           {mainNavItems.map((item) => (
-            <NavItem key={item.to} {...item} collapsed={collapsed} />
+            <NavItem key={item.to} {...item} />
           ))}
         </div>
       </nav>
 
       <nav className="flex shrink-0 flex-col items-center gap-1 px-3 py-4">
         {bottomNavItems.map((item) => (
-          <NavItem key={item.to} {...item} collapsed={collapsed} small />
+          <NavItem key={item.to} {...item} small />
         ))}
       </nav>
     </aside>
