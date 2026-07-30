@@ -10,9 +10,9 @@ export default function AccuracyBanner() {
 
   if (accuracy === "낮음") {
     return (
-      <div>
-        <p className="flex items-center gap-1.5 rounded-xl bg-red-50 px-5 py-3 text-sm text-red-500">
-          <Icon icon={WarningIcon} size={16} className="shrink-0" />
+      <div className="flex items-start gap-1.5 rounded-xl bg-red-50 px-5 py-3 text-sm text-red-500">
+        <Icon icon={WarningIcon} size={16} className="mt-0.5" />
+        <p>
           정보가 적어 관련 판례 정확도가 낮을 수 있어요. 소장을
           작성·업로드하거나 사건 상황을 적으면 더 정확해집니다.
         </p>

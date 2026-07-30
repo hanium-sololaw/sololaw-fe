@@ -33,7 +33,7 @@ export default function DashboardBanner() {
           <div className="col-start-1 row-start-1 flex justify-end">
             <button className="flex h-14 items-center gap-2 rounded-2xl border border-gray-200 bg-white px-8 text-lg font-semibold text-gray-600 shadow-[inset_0_6px_10px_-2px_rgba(130,130,132,0.10),inset_0_-10px_50px_-6px_rgba(255,255,255,0.40),inset_0_-40px_30px_-8px_#E2E8F0,inset_0_-80px_60px_-30px_#F7F9FF]">
               바로 작성하러 가기
-              <ArrowUpRightIcon className="shrink-0 text-gray-400" />
+              <ArrowUpRightIcon className="text-gray-400" />
             </button>
           </div>
 

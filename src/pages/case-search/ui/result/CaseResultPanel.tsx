@@ -164,7 +164,7 @@ export default function CaseResultPanel() {
               <Icon
                 icon={LockIcon}
                 size={22}
-                className="shrink-0 text-blue-500"
+                className="text-blue-500"
               />
               <div className="flex flex-col gap-0.5">
                 <p className="font-semibold text-blue-500">

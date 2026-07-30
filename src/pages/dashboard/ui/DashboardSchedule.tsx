@@ -142,7 +142,7 @@ export default function DashboardSchedule() {
 
               return (
                 <div key={item.id} className="flex items-center gap-2.75">
-                  <TimelineIcon className="shrink-0" />
+                  <TimelineIcon />
 
                   <div
                     className={`
@@ -176,7 +176,7 @@ export default function DashboardSchedule() {
 
                     <div className="relative z-10 flex flex-col">
                       <div className="flex items-center gap-3">
-                        {!item.active && <ClockIcon className="shrink-0" />}
+                        {!item.active && <ClockIcon />}
                         <p className="text-base font-bold">{item.title}</p>
                       </div>
 
@@ -205,7 +205,7 @@ export default function DashboardSchedule() {
           <div className="flex flex-col gap-3">
             {completedTasks.map((task) => (
               <div key={task.id} className="flex items-center gap-4">
-                <CheckIcon className="shrink-0" />
+                <CheckIcon />
 
                 <p className="text-base text-gray-700">
                   {task.title}

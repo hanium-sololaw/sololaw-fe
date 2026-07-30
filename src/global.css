@@ -47,6 +47,10 @@
   * {
     outline: none;
   }
+
+  svg {
+    flex-shrink: 0;
+  }
 }
 
 @font-face {

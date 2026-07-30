@@ -70,7 +70,7 @@ export default function AnalysisInfoCard({
             >
               <div className="flex items-center gap-3">
                 {checked ? (
-                  <Icon icon={CheckIcon} size={20} className="shrink-0" />
+                  <Icon icon={CheckIcon} size={20} />
                 ) : (
                   <span className="h-5 w-5 shrink-0 rounded-full border-2 border-gray-300" />
                 )}

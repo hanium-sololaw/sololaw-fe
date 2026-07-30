@@ -87,7 +87,7 @@ export default function RelatedStatsCard() {
       </div>
 
       <div className="flex items-start gap-1.5 rounded-lg bg-gray-50 px-3 py-2.5 text-gray-500">
-        <Icon icon={AboutIcon} size={14} className="mt-0.5 shrink-0" />
+        <Icon icon={AboutIcon} size={14} className="mt-0.5" />
         <p className="text-sm">
           검색된 판례는 표본 기준이에요. 전국 통계나 재판 결과 예측이 아니며,
           전체 판례를 대표하지 않습니다.
