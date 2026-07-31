@@ -13,8 +13,12 @@ import AITipsCard from "./ui/sidebar/AITipsCard";
 import AboutSearchCard from "./ui/sidebar/AboutSearchCard";
 import KeywordSearchTab from "./ui/keyword/KeywordSearchTab";
 import KeywordDisclaimerCard from "./ui/keyword/KeywordDisclaimerCard";
+import CitationListModal from "./ui/shared/CitationListModal";
 import { myCases } from "./data/myCases";
+import { mockCases } from "./data/mockCases";
+import { keywordSearchResults } from "./data/keywordSearch";
 import { useCaseSearchStore } from "./store/useCaseSearchStore";
+import { useModal } from "@/shared/hooks/useModal";
 
 export default function CaseSearchPage() {
   const activeTab = useCaseSearchStore((state) => state.activeTab);
@@ -22,12 +26,40 @@ export default function CaseSearchPage() {
   const caseConfirmed = useCaseSearchStore((state) => state.caseConfirmed);
   const hasAnalyzed = useCaseSearchStore((state) => state.hasAnalyzed);
   const isAnalyzing = useCaseSearchStore((state) => state.isAnalyzing);
+  const citedCaseIds = useCaseSearchStore((state) => state.citedCaseIds);
+  const citedKeywordCaseIds = useCaseSearchStore(
+    (state) => state.citedKeywordCaseIds,
+  );
+  const toggleCitedCase = useCaseSearchStore((state) => state.toggleCitedCase);
+  const toggleCitedKeywordCase = useCaseSearchStore(
+    (state) => state.toggleCitedKeywordCase,
+  );
+  const citationModal = useModal();
 
   const selectedCase = myCases.find((item) => item.id === selectedCaseId)!;
 
+  const citedItems = [
+    ...mockCases
+      .filter((item) => citedCaseIds.has(item.id))
+      .map((item) => ({ ...item, onRemove: () => toggleCitedCase(item.id) })),
+    ...keywordSearchResults
+      .filter((item) => citedKeywordCaseIds.has(item.id))
+      .map((item) => ({
+        ...item,
+        onRemove: () => toggleCitedKeywordCase(item.id),
+      })),
+  ];
+
   return (
     <div className="flex flex-col gap-6">
-      <CaseSearchHeader citationCount={0} />
+      <CaseSearchHeader
+        citationCount={citedItems.length}
+        onOpenCitationList={citationModal.open}
+      />
+
+      {citationModal.isOpen && (
+        <CitationListModal items={citedItems} onClose={citationModal.close} />
+      )}
 
       <div className="flex flex-col">
         <CaseSearchTabs />

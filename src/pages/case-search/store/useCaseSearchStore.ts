@@ -22,6 +22,8 @@ type CaseSearchState = {
   checkedItems: Record<ChecklistId, boolean>;
   savedCaseIds: Set<string>;
   savedKeywordCaseIds: Set<string>;
+  citedCaseIds: Set<string>;
+  citedKeywordCaseIds: Set<string>;
   setActiveTab: (tab: CaseSearchTab) => void;
   analyze: () => void;
   selectCase: (id: string) => void;
@@ -30,6 +32,8 @@ type CaseSearchState = {
   toggleChecklistItem: (id: ChecklistId) => void;
   toggleSavedCase: (id: string) => void;
   toggleSavedKeywordCase: (id: string) => void;
+  toggleCitedCase: (id: string) => void;
+  toggleCitedKeywordCase: (id: string) => void;
 };
 
 function toggleId(ids: Set<string>, id: string) {
@@ -51,6 +55,8 @@ export const useCaseSearchStore = create<CaseSearchState>((set) => ({
   checkedItems: emptyChecklist,
   savedCaseIds: new Set([mockCases[0].id]),
   savedKeywordCaseIds: new Set([keywordSearchResults[0].id]),
+  citedCaseIds: new Set(),
+  citedKeywordCaseIds: new Set([keywordSearchResults[0].id]),
   setActiveTab: (tab) => set({ activeTab: tab }),
   analyze: () => {
     set({ isAnalyzing: true });
@@ -70,5 +76,11 @@ export const useCaseSearchStore = create<CaseSearchState>((set) => ({
   toggleSavedKeywordCase: (id) =>
     set((state) => ({
       savedKeywordCaseIds: toggleId(state.savedKeywordCaseIds, id),
+    })),
+  toggleCitedCase: (id) =>
+    set((state) => ({ citedCaseIds: toggleId(state.citedCaseIds, id) })),
+  toggleCitedKeywordCase: (id) =>
+    set((state) => ({
+      citedKeywordCaseIds: toggleId(state.citedKeywordCaseIds, id),
     })),
 }));

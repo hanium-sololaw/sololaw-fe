@@ -31,6 +31,12 @@ export const autocompleteKeywords = [
   "명예훼손 위자료",
   "합의금",
   "모욕죄",
+  "교통사고 손해배상",
+  "사기죄",
+  "계약금 반환",
+  "폭행치상",
+  "영업정지처분 취소",
+  "이혼 위자료",
 ];
 
 export type CaseCategory = "민사" | "형사" | "행정" | "가사";
@@ -493,5 +499,83 @@ export const keywordSearchResults: KeywordCaseResult[] = [
     summary:
       "사실혼 관계 해소 시 임대차보증금 형성에 대한 기여분을 인정해 청산의무를 확인한 사례.",
     relatedLaws: ["민법 제839조의2"],
+  },
+  {
+    id: "33",
+    category: "민사",
+    title: "교통사고 손해배상청구",
+    outcome: "원고 일부승소",
+    court: "대법원",
+    date: "2024.02.20",
+    caseNumber: "2023다345678",
+    relevance: "높음",
+    summary:
+      "가해자의 과실비율을 70%로 인정하고 치료비 및 위자료 배상을 명한 사례.",
+    relatedLaws: ["민법 제750조", "자동차손해배상 보장법 제3조"],
+  },
+  {
+    id: "34",
+    category: "형사",
+    title: "사기죄 성립과 편취 금액 산정",
+    outcome: "원고 승소",
+    court: "서울중앙지방법원",
+    date: "2024.03.05",
+    caseNumber: "2023고단2345",
+    relevance: "높음",
+    summary:
+      "투자금 명목으로 금원을 편취한 행위에 대해 사기죄를 인정하고 편취액 전액을 인정한 사례.",
+    relatedLaws: ["형법 제347조"],
+  },
+  {
+    id: "35",
+    category: "민사",
+    title: "매매계약 해제와 계약금 반환청구",
+    outcome: "원고 승소",
+    court: "서울고등법원",
+    date: "2022.05.16",
+    caseNumber: "2021나567890",
+    relevance: "보통",
+    summary:
+      "매도인의 채무불이행을 이유로 계약이 해제되어 계약금 반환 및 위약금 지급을 명한 사례.",
+    relatedLaws: ["민법 제565조"],
+  },
+  {
+    id: "36",
+    category: "형사",
+    title: "폭행치상과 형사합의금 산정 기준",
+    outcome: "원고 일부승소",
+    court: "서울북부지방법원",
+    date: "2023.07.11",
+    caseNumber: "2022고단6789",
+    relevance: "보통",
+    summary:
+      "우발적 폭행으로 상해를 입힌 사안에서 합의금 지급 및 반성 정도를 참작해 형을 감경한 사례.",
+    relatedLaws: ["형법 제262조"],
+  },
+  {
+    id: "37",
+    category: "행정",
+    title: "영업정지처분 취소청구",
+    outcome: "원고 승소",
+    court: "서울행정법원",
+    date: "2024.01.18",
+    caseNumber: "2023구합34567",
+    relevance: "보통",
+    summary:
+      "위반행위의 정도에 비해 영업정지 기간이 지나치게 길어 재량권을 일탈·남용했다고 인정한 사례.",
+    relatedLaws: ["행정절차법 제21조"],
+  },
+  {
+    id: "38",
+    category: "가사",
+    title: "이혼 위자료 및 재산분할청구",
+    outcome: "원고 일부승소",
+    court: "서울가정법원",
+    date: "2024.04.02",
+    caseNumber: "2023드단34567",
+    relevance: "높음",
+    summary:
+      "혼인파탄의 주된 책임이 상대방에게 있다고 인정해 위자료와 재산분할을 함께 명한 사례.",
+    relatedLaws: ["민법 제840조", "민법 제839조의2"],
   },
 ];

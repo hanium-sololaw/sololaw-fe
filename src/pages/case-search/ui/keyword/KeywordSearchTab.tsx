@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Icon from "@/shared/ui/Icon";
 import SearchIcon from "@/assets/icons/case-search/search-icon.svg?react";
 import {
@@ -24,12 +25,20 @@ export default function KeywordSearchTab() {
   const toggleSavedKeywordCase = useCaseSearchStore(
     (state) => state.toggleSavedKeywordCase,
   );
+  const citedKeywordCaseIds = useCaseSearchStore(
+    (state) => state.citedKeywordCaseIds,
+  );
+  const toggleCitedKeywordCase = useCaseSearchStore(
+    (state) => state.toggleCitedKeywordCase,
+  );
   const savedResults = keywordSearchResults.filter((item) =>
     savedKeywordCaseIds.has(item.id),
   );
-  const [query, setQuery] = useState("");
-  const [submittedQuery, setSubmittedQuery] = useState("");
-  const [searched, setSearched] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialQuery = searchParams.get("q") ?? "";
+  const [query, setQuery] = useState(initialQuery);
+  const [submittedQuery, setSubmittedQuery] = useState(initialQuery);
+  const [searched, setSearched] = useState(initialQuery !== "");
   const [activeCategory, setActiveCategory] = useState<CategoryFilter | null>(
     null,
   );
@@ -44,6 +53,12 @@ export default function KeywordSearchTab() {
     setSearched(true);
     setCurrentPage(1);
     setIsInputFocused(false);
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (nextQuery) next.set("q", nextQuery);
+      else next.delete("q");
+      return next;
+    });
   };
 
   const matchingAutocomplete = autocompleteKeywords.filter((keyword) =>
@@ -185,6 +200,8 @@ export default function KeywordSearchTab() {
                 relevance={item.relevance}
                 summary={item.summary}
                 relatedLaws={item.relatedLaws}
+                cited={citedKeywordCaseIds.has(item.id)}
+                onToggleCite={() => toggleCitedKeywordCase(item.id)}
                 saved
                 onToggleSave={() => toggleSavedKeywordCase(item.id)}
               />
@@ -229,6 +246,8 @@ export default function KeywordSearchTab() {
                 relevance={item.relevance}
                 summary={item.summary}
                 relatedLaws={item.relatedLaws}
+                cited={citedKeywordCaseIds.has(item.id)}
+                onToggleCite={() => toggleCitedKeywordCase(item.id)}
                 saved={savedKeywordCaseIds.has(item.id)}
                 onToggleSave={() => toggleSavedKeywordCase(item.id)}
               />

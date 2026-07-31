@@ -2,11 +2,15 @@ import DocumentIcon from "@/assets/icons/shared/document-icon.svg?react";
 
 type CaseSearchHeaderProps = {
   citationCount: number;
+  onOpenCitationList: () => void;
 };
 
 export default function CaseSearchHeader({
   citationCount,
+  onOpenCitationList,
 }: CaseSearchHeaderProps) {
+  const hasCitations = citationCount > 0;
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-col gap-1">
@@ -18,9 +22,17 @@ export default function CaseSearchHeader({
 
       <button
         type="button"
-        className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-700"
+        onClick={onOpenCitationList}
+        className={`flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm ${
+          hasCitations
+            ? "border-blue-200 bg-blue-50 text-blue-500"
+            : "border-gray-200 bg-white text-gray-700"
+        }`}
       >
-        <DocumentIcon className="h-4 w-4 text-gray-500" />내 인용 목록 {citationCount}
+        <DocumentIcon
+          className={`h-4 w-4 ${hasCitations ? "text-blue-500" : "text-gray-500"}`}
+        />
+        내 인용 목록 {citationCount}
       </button>
     </div>
   );

@@ -14,6 +14,8 @@ export default function CaseResultPanel() {
   const hasAnalyzed = useCaseSearchStore((state) => state.hasAnalyzed);
   const savedCaseIds = useCaseSearchStore((state) => state.savedCaseIds);
   const toggleSavedCase = useCaseSearchStore((state) => state.toggleSavedCase);
+  const citedCaseIds = useCaseSearchStore((state) => state.citedCaseIds);
+  const toggleCitedCase = useCaseSearchStore((state) => state.toggleCitedCase);
   const [resultTab, setResultTab] = useState<ResultTab>("search");
   const savedCases = mockCases.filter((item) => savedCaseIds.has(item.id));
 
@@ -87,6 +89,8 @@ export default function CaseResultPanel() {
                 date={item.date}
                 relevance={item.relevance}
                 summary={item.summary}
+                cited={citedCaseIds.has(item.id)}
+                onToggleCite={() => toggleCitedCase(item.id)}
                 saved
                 onToggleSave={() => toggleSavedCase(item.id)}
               />
@@ -105,6 +109,8 @@ export default function CaseResultPanel() {
               date={item.date}
               relevance={item.relevance}
               summary={item.summary}
+              cited={citedCaseIds.has(item.id)}
+              onToggleCite={() => toggleCitedCase(item.id)}
               saved={savedCaseIds.has(item.id)}
               onToggleSave={() => toggleSavedCase(item.id)}
             />

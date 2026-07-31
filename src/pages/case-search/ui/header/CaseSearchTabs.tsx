@@ -1,4 +1,5 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { tabs } from "../../data/tabs";
 import { useCaseSearchStore } from "../../store/useCaseSearchStore";
 
@@ -31,6 +32,24 @@ export default function CaseSearchTabs() {
   const setActiveTab = useCaseSearchStore((state) => state.setActiveTab);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [widths, setWidths] = useState<number[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const tabParam = searchParams.get("tab");
+    if (tabs.some((tab) => tab.id === tabParam) && tabParam !== activeTab) {
+      setActiveTab(tabParam as (typeof tabs)[number]["id"]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleTabClick = (tabId: (typeof tabs)[number]["id"]) => {
+    setActiveTab(tabId);
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set("tab", tabId);
+      return next;
+    });
+  };
 
   useLayoutEffect(() => {
     const measure = () =>
@@ -67,7 +86,7 @@ export default function CaseSearchTabs() {
                 buttonRefs.current[index] = el;
               }}
               type="button"
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => handleTabClick(tab.id)}
               style={{
                 height: TAB_HEIGHT,
                 clipPath: width ? roundedTrapezoidPath(width, isFirst) : undefined,

@@ -20,7 +20,8 @@ type CaseResultCardProps = {
   relevance: "높음" | "보통";
   summary: string;
   relatedLaws?: string[];
-  isCited?: boolean;
+  cited: boolean;
+  onToggleCite: () => void;
   saved: boolean;
   onToggleSave: () => void;
 };
@@ -38,11 +39,11 @@ export default function CaseResultCard({
   relevance,
   summary,
   relatedLaws,
-  isCited = false,
+  cited,
+  onToggleCite,
   saved,
   onToggleSave,
 }: CaseResultCardProps) {
-  const [cited, setCited] = useState(isCited);
   const [copied, setCopied] = useState(false);
   const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -73,7 +74,7 @@ export default function CaseResultCard({
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        <p className="flex flex-wrap items-center gap-x-2 text-sm font-medium text-gray-500">
+        <p className="flex flex-wrap items-center gap-x-2 text-[13px] font-medium text-gray-500">
           <span className="flex items-center gap-1">
             <Icon icon={BuildingIcon} size={14} />
             {court}
@@ -88,17 +89,17 @@ export default function CaseResultCard({
             <Icon icon={DateIcon} size={14} />
             {date}
           </span>
+          <span className="flex items-center gap-1 rounded-xl text-[13px] font-semibold text-yellow-500">
+            <Icon icon={StarSolidIcon} size={14} />
+            관련성 {relevance}
+          </span>
         </p>
-        <span className="flex items-center gap-1 rounded-xl text-xs font-semibold text-yellow-500">
-          <Icon icon={StarSolidIcon} size={14} />
-          관련성 {relevance}
-        </span>
       </div>
 
       {relatedLaws && relatedLaws.length > 0 ? (
         <div className="flex flex-col gap-1">
           <div className="rounded-lg bg-gray-50 px-3.5 py-3">
-            <p className="text-xs font-semibold text-gray-500 pb-1">
+            <p className="text-sm font-semibold text-gray-500 pb-1">
               핵심 요지
             </p>
             <p className="text-sm text-gray-600">{summary}</p>
@@ -112,11 +113,11 @@ export default function CaseResultCard({
 
       {relatedLaws && relatedLaws.length > 0 && (
         <div className="flex flex-wrap items-center gap-1.5">
-          <p className="text-xs font-semibold text-gray-700">관련 법령</p>
+          <p className="text-sm font-semibold text-gray-500">관련 법령</p>
           {relatedLaws.map((law) => (
             <span
               key={law}
-              className="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-600"
+              className="rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1 text-[13px] text-gray-700"
             >
               {law}
             </span>
@@ -128,7 +129,7 @@ export default function CaseResultCard({
         {cited ? (
           <button
             type="button"
-            onClick={() => setCited(false)}
+            onClick={onToggleCite}
             className={`flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold ${ACTIVE_STYLE}`}
           >
             <Icon icon={CheckIcon} size={14} />
@@ -137,7 +138,7 @@ export default function CaseResultCard({
         ) : (
           <button
             type="button"
-            onClick={() => setCited(true)}
+            onClick={onToggleCite}
             className="flex items-center gap-1.5 rounded-lg bg-blue-400 px-4 py-2.5 text-sm font-semibold text-white"
           >
             <Icon icon={PaperIcon} size={14} className="text-white" />내 문서에
