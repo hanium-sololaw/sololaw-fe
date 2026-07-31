@@ -11,7 +11,8 @@ import RelatedStatsCard from "./ui/result/RelatedStatsCard";
 import RelatedLawsCard from "./ui/sidebar/RelatedLawsCard";
 import AITipsCard from "./ui/sidebar/AITipsCard";
 import AboutSearchCard from "./ui/sidebar/AboutSearchCard";
-import KeywordSearchTab from "./ui/KeywordSearchTab";
+import KeywordSearchTab from "./ui/keyword/KeywordSearchTab";
+import KeywordDisclaimerCard from "./ui/keyword/KeywordDisclaimerCard";
 import { myCases } from "./data/myCases";
 import { useCaseSearchStore } from "./store/useCaseSearchStore";
 
@@ -33,7 +34,16 @@ export default function CaseSearchPage() {
 
         <div className="rounded-b-2xl rounded-tr-2xl bg-white p-6">
           {activeTab === "keyword" ? (
-            <KeywordSearchTab />
+            <div className="grid grid-cols-[1fr_360px] gap-6">
+              <KeywordSearchTab />
+
+              <div className="flex flex-col gap-6">
+                <RelatedLawsCard />
+                <AITipsCard />
+                <AboutSearchCard />
+                <KeywordDisclaimerCard />
+              </div>
+            </div>
           ) : (
             <div className="grid grid-cols-[1fr_360px] gap-6">
               <div className="flex flex-col gap-6">

@@ -1,23 +1,12 @@
 import { useState } from "react";
 import ShineIcon from "@/assets/icons/case-search/shine-line-icon.svg?react";
-import PaperIcon from "@/assets/icons/case-search/paper-icon.svg?react";
-import CopyIcon from "@/assets/icons/case-search/copy-icon.svg?react";
-import StarLineIcon from "@/assets/icons/case-search/star-line-icon.svg?react";
-import StarSolidIcon from "@/assets/icons/case-search/star-solid-icon.svg?react";
-import ArrowUpRightIcon from "@/assets/icons/shared/tabler-arrow-up.svg?react";
 import LockIcon from "@/assets/icons/case-search/lock-icon.svg?react";
 import CrownIcon from "@/assets/icons/case-search/crown-icon.svg?react";
-import BuildingIcon from "@/assets/icons/case-search/building-icon.svg?react";
-import PaperTextIcon from "@/assets/icons/case-search/paper-text-icon.svg?react";
-import DateIcon from "@/assets/icons/case-search/date-icon.svg?react";
 
 import Icon from "@/shared/ui/Icon";
-import {
-  mockCases,
-  outcomeStyles,
-  lockedCaseCount,
-} from "../../data/mockCases";
+import { mockCases, lockedCaseCount } from "../../data/mockCases";
 import { useCaseSearchStore } from "../../store/useCaseSearchStore";
+import CaseResultCard from "../shared/CaseResultCard";
 
 type ResultTab = "search" | "saved";
 
@@ -82,81 +71,16 @@ export default function CaseResultPanel() {
       ) : (
         <>
           {mockCases.map((item) => (
-            <div
+            <CaseResultCard
               key={item.id}
-              className="flex flex-col gap-2 rounded-xl border border-gray-200 p-4"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <p className="flex items-center gap-2 font-semibold text-gray-900">
-                  {item.title}
-                  <span
-                    className={`shrink-0 rounded-xl px-3 py-1 text-xs font-semibold ${outcomeStyles[item.outcome]}`}
-                  >
-                    {item.outcome}
-                  </span>
-                </p>
-                <a
-                  href="#"
-                  className="flex shrink-0 items-center text-sm text-gray-500"
-                >
-                  원문보기
-                  <Icon icon={ArrowUpRightIcon} size={20} />
-                </a>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-2">
-                <p className="flex flex-wrap items-center gap-x-2 text-sm text-gray-500">
-                  <span className="flex items-center gap-1">
-                    <Icon icon={BuildingIcon} size={14} />
-                    {item.court}
-                  </span>
-
-                  <span className="flex items-center gap-1">
-                    <Icon icon={PaperTextIcon} size={14} />
-                    {item.caseNumber}
-                  </span>
-
-                  <span className="flex items-center gap-1">
-                    <Icon icon={DateIcon} size={14} />
-                    {item.date}
-                  </span>
-                </p>
-                <span className="flex items-center gap-1 rounded-xl text-xs font-semibold text-yellow-500">
-                  <Icon icon={StarSolidIcon} size={14} />
-                  관련성 {item.relevance}
-                </span>
-              </div>
-
-              <div className="bg-gray-50 px-3.5 py-3 rounded-lg">
-                <p className="text-sm text-gray-600">
-                  {item.summary}
-                </p>
-              </div>
-
-              <div className="flex gap-2 pt-1">
-                <button
-                  type="button"
-                  className="flex items-center gap-1.5 rounded-lg bg-blue-400 px-3 py-2 text-xs font-semibold text-white"
-                >
-                  <Icon icon={PaperIcon} size={14} className="text-white" />내
-                  문서에 인용
-                </button>
-                <button
-                  type="button"
-                  className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-600"
-                >
-                  <Icon icon={CopyIcon} size={13} />
-                  복사
-                </button>
-                <button
-                  type="button"
-                  className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-600"
-                >
-                  <Icon icon={StarLineIcon} size={13} />
-                  저장
-                </button>
-              </div>
-            </div>
+              title={item.title}
+              outcome={item.outcome}
+              court={item.court}
+              caseNumber={item.caseNumber}
+              date={item.date}
+              relevance={item.relevance}
+              summary={item.summary}
+            />
           ))}
 
           <div className="flex items-center justify-between gap-4 rounded-lg border border-blue-100 bg-white px-5 py-4">
