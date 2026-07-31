@@ -1,6 +1,6 @@
 import BannerSvg from "@/assets/dashboard/banner-1.svg?react";
 import BannerWideSvg from "@/assets/dashboard/banner-2.svg?react";
-import ArrowUpRightIcon from "@/assets/icons/dashboard/tabler-arrow-up.svg?react";
+import ArrowUpRightIcon from "@/assets/icons/shared/tabler-arrow-up.svg?react";
 import DiamondIcon from "@/assets/icons/dashboard/search-icon.svg?react";
 
 type AiTask = {
@@ -33,7 +33,7 @@ export default function DashboardBanner() {
           <div className="col-start-1 row-start-1 flex justify-end">
             <button className="flex h-14 items-center gap-2 rounded-2xl border border-gray-200 bg-white px-8 text-lg font-semibold text-gray-600 shadow-[inset_0_6px_10px_-2px_rgba(130,130,132,0.10),inset_0_-10px_50px_-6px_rgba(255,255,255,0.40),inset_0_-40px_30px_-8px_#E2E8F0,inset_0_-80px_60px_-30px_#F7F9FF]">
               바로 작성하러 가기
-              <ArrowUpRightIcon className="shrink-0" />
+              <ArrowUpRightIcon className="text-gray-400" />
             </button>
           </div>
 
@@ -45,7 +45,7 @@ export default function DashboardBanner() {
                 지금 바로 작성하세요!
               </p>
 
-              <p className="text-sm font-medium text-gray-500">
+              <p className="text-sm text-gray-500">
                 서울중앙지방법원 2024가단12345 | 7월 1일(월) 오전 10시까지 제출
               </p>
             </div>
@@ -67,7 +67,7 @@ export default function DashboardBanner() {
           {aiTasks.map((task) => (
             <button
               key={task.label}
-              className="flex h-9.25 items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-1.75 text-sm font-medium text-blue-400"
+              className="flex h-9.25 items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-1.75 text-sm text-blue-400"
             >
               {task.label}
 

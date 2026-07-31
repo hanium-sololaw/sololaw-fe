@@ -90,7 +90,7 @@ export default function SignupForm() {
 
       <p className="text-center text-sm text-gray-500">
         <span className="mr-[10px]">이미 계정이 있으신가요?</span>
-        <Link to="/login" className="font-medium text-blue-400">
+        <Link to="/login" className="text-blue-400">
           로그인
         </Link>
       </p>

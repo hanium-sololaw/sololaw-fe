@@ -68,7 +68,7 @@ export default function DashboardHelpContent() {
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900">도움 콘텐츠</h2>
 
-          <button type="button" className="text-sm font-medium text-blue-400">
+          <button type="button" className="text-sm text-blue-400">
             더보기 →
           </button>
         </div>
@@ -100,7 +100,7 @@ export default function DashboardHelpContent() {
                     <Icon />
                   </div>
 
-                  <p className="text-base font-medium text-gray-800">
+                  <p className="text-base text-gray-800">
                     {item.title}
                   </p>
                 </div>

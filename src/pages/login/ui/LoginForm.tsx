@@ -63,7 +63,7 @@ export default function LoginForm() {
 
       <p className="text-center text-sm text-gray-500">
         <span className="mr-[10px]">계정이 없으신가요?</span>
-        <Link to="/signup" className="font-medium text-blue-400">
+        <Link to="/signup" className="text-blue-400">
           회원가입
         </Link>
       </p>

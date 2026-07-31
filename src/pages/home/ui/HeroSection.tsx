@@ -14,7 +14,7 @@ export default function HeroSection() {
         <h1 className="text-4xl font-bold leading-tight mb-4">
           혼자 준비하는 소송의 시작 <br /> 가장 든든한 법률 파트너와 함께
         </h1>
-        <p className="text-lg font-medium text-[#F9FAFB] mb-8">
+        <p className="text-lg text-[#F9FAFB] mb-8">
           복잡한 소송 절차부터 문서 작성까지, AI가 단계별로 함께 도와드립니다
         </p>
         <Link

@@ -12,7 +12,7 @@ export default function CTASection() {
         </p>
         <Link
           to="/login"
-          className="inline-flex items-center gap-2 font-medium text-md px-5 py-4 text-white transition-opacity hover:opacity-80 rounded-[8px] border border-white/50 bg-white/10 backdrop-blur-[5px]"
+          className="inline-flex items-center gap-2 text-md px-5 py-4 text-white transition-opacity hover:opacity-80 rounded-[8px] border border-white/50 bg-white/10 backdrop-blur-[5px]"
         >
           무료로 시작하기 →
         </Link>

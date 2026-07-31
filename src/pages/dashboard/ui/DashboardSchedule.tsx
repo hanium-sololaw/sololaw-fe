@@ -1,7 +1,7 @@
 import ProgressIcon from "@/assets/dashboard/progress-bar.svg?react";
 import InProgressIcon from "@/assets/dashboard/in-progress-bar.svg?react";
 import ClockIcon from "@/assets/icons/dashboard/clock-icon.svg?react";
-import CheckIcon from "@/assets/icons/shared/check-icon.svg?react";
+import CheckIcon from "@/assets/icons/dashboard/check-icon.svg?react";
 
 type WeekDay = {
   day: string;
@@ -95,7 +95,7 @@ export default function DashboardSchedule() {
 
       <div className="relative z-10">
         <div className="flex flex-col gap-2.5 px-2">
-          <p className="text-sm font-medium text-gray-700">May 20, 2026</p>
+          <p className="text-sm text-gray-700">May 20, 2026</p>
           <h2 className="text-2xl font-semibold text-gray-900">
             다가오는 일정
           </h2>
@@ -108,7 +108,7 @@ export default function DashboardSchedule() {
               className="flex flex-col items-center justify-center gap-1.5"
             >
               <span
-                className={`text-sm font-medium ${
+                className={`text-sm ${
                   item.active ? "text-blue-500" : "text-gray-600"
                 }`}
               >
@@ -142,7 +142,7 @@ export default function DashboardSchedule() {
 
               return (
                 <div key={item.id} className="flex items-center gap-2.75">
-                  <TimelineIcon className="shrink-0" />
+                  <TimelineIcon />
 
                   <div
                     className={`
@@ -176,7 +176,7 @@ export default function DashboardSchedule() {
 
                     <div className="relative z-10 flex flex-col">
                       <div className="flex items-center gap-3">
-                        {!item.active && <ClockIcon className="shrink-0" />}
+                        {!item.active && <ClockIcon />}
                         <p className="text-base font-bold">{item.title}</p>
                       </div>
 
@@ -207,7 +207,7 @@ export default function DashboardSchedule() {
               <div key={task.id} className="flex items-center gap-4">
                 <CheckIcon />
 
-                <p className="text-base font-medium text-gray-700">
+                <p className="text-base text-gray-700">
                   {task.title}
                 </p>
               </div>

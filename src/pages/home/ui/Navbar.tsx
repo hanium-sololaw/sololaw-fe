@@ -63,9 +63,9 @@ export default function Navbar() {
               <button
                 key={item.sectionId}
                 onClick={() => scrollToSection(item.sectionId)}
-                className={`relative text-[15px] font-medium pb-1 transition-colors ${
+                className={`relative text-[15px] pb-1 transition-colors ${
                   isActive
-                    ? "text-blue-400 font-medium"
+                    ? "text-blue-400"
                     : "text-gray-400 hover:text-gray-900"
                 }`}
               >
@@ -80,7 +80,7 @@ export default function Navbar() {
 
         <Link
           to="/login"
-          className="border-1 border-blue-400 text-blue-400 text-[15px] font-medium px-[16px] py-[8px] rounded-[10px] transition-colors"
+          className="border-1 border-blue-400 text-blue-400 text-[15px] px-[16px] py-[8px] rounded-[10px] transition-colors"
         >
           시작하기
         </Link>

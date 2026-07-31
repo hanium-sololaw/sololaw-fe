@@ -78,13 +78,13 @@ export default function DashboardFAQ() {
           >
             <div className="flex w-full items-center justify-between gap-2">
               <div className="flex gap-2">
-                <ChatIcon className="mt-1 shrink-0" />
-                <p className="text-base font-medium text-gray-800">
+                <ChatIcon className="mt-1" />
+                <p className="text-base text-gray-800">
                   {item.title}
                 </p>
               </div>
 
-              <ArrowRightIcon className="shrink-0" />
+              <ArrowRightIcon />
             </div>
 
             <p className="text-sm text-gray-400">조회 {item.views}회</p>

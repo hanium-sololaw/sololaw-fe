@@ -41,10 +41,15 @@
     word-break: keep-all;
     background-color: #ffffff;
     color: #191f28;
+    font-weight: 500;
   }
 
   * {
     outline: none;
+  }
+
+  svg {
+    flex-shrink: 0;
   }
 }
 

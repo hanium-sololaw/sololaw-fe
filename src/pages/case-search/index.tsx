@@ -1,99 +1,107 @@
-import { useState } from "react";
-
-import CaseSearchHeader from "./ui/CaseSearchHeader";
-import CaseSearchTabs, { type CaseSearchTab } from "./ui/CaseSearchTabs";
-import SimilarCaseAnalysis from "./ui/SimilarCaseAnalysis";
-import CaseSelectionCard from "./ui/CaseSelectionCard";
-import SelectedCaseBar from "./ui/SelectedCaseBar";
-import AnalysisInfoCard from "./ui/AnalysisInfoCard";
-import CaseResultPanel from "./ui/CaseResultPanel";
-import RelatedStatsCard from "./ui/RelatedStatsCard";
-import RelatedLawsCard from "./ui/RelatedLawsCard";
-import AITipsCard from "./ui/AITipsCard";
-import AboutSearchCard from "./ui/AboutSearchCard";
-import KeywordSearchTab from "./ui/KeywordSearchTab";
+import CaseSearchHeader from "./ui/header/CaseSearchHeader";
+import CaseSearchTabs from "./ui/header/CaseSearchTabs";
+import SimilarCaseAnalysis from "./ui/analysis-info/SimilarCaseAnalysis";
+import CaseSelectionCard from "./ui/analysis-info/CaseSelectionCard";
+import SelectedCaseBar from "./ui/analysis-info/SelectedCaseBar";
+import AnalysisInfoCard from "./ui/analysis-info/AnalysisInfoCard";
+import AccuracyBanner from "./ui/analysis-info/AccuracyBanner";
+import CaseAnalysisLoading from "./ui/result/CaseAnalysisLoading";
+import CaseResultPanel from "./ui/result/CaseResultPanel";
+import RelatedStatsCard from "./ui/result/RelatedStatsCard";
+import RelatedLawsCard from "./ui/sidebar/RelatedLawsCard";
+import AITipsCard from "./ui/sidebar/AITipsCard";
+import AboutSearchCard from "./ui/sidebar/AboutSearchCard";
+import KeywordSearchTab from "./ui/keyword/KeywordSearchTab";
+import KeywordDisclaimerCard from "./ui/keyword/KeywordDisclaimerCard";
+import CitationListModal from "./ui/shared/CitationListModal";
 import { myCases } from "./data/myCases";
-import { getAccuracyLevel } from "./data/accuracy";
-
-const emptyChecklist = { basic: false, complaint: false, evidence: false };
+import { mockCases } from "./data/mockCases";
+import { keywordSearchResults } from "./data/keywordSearch";
+import { useCaseSearchStore } from "./store/useCaseSearchStore";
+import { useModal } from "@/shared/hooks/useModal";
 
 export default function CaseSearchPage() {
-  const [activeTab, setActiveTab] = useState<CaseSearchTab>("similar");
-  const [hasAnalyzed, setHasAnalyzed] = useState(false);
-  const [selectedCaseId, setSelectedCaseId] = useState(myCases[1].id);
-  const [caseConfirmed, setCaseConfirmed] = useState(true);
-  const [checkedItems, setCheckedItems] = useState(emptyChecklist);
+  const activeTab = useCaseSearchStore((state) => state.activeTab);
+  const selectedCaseId = useCaseSearchStore((state) => state.selectedCaseId);
+  const caseConfirmed = useCaseSearchStore((state) => state.caseConfirmed);
+  const hasAnalyzed = useCaseSearchStore((state) => state.hasAnalyzed);
+  const isAnalyzing = useCaseSearchStore((state) => state.isAnalyzing);
+  const citedCaseIds = useCaseSearchStore((state) => state.citedCaseIds);
+  const citedKeywordCaseIds = useCaseSearchStore(
+    (state) => state.citedKeywordCaseIds,
+  );
+  const toggleCitedCase = useCaseSearchStore((state) => state.toggleCitedCase);
+  const toggleCitedKeywordCase = useCaseSearchStore(
+    (state) => state.toggleCitedKeywordCase,
+  );
+  const citationModal = useModal();
 
   const selectedCase = myCases.find((item) => item.id === selectedCaseId)!;
 
-  const checkedCount = Object.values(checkedItems).filter(Boolean).length;
-  const accuracy = getAccuracyLevel(checkedCount);
+  const citedItems = [
+    ...mockCases
+      .filter((item) => citedCaseIds.has(item.id))
+      .map((item) => ({ ...item, onRemove: () => toggleCitedCase(item.id) })),
+    ...keywordSearchResults
+      .filter((item) => citedKeywordCaseIds.has(item.id))
+      .map((item) => ({
+        ...item,
+        onRemove: () => toggleCitedKeywordCase(item.id),
+      })),
+  ];
 
   return (
     <div className="flex flex-col gap-6">
-      <CaseSearchHeader citationCount={0} />
+      <CaseSearchHeader
+        citationCount={citedItems.length}
+        onOpenCitationList={citationModal.open}
+      />
+
+      {citationModal.isOpen && (
+        <CitationListModal items={citedItems} onClose={citationModal.close} />
+      )}
 
       <div className="flex flex-col">
-        <CaseSearchTabs activeTab={activeTab} onChange={setActiveTab} />
+        <CaseSearchTabs />
 
-        <div className="rounded-b-2xl rounded-tr-2xl border border-t-0 border-gray-200 bg-white p-6">
+        <div className="rounded-b-2xl rounded-tr-2xl bg-white p-4 sm:p-6">
           {activeTab === "keyword" ? (
-            <KeywordSearchTab />
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
+              <KeywordSearchTab />
+
+              <div className="flex flex-col gap-6">
+                <RelatedLawsCard />
+                <AITipsCard />
+                <AboutSearchCard />
+                <KeywordDisclaimerCard />
+              </div>
+            </div>
           ) : (
-            <div className="grid grid-cols-[1fr_360px] gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
               <div className="flex flex-col gap-6">
                 {myCases.length === 0 ? (
-                  <SimilarCaseAnalysis onAnalyze={() => setHasAnalyzed(true)} />
+                  <SimilarCaseAnalysis />
                 ) : (
                   <>
                     {caseConfirmed ? (
-                      <SelectedCaseBar
-                        caseItem={selectedCase}
-                        onChange={() => setCaseConfirmed(false)}
-                      />
+                      <SelectedCaseBar caseItem={selectedCase} />
                     ) : (
-                      <CaseSelectionCard
-                        selectedId={selectedCaseId}
-                        onSelect={setSelectedCaseId}
-                        onConfirm={() => {
-                          setCaseConfirmed(true);
-                          setCheckedItems(emptyChecklist);
-                        }}
-                      />
+                      <CaseSelectionCard />
                     )}
 
-                    <AnalysisInfoCard
-                      caseTitle={selectedCase.title}
-                      checkedItems={checkedItems}
-                      onToggleItem={(id) =>
-                        setCheckedItems((prev) => ({
-                          ...prev,
-                          [id]: !prev[id],
-                        }))
-                      }
-                      onAnalyze={() => setHasAnalyzed(true)}
-                    />
-
-                    {accuracy === "낮음" && (
-                      <p className="rounded-xl bg-orange-50 px-5 py-3 text-sm text-orange-600">
-                        정보가 적어 관련 판례 정확도가 낮을 수 있어요. 소장을
-                        작성·업로드하거나 사건 상황을 적으면 더 정확해집니다.
-                      </p>
-                    )}
-
-                    {accuracy === "높음" && (
-                      <p className="rounded-xl bg-blue-50 px-5 py-3 text-sm text-blue-600">
-                        소장·증거까지 충분한 정보로 분석했어요. 사건 쟁점과 가장
-                        관련도 높은 판례를 보여드립니다.
-                      </p>
+                    {!hasAnalyzed && !isAnalyzing && (
+                      <>
+                        <AnalysisInfoCard caseTitle={selectedCase.title} />
+                        <AccuracyBanner />
+                      </>
                     )}
                   </>
                 )}
-                <CaseResultPanel hasAnalyzed={hasAnalyzed} />
+                {isAnalyzing ? <CaseAnalysisLoading /> : <CaseResultPanel />}
               </div>
 
               <div className="flex flex-col gap-6">
-                <RelatedStatsCard hasAnalyzed={hasAnalyzed} />
+                <RelatedStatsCard />
                 <RelatedLawsCard />
                 <AITipsCard />
                 <AboutSearchCard />
