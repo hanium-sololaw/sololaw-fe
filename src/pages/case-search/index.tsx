@@ -47,7 +47,7 @@ export default function CaseSearchPage() {
                       <CaseSelectionCard />
                     )}
 
-                    {!hasAnalyzed && (
+                    {!hasAnalyzed && !isAnalyzing && (
                       <>
                         <AnalysisInfoCard caseTitle={selectedCase.title} />
                         <AccuracyBanner />

@@ -73,7 +73,7 @@ export default function RelatedStatsCard() {
         {mockStats.map((stat) => (
           <div key={stat.label} className="flex flex-col gap-1">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-gray-500 font-semibold">{stat.label}</span>
+              <span className="text-gray-600">{stat.label}</span>
               <span className="text-gray-700">{stat.count}건</span>
             </div>
             <div className="h-1.5 w-full rounded-full bg-gray-100">
