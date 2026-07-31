@@ -37,15 +37,15 @@ export default function CaseResultPanel() {
   }
 
   return (
-    <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">
+    <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-4 sm:p-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">
           {resultTab === "saved" ? "저장한 판례" : "내 사건과 유사한 판례"}{" "}
           <span className="text-blue-500">
             {resultTab === "saved" ? savedCases.length : mockCases.length}건
           </span>
         </h2>
-        <div className="flex gap-1 rounded-lg bg-gray-100 p-1 text-sm">
+        <div className="flex gap-1 self-start rounded-lg bg-gray-100 p-1 text-sm">
           <button
             type="button"
             onClick={() => setResultTab("search")}
@@ -116,7 +116,7 @@ export default function CaseResultPanel() {
             />
           ))}
 
-          <div className="flex items-center justify-between gap-4 rounded-lg border border-blue-100 bg-white px-5 py-4">
+          <div className="flex flex-col items-start gap-4 rounded-lg border border-blue-100 bg-white px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-5">
               <Icon
                 icon={LockIcon}
@@ -131,7 +131,7 @@ export default function CaseResultPanel() {
               </div>
             </div>
 
-            <div className="flex flex-col items-center gap-1.5">
+            <div className="flex flex-col items-center gap-1.5 self-center">
               <button
                 type="button"
                 className="flex items-center gap-1.5 rounded-xl border border-blue-100 bg-transparent px-4 py-3 text-sm font-semibold text-blue-500 shadow-none"

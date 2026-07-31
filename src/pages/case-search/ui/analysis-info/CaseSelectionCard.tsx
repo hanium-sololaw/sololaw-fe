@@ -6,7 +6,7 @@ export default function CaseSelectionCard() {
   const onSelect = useCaseSearchStore((state) => state.selectCase);
   const onConfirm = useCaseSearchStore((state) => state.confirmCase);
   return (
-    <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-8">
+    <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5 sm:p-8">
       <div className="flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-300 text-xs font-semibold text-white">

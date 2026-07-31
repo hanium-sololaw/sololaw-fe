@@ -86,7 +86,7 @@ export default function KeywordSearchTab() {
 
   return (
     <div className="flex flex-col gap-6">
-      <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6">
+      <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-4 sm:p-6">
         <div className="relative flex gap-2">
           <div className="flex flex-1 items-center gap-2 rounded-xl border border-gray-200 px-4 py-3">
             <Icon icon={SearchIcon} size={16} className="text-gray-400" />
@@ -149,15 +149,15 @@ export default function KeywordSearchTab() {
         </div>
       </section>
 
-      <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900">
+      <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-4 sm:p-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">
             관련 판례{" "}
             <span className="text-blue-500">
               {searched ? filteredResults.length : 0}건
             </span>
           </h2>
-          <div className="flex gap-1 rounded-lg bg-gray-100 p-1 text-sm">
+          <div className="flex gap-1 self-start rounded-lg bg-gray-100 p-1 text-sm">
             <button
               type="button"
               onClick={() => setResultTab("search")}
@@ -253,7 +253,7 @@ export default function KeywordSearchTab() {
               />
             ))}
 
-            <div className="flex items-center justify-center gap-1 pt-2 text-sm text-gray-500">
+            <div className="flex flex-wrap items-center justify-center gap-1 pt-2 text-sm text-gray-500">
               <button
                 type="button"
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}

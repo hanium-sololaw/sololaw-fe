@@ -65,7 +65,7 @@ export default function CaseSearchTabs() {
   }, []);
 
   return (
-    <div className="flex">
+    <div className="-mx-1 -mt-2 flex overflow-x-auto px-1 pt-2">
       {tabs.map((tab, index) => {
         const isActive = activeTab === tab.id;
         const isFirst = index === 0;
@@ -75,7 +75,7 @@ export default function CaseSearchTabs() {
           <div
             key={tab.id}
             style={{ marginLeft: isFirst ? 0 : -TAB_SLANT }}
-            className={`relative ${
+            className={`relative shrink-0 ${
               isActive
                 ? "z-10 drop-shadow-[0_-4px_4px_rgba(0,0,0,0.10)]"
                 : "z-0"
@@ -91,7 +91,7 @@ export default function CaseSearchTabs() {
                 height: TAB_HEIGHT,
                 clipPath: width ? roundedTrapezoidPath(width, isFirst) : undefined,
               }}
-              className={`flex items-center justify-center rounded-t-xl px-8 text-base transition-colors ${
+              className={`flex items-center justify-center rounded-t-xl px-5 text-sm whitespace-nowrap transition-colors sm:px-8 sm:text-base ${
                 isActive
                   ? "bg-white font-bold text-gray-700"
                   : "bg-gray-200 text-gray-500"

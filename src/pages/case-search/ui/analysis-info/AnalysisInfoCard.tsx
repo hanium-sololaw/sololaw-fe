@@ -31,7 +31,7 @@ export default function AnalysisInfoCard({
   const percent = getAccuracyPercent(checkedCount);
 
   return (
-    <section className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-8">
+    <section className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5 sm:p-8">
       <div className="flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-300 text-xs font-semibold text-white">
@@ -66,7 +66,7 @@ export default function AnalysisInfoCard({
           return (
             <div
               key={id}
-              className="flex items-center justify-between gap-4 rounded-xl border border-gray-200 p-4"
+              className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-gray-200 p-4"
             >
               <div className="flex items-center gap-3">
                 {checked ? (
@@ -113,8 +113,8 @@ export default function AnalysisInfoCard({
         />
       </div>
 
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex gap-2">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap gap-2">
           <button
             type="button"
             className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700"
@@ -134,7 +134,7 @@ export default function AnalysisInfoCard({
         <button
           type="button"
           onClick={onAnalyze}
-          className="flex items-center gap-1.5 rounded-lg bg-blue-400 px-5 py-2.5 text-sm font-semibold text-white"
+          className="flex items-center justify-center gap-1.5 rounded-lg bg-blue-400 px-5 py-2.5 text-sm font-semibold text-white"
         >
           이 정보로 유사 판례 분석
         </button>

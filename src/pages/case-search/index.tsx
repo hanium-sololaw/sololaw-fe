@@ -64,9 +64,9 @@ export default function CaseSearchPage() {
       <div className="flex flex-col">
         <CaseSearchTabs />
 
-        <div className="rounded-b-2xl rounded-tr-2xl bg-white p-6">
+        <div className="rounded-b-2xl rounded-tr-2xl bg-white p-4 sm:p-6">
           {activeTab === "keyword" ? (
-            <div className="grid grid-cols-[1fr_360px] gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
               <KeywordSearchTab />
 
               <div className="flex flex-col gap-6">
@@ -77,7 +77,7 @@ export default function CaseSearchPage() {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-[1fr_360px] gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
               <div className="flex flex-col gap-6">
                 {myCases.length === 0 ? (
                   <SimilarCaseAnalysis />

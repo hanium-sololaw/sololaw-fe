@@ -10,7 +10,7 @@ export default function SimilarCaseAnalysis() {
   const analyze = useCaseSearchStore((state) => state.analyze);
 
   return (
-    <section className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-8">
+    <section className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-5 sm:p-8">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold text-gray-900">
           분석할 내 사건 선택
@@ -20,7 +20,7 @@ export default function SimilarCaseAnalysis() {
         </span>
       </div>
 
-      <div className="flex items-center justify-between gap-4 rounded-xl bg-gray-50 p-5">
+      <div className="flex flex-col items-start gap-4 rounded-xl bg-gray-50 p-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <DocumentIcon className="h-6 w-6 text-gray-500" />
           <div className="flex flex-col gap-0.5">

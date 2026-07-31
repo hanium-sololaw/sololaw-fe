@@ -55,8 +55,8 @@ export default function CaseResultCard({
 
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-gray-200 p-4">
-      <div className="flex items-start justify-between gap-3">
-        <p className="flex items-center gap-2 font-semibold text-gray-900">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <p className="flex flex-wrap items-center gap-2 font-semibold text-gray-900">
           {title}
           <span
             className={`shrink-0 rounded-xl px-3 py-1 text-xs font-semibold ${outcomeStyles[outcome]}`}
@@ -125,7 +125,7 @@ export default function CaseResultCard({
         </div>
       )}
 
-      <div className="flex gap-2 pt-1">
+      <div className="flex flex-wrap gap-2 pt-1">
         {cited ? (
           <button
             type="button"
