@@ -12,7 +12,10 @@ type ResultTab = "search" | "saved";
 
 export default function CaseResultPanel() {
   const hasAnalyzed = useCaseSearchStore((state) => state.hasAnalyzed);
+  const savedCaseIds = useCaseSearchStore((state) => state.savedCaseIds);
+  const toggleSavedCase = useCaseSearchStore((state) => state.toggleSavedCase);
   const [resultTab, setResultTab] = useState<ResultTab>("search");
+  const savedCases = mockCases.filter((item) => savedCaseIds.has(item.id));
 
   if (!hasAnalyzed) {
     return (
@@ -35,8 +38,10 @@ export default function CaseResultPanel() {
     <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">
-          내 사건과 유사한 판례{" "}
-          <span className="text-blue-500">{mockCases.length}건</span>
+          {resultTab === "saved" ? "저장한 판례" : "내 사건과 유사한 판례"}{" "}
+          <span className="text-blue-500">
+            {resultTab === "saved" ? savedCases.length : mockCases.length}건
+          </span>
         </h2>
         <div className="flex gap-1 rounded-lg bg-gray-100 p-1 text-sm">
           <button
@@ -59,15 +64,35 @@ export default function CaseResultPanel() {
                 : "text-gray-500"
             }`}
           >
-            저장됨
+            저장됨({savedCases.length})
           </button>
         </div>
       </div>
 
       {resultTab === "saved" ? (
-        <p className="rounded-xl bg-gray-50 px-5 py-8 text-center text-sm text-gray-500">
-          아직 저장한 판례가 없어요.
-        </p>
+        savedCases.length === 0 ? (
+          <p className="rounded-xl bg-gray-50 px-5 py-8 text-center text-sm text-gray-500">
+            아직 저장한 판례가 없어요.
+          </p>
+        ) : (
+          <>
+            <div className="h-px bg-gray-200" />
+            {savedCases.map((item) => (
+              <CaseResultCard
+                key={item.id}
+                title={item.title}
+                outcome={item.outcome}
+                court={item.court}
+                caseNumber={item.caseNumber}
+                date={item.date}
+                relevance={item.relevance}
+                summary={item.summary}
+                saved
+                onToggleSave={() => toggleSavedCase(item.id)}
+              />
+            ))}
+          </>
+        )
       ) : (
         <>
           {mockCases.map((item) => (
@@ -80,6 +105,8 @@ export default function CaseResultPanel() {
               date={item.date}
               relevance={item.relevance}
               summary={item.summary}
+              saved={savedCaseIds.has(item.id)}
+              onToggleSave={() => toggleSavedCase(item.id)}
             />
           ))}
 

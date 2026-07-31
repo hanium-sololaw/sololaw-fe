@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import Icon from "@/shared/ui/Icon";
 import BuildingIcon from "@/assets/icons/case-search/building-icon.svg?react";
 import PaperTextIcon from "@/assets/icons/case-search/paper-text-icon.svg?react";
@@ -7,6 +8,7 @@ import ArrowUpRightIcon from "@/assets/icons/shared/tabler-arrow-up.svg?react";
 import PaperIcon from "@/assets/icons/case-search/paper-icon.svg?react";
 import CopyIcon from "@/assets/icons/case-search/copy-icon.svg?react";
 import StarLineIcon from "@/assets/icons/case-search/star-line-icon.svg?react";
+import CheckIcon from "@/assets/icons/case-search/check-icon.svg?react";
 import { outcomeStyles, type CaseOutcome } from "../../data/mockCases";
 
 type CaseResultCardProps = {
@@ -18,7 +20,14 @@ type CaseResultCardProps = {
   relevance: "높음" | "보통";
   summary: string;
   relatedLaws?: string[];
+  isCited?: boolean;
+  saved: boolean;
+  onToggleSave: () => void;
 };
+
+const ACTIVE_STYLE =
+  "rounded-[10px] border border-blue-200 bg-blue-50 text-blue-500";
+const DEFAULT_STYLE = "rounded-lg border border-gray-200 text-gray-600";
 
 export default function CaseResultCard({
   title,
@@ -29,7 +38,20 @@ export default function CaseResultCard({
   relevance,
   summary,
   relatedLaws,
+  isCited = false,
+  saved,
+  onToggleSave,
 }: CaseResultCardProps) {
+  const [cited, setCited] = useState(isCited);
+  const [copied, setCopied] = useState(false);
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleCopy = () => {
+    setCopied(true);
+    if (copyTimeoutRef.current) clearTimeout(copyTimeoutRef.current);
+    copyTimeoutRef.current = setTimeout(() => setCopied(false), 2500);
+  };
+
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-gray-200 p-4">
       <div className="flex items-start justify-between gap-3">
@@ -103,23 +125,41 @@ export default function CaseResultCard({
       )}
 
       <div className="flex gap-2 pt-1">
+        {cited ? (
+          <button
+            type="button"
+            onClick={() => setCited(false)}
+            className={`flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold ${ACTIVE_STYLE}`}
+          >
+            <Icon icon={CheckIcon} size={14} />
+            인용됨
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setCited(true)}
+            className="flex items-center gap-1.5 rounded-lg bg-blue-400 px-4 py-2.5 text-sm font-semibold text-white"
+          >
+            <Icon icon={PaperIcon} size={14} className="text-white" />내 문서에
+            인용
+          </button>
+        )}
         <button
           type="button"
-          className="flex items-center gap-1.5 rounded-lg bg-blue-400 px-4 py-2.5 text-sm font-semibold text-white"
+          onClick={handleCopy}
+          className={`flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold ${
+            copied ? ACTIVE_STYLE : DEFAULT_STYLE
+          }`}
         >
-          <Icon icon={PaperIcon} size={14} className="text-white" />내 문서에
-          인용
+          <Icon icon={copied ? CheckIcon : CopyIcon} size={13} />
+          {copied ? "복사됨" : "복사"}
         </button>
         <button
           type="button"
-          className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-600"
-        >
-          <Icon icon={CopyIcon} size={13} />
-          복사
-        </button>
-        <button
-          type="button"
-          className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-600"
+          onClick={onToggleSave}
+          className={`flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold ${
+            saved ? ACTIVE_STYLE : DEFAULT_STYLE
+          }`}
         >
           <Icon icon={StarLineIcon} size={13} />
           저장

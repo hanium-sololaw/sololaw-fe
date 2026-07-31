@@ -11,12 +11,22 @@ import {
   type CategoryFilter,
 } from "../../data/keywordSearch";
 import CaseResultCard from "../shared/CaseResultCard";
+import { useCaseSearchStore } from "../../store/useCaseSearchStore";
 
 type ResultTab = "search" | "saved";
 
 const PAGE_SIZE = 5;
 
 export default function KeywordSearchTab() {
+  const savedKeywordCaseIds = useCaseSearchStore(
+    (state) => state.savedKeywordCaseIds,
+  );
+  const toggleSavedKeywordCase = useCaseSearchStore(
+    (state) => state.toggleSavedKeywordCase,
+  );
+  const savedResults = keywordSearchResults.filter((item) =>
+    savedKeywordCaseIds.has(item.id),
+  );
   const [query, setQuery] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
   const [searched, setSearched] = useState(false);
@@ -153,22 +163,33 @@ export default function KeywordSearchTab() {
                   : "text-gray-500"
               }`}
             >
-              저장됨(1)
+              저장됨({savedResults.length})
             </button>
           </div>
         </div>
 
         {resultTab === "saved" ? (
-          <CaseResultCard
-            title={keywordSearchResults[0].title}
-            outcome={keywordSearchResults[0].outcome}
-            court={keywordSearchResults[0].court}
-            caseNumber={keywordSearchResults[0].caseNumber}
-            date={keywordSearchResults[0].date}
-            relevance={keywordSearchResults[0].relevance}
-            summary={keywordSearchResults[0].summary}
-            relatedLaws={keywordSearchResults[0].relatedLaws}
-          />
+          savedResults.length === 0 ? (
+            <p className="rounded-xl bg-gray-50 px-5 py-8 text-center text-sm text-gray-500">
+              아직 저장한 판례가 없어요.
+            </p>
+          ) : (
+            savedResults.map((item) => (
+              <CaseResultCard
+                key={item.id}
+                title={item.title}
+                outcome={item.outcome}
+                court={item.court}
+                caseNumber={item.caseNumber}
+                date={item.date}
+                relevance={item.relevance}
+                summary={item.summary}
+                relatedLaws={item.relatedLaws}
+                saved
+                onToggleSave={() => toggleSavedKeywordCase(item.id)}
+              />
+            ))
+          )
         ) : !searched || filteredResults.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-2 rounded-xl px-8 py-16 text-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-gray-400">
@@ -208,6 +229,8 @@ export default function KeywordSearchTab() {
                 relevance={item.relevance}
                 summary={item.summary}
                 relatedLaws={item.relatedLaws}
+                saved={savedKeywordCaseIds.has(item.id)}
+                onToggleSave={() => toggleSavedKeywordCase(item.id)}
               />
             ))}
 
