@@ -11,8 +11,8 @@ export default function GuidePage() {
     <div className="flex flex-col gap-6">
       <GuideHeader />
 
-      <section className="relative flex flex-col gap-6 overflow-hidden rounded-[14px] bg-white p-8">
-        <h2 className="relative z-10 text-lg font-semibold text-gray-900">
+      <section className="relative flex flex-col gap-6 overflow-hidden rounded-[14px] bg-white p-6">
+        <h2 className="relative z-10 text-2xl leading-8 font-bold text-gray-900">
           현재 진행 중인 소송을 선택해주세요.
         </h2>
 
