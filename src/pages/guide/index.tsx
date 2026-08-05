@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import GuideHeader from "./ui/GuideHeader";
 import LawsuitCaseCard from "./ui/LawsuitCaseCard";
 import { mockLawsuits } from "./data/mockLawsuits";
 
 export default function GuidePage() {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col gap-6">
@@ -24,8 +24,7 @@ export default function GuidePage() {
               court={lawsuit.court}
               caseNumber={lawsuit.caseNumber}
               lastUpdatedAt={lawsuit.lastUpdatedAt}
-              selected={lawsuit.id === selectedId}
-              onClick={() => setSelectedId(lawsuit.id)}
+              onClick={() => navigate(`/guide/${lawsuit.id}`)}
             />
           ))}
         </div>

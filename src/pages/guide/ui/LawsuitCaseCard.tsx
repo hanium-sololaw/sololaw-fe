@@ -1,4 +1,4 @@
-import FolderImage from "@/assets/folder-image.svg?react";
+import FolderImage from "@/assets/lawsuit/folder-image.svg?react";
 
 type LawsuitCaseCardProps = {
   title: string;

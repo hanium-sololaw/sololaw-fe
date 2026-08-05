@@ -7,6 +7,7 @@ import SignupPage from "@/pages/signup";
 import DashboardPage from "@/pages/dashboard";
 import CaseSearchPage from "@/pages/case-search";
 import GuidePage from "@/pages/guide";
+import GuideDetailPage from "@/pages/guide/detail";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
       { path: "/dashboard", element: <DashboardPage /> },
       { path: "/case", element: <CaseSearchPage /> },
       { path: "/guide", element: <GuidePage /> },
+      { path: "/guide/:id", element: <GuideDetailPage /> },
     ],
   },
 ]);
