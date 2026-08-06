@@ -28,7 +28,10 @@ export default function GuideDetailPage() {
 
         <div className="flex flex-col gap-6">
           <UpcomingSchedule schedules={upcomingSchedules} />
-          <SubmittedDocuments documents={submittedDocuments} />
+          <SubmittedDocuments
+            caseTitle={caseSummary.title}
+            documents={submittedDocuments}
+          />
         </div>
       </div>
     </div>
