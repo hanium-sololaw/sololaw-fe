@@ -1,3 +1,4 @@
+import { useState } from "react";
 import DocumentIcon from "@/assets/icons/mypage/document-icon.svg?react";
 import DataIcon from "@/assets/icons/mypage/folder-icon.svg?react";
 import CalendarIcon from "@/assets/icons/mypage/calendar-icon.svg?react";
@@ -18,6 +19,20 @@ const statItems = [
 ];
 
 export default function ProfileCard() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [name, setName] = useState(myProfile.name);
+  const [email, setEmail] = useState(myProfile.email);
+
+  const handleCancel = () => {
+    setName(myProfile.name);
+    setEmail(myProfile.email);
+    setIsEditing(false);
+  };
+
+  const handleSave = () => {
+    setIsEditing(false);
+  };
+
   return (
     <section className="flex flex-col items-center gap-4 rounded-[20px] border border-gray-200 bg-white p-6">
       <div className="flex w-full flex-col items-center gap-4">
@@ -41,12 +56,45 @@ export default function ProfileCard() {
           </div>
         </div>
 
-        <button
-          type="button"
-          className="w-full rounded-xl border border-gray-200 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50"
-        >
-          프로필 수정
-        </button>
+        {isEditing ? (
+          <div className="flex w-full flex-col gap-3">
+            <input
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm font-bold text-gray-700 outline-none placeholder:text-gray-400 focus:border-blue-400"
+            />
+            <input
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm font-bold text-gray-700 outline-none placeholder:text-gray-400 focus:border-blue-400"
+            />
+
+            <div className="flex items-center gap-4">
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="flex-1 rounded-[10px] border border-gray-200 py-2.5 text-sm font-semibold text-gray-700"
+              >
+                취소
+              </button>
+              <button
+                type="button"
+                onClick={handleSave}
+                className="flex-1 rounded-[10px] bg-blue-300 py-2.5 text-sm font-semibold text-white"
+              >
+                저장
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setIsEditing(true)}
+            className="w-full rounded-xl border border-gray-200 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50"
+          >
+            프로필 수정
+          </button>
+        )}
       </div>
 
       <div className="mt-1.25 grid w-full grid-cols-3 gap-2">
