@@ -1,7 +1,11 @@
 import ChevronRightIcon from "@/assets/icons/mypage/chevron-right-icon.svg?react";
+import { useModal } from "@/shared/hooks/useModal";
 import { accountSettingItems } from "../data/mockMyPage";
+import ChangePasswordModal from "./ChangePasswordModal";
 
 export default function AccountSettings() {
+  const passwordModal = useModal();
+
   return (
     <section className="flex flex-col gap-5 rounded-[20px] border border-gray-200 bg-white px-5 pt-5 pb-3">
       <h2 className="text-lg font-semibold text-gray-900">계정 설정</h2>
@@ -11,6 +15,7 @@ export default function AccountSettings() {
           <button
             key={item.id}
             type="button"
+            onClick={item.id === "password" ? passwordModal.open : undefined}
             className="flex items-center justify-between px-2 py-3.5 text-left"
           >
             <span className="text-sm font-medium text-gray-700">
@@ -21,6 +26,10 @@ export default function AccountSettings() {
           </button>
         ))}
       </div>
+
+      {passwordModal.isOpen && (
+        <ChangePasswordModal onClose={passwordModal.close} />
+      )}
     </section>
   );
 }
