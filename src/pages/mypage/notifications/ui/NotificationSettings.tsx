@@ -38,7 +38,7 @@ export default function NotificationSettings() {
   };
 
   return (
-    <section className="w-full shrink-0 rounded-[16px] border border-gray-200 bg-white p-5 lg:w-80">
+    <section className="w-full shrink-0 rounded-2xl border border-gray-200 bg-white p-5 lg:w-80">
       <h2 className="mb-4 text-lg font-semibold text-gray-900">알림 설정</h2>
 
       <div className="flex flex-col gap-4">

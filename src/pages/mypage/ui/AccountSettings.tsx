@@ -3,16 +3,24 @@ import ChevronRightIcon from "@/assets/icons/mypage/chevron-right-icon.svg?react
 import { useModal } from "@/shared/hooks/useModal";
 import { accountSettingItems } from "../data/mockMyPage";
 import ChangePasswordModal from "./ChangePasswordModal";
+import TermsModal from "./TermsModal";
+import PrivacyModal from "./PrivacyModal";
 
 export default function AccountSettings() {
   const navigate = useNavigate();
   const passwordModal = useModal();
+  const termsModal = useModal();
+  const privacyModal = useModal();
 
   const handleClick = (id: string) => {
     if (id === "password") {
       passwordModal.open();
     } else if (id === "notification") {
       navigate("/mypage/notifications");
+    } else if (id === "terms") {
+      termsModal.open();
+    } else if (id === "privacy") {
+      privacyModal.open();
     }
   };
 
@@ -39,6 +47,10 @@ export default function AccountSettings() {
 
       {passwordModal.isOpen && (
         <ChangePasswordModal onClose={passwordModal.close} />
+      )}
+      {termsModal.isOpen && <TermsModal onClose={termsModal.close} />}
+      {privacyModal.isOpen && (
+        <PrivacyModal onClose={privacyModal.close} />
       )}
     </section>
   );
