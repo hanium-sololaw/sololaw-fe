@@ -9,6 +9,7 @@ import CaseSearchPage from "@/pages/case-search";
 import GuidePage from "@/pages/guide";
 import GuideDetailPage from "@/pages/guide/detail";
 import MyPage from "@/pages/mypage";
+import NotificationsPage from "@/pages/mypage/notifications";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
       { path: "/guide", element: <GuidePage /> },
       { path: "/guide/:id", element: <GuideDetailPage /> },
       { path: "/mypage", element: <MyPage /> },
+      { path: "/mypage/notifications", element: <NotificationsPage /> },
     ],
   },
 ]);
