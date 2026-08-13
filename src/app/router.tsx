@@ -8,6 +8,7 @@ import DashboardPage from "@/pages/dashboard";
 import CaseSearchPage from "@/pages/case-search";
 import GuidePage from "@/pages/guide";
 import GuideDetailPage from "@/pages/guide/detail";
+import MyPage from "@/pages/mypage";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
       { path: "/case", element: <CaseSearchPage /> },
       { path: "/guide", element: <GuidePage /> },
       { path: "/guide/:id", element: <GuideDetailPage /> },
+      { path: "/mypage", element: <MyPage /> },
     ],
   },
 ]);
