@@ -2,7 +2,9 @@ import { useState } from "react";
 import DocumentIcon from "@/assets/icons/mypage/document-icon.svg?react";
 import DataIcon from "@/assets/icons/mypage/folder-icon.svg?react";
 import CalendarIcon from "@/assets/icons/mypage/calendar-icon.svg?react";
+import { useModal } from "@/shared/hooks/useModal";
 import { myProfile } from "../data/mockMyPage";
+import PremiumUpgradeModal from "./PremiumUpgradeModal";
 
 const statItems = [
   {
@@ -22,6 +24,7 @@ export default function ProfileCard() {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(myProfile.name);
   const [email, setEmail] = useState(myProfile.email);
+  const premiumModal = useModal();
 
   const handleCancel = () => {
     setName(myProfile.name);
@@ -46,9 +49,13 @@ export default function ProfileCard() {
               <span className="text-lg leading-[1.6] font-bold text-gray-900">
                 {myProfile.name}
               </span>
-              <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-500">
+              <button
+                type="button"
+                onClick={premiumModal.open}
+                className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-500 hover:bg-blue-100"
+              >
                 {myProfile.plan}
-              </span>
+              </button>
             </div>
             <p className="text-sm leading-[1.6] font-medium text-gray-500">
               {myProfile.email}
@@ -106,6 +113,10 @@ export default function ProfileCard() {
           </div>
         ))}
       </div>
+
+      {premiumModal.isOpen && (
+        <PremiumUpgradeModal onClose={premiumModal.close} />
+      )}
     </section>
   );
 }
