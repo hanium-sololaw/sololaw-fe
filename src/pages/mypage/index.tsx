@@ -1,6 +1,7 @@
 import MyPageHeader from "./ui/MyPageHeader";
 import ProfileCard from "./ui/ProfileCard";
 import MyCases from "./ui/MyCases";
+import SubscriptionManagement from "./ui/SubscriptionManagement";
 import AccountSettings from "./ui/AccountSettings";
 import AccountFooter from "./ui/AccountFooter";
 
@@ -14,6 +15,7 @@ export default function MyPage() {
 
         <div className="flex flex-col gap-4">
           <MyCases />
+          <SubscriptionManagement />
           <AccountSettings />
           <AccountFooter />
         </div>

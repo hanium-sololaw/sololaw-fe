@@ -25,22 +25,27 @@ export default function AccountSettings() {
   };
 
   return (
-    <section className="flex flex-col gap-5 rounded-[20px] border border-gray-200 bg-white px-5 pt-5 pb-3">
+    <section className="flex flex-col gap-5 rounded-[20px] border border-gray-200 bg-white p-5">
       <h2 className="text-lg font-semibold text-gray-900">계정 설정</h2>
 
-      <div className="flex flex-col divide-y divide-gray-100">
+      <div className="flex flex-col gap-4">
         {accountSettingItems.map((item) => (
           <button
             key={item.id}
             type="button"
             onClick={() => handleClick(item.id)}
-            className="flex items-center justify-between px-2 py-3.5 text-left"
+            className="flex items-center justify-between gap-3 text-left"
           >
-            <span className="text-sm font-medium text-gray-700">
-              {item.label}
-            </span>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-sm font-semibold text-gray-900">
+                {item.label}
+              </span>
+              <span className="text-sm text-gray-500">
+                {item.description}
+              </span>
+            </div>
 
-            <ChevronRightIcon />
+            <ChevronRightIcon className="shrink-0" />
           </button>
         ))}
       </div>
