@@ -58,7 +58,7 @@ export default function RelatedStatsCard() {
 
       <div className="flex flex-col gap-1">
         <p className="flex items-baseline gap-1.5">
-          <span className="text-3xl font-bold text-blue-500">
+          <span className="text-4xl font-bold text-blue-500">
             {winRatePercent}%
           </span>
           <span className="text-sm font-semibold text-gray-500">원고 승소</span>
