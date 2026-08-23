@@ -9,7 +9,7 @@ import CaseAnalysisLoading from "./ui/result/CaseAnalysisLoading";
 import CaseResultPanel from "./ui/result/CaseResultPanel";
 import RelatedStatsCard from "./ui/result/RelatedStatsCard";
 import RelatedLawsCard from "./ui/sidebar/RelatedLawsCard";
-import AITipsCard from "./ui/sidebar/AITipsCard";
+// import AITipsCard from "./ui/sidebar/AITipsCard";
 import AboutSearchCard from "./ui/sidebar/AboutSearchCard";
 import KeywordSearchTab from "./ui/keyword/KeywordSearchTab";
 import KeywordDisclaimerCard from "./ui/keyword/KeywordDisclaimerCard";
@@ -71,7 +71,7 @@ export default function CaseSearchPage() {
 
               <div className="flex flex-col gap-6">
                 <RelatedLawsCard />
-                <AITipsCard />
+                {/* <AITipsCard /> */}
                 <AboutSearchCard />
                 <KeywordDisclaimerCard />
               </div>
@@ -103,7 +103,7 @@ export default function CaseSearchPage() {
               <div className="flex flex-col gap-6">
                 <RelatedStatsCard />
                 <RelatedLawsCard />
-                <AITipsCard />
+                {/* <AITipsCard /> */}
                 <AboutSearchCard />
               </div>
             </div>
