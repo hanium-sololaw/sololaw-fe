@@ -1,6 +1,8 @@
 import AddIcon from "@/assets/icons/schedule/add-icon.svg?react";
 import CalendarIcon from "@/assets/icons/mypage/calendar-icon.svg?react";
+import { useModal } from "@/shared/hooks/useModal";
 import type { ScheduleEvent } from "../data/mockSchedule";
+import AddScheduleModal from "./AddScheduleModal";
 
 const WEEKDAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -13,6 +15,8 @@ export default function DaySchedulePanel({
   selectedDate,
   events,
 }: DaySchedulePanelProps) {
+  const addModal = useModal();
+
   const label = `${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일 ${
     WEEKDAY_LABELS[selectedDate.getDay()]
   }요일`;
@@ -24,6 +28,7 @@ export default function DaySchedulePanel({
 
         <button
           type="button"
+          onClick={addModal.open}
           className="flex shrink-0 items-center gap-1 rounded-lg bg-blue-50 px-3 py-1.5 text-sm font-semibold text-blue-500 hover:bg-blue-100"
         >
           <AddIcon />
@@ -49,6 +54,13 @@ export default function DaySchedulePanel({
             </div>
           ))}
         </div>
+      )}
+
+      {addModal.isOpen && (
+        <AddScheduleModal
+          selectedDate={selectedDate}
+          onClose={addModal.close}
+        />
       )}
     </section>
   );
