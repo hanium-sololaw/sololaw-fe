@@ -1,4 +1,9 @@
-import type { LoanProcedureStep, LoanStepDetail } from "./mockLoanGuideDetail";
+import type {
+  LoanDeadlineItem,
+  LoanProcedureStep,
+  LoanStepDetail,
+  LoanToolLink,
+} from "./mockLoanGuideDetail";
 
 export type CaseGuideData = {
   title: string;
@@ -46,6 +51,74 @@ const courtFilingDetail: LoanStepDetail = {
   ],
   tools: [{ label: "소송 비용 계산기" }],
   secondaryLink: { label: "기일 · 기한 등록하기", to: "/schedule" },
+};
+
+const standardHearingDeadlineItems: LoanDeadlineItem[] = [
+  {
+    title: "답변서 제출",
+    roleBadge: "피고",
+    periodLabel: "소장 부본을 송달받은 날부터",
+    period: "30일",
+    noteTag: "민사소송법 제256조 제1항",
+    description:
+      "피고가 30일 안에 답변서를 내지 않으면 변론 없이 판결이 날 수 있어요(같은 법 제257조).",
+  },
+  {
+    title: "준비서면 제출",
+    roleBadge: "양쪽",
+    periodLabel: "변론기일부터",
+    period: "7일 전까지",
+    noteTag: "재판장이 정한 기한 (민사소송법 제280조)",
+    description: "상대방이 준비할 시간을 두고 미리 냅니다.",
+  },
+];
+
+const standardHearingPreparationItems = [
+  "상대방 답변서·준비서면",
+  "반박할 증거",
+  "준비서면 (상대방 수 + 1부)",
+];
+
+const standardHearingTools: LoanToolLink[] = [
+  { label: "문서 생성으로 가기", to: "/document" },
+  { label: "증빙자료 올리러 가기", to: "/evidence" },
+];
+
+const standardHearingSecondaryLink: LoanToolLink = {
+  label: "비슷한 판례 찾아보기",
+  to: "/case",
+};
+
+const standardHearingDetail: LoanStepDetail = {
+  deadline: { type: "deadline", items: standardHearingDeadlineItems },
+  preparationItems: standardHearingPreparationItems,
+  tools: standardHearingTools,
+  secondaryLink: standardHearingSecondaryLink,
+};
+
+const standardVerdictAppealItem: LoanDeadlineItem = {
+  title: "항소",
+  roleBadge: "패소한 쪽",
+  periodLabel: "판결이 확정된 뒤",
+  period: "2주",
+  noteTag: "민사소송법 제396조 제1항 (불변기간)",
+  description: "2주가 지나면 판결이 확정돼 더 다툴 수 없어요.",
+};
+
+const standardVerdictPreparationItems = [
+  "판결정본",
+  "송달증명원·확정증명원",
+  "(강제집행 시) 집행문",
+];
+
+const standardVerdictTools: LoanToolLink[] = [
+  { label: "기일 · 기한 등록하기", to: "/schedule" },
+];
+
+const standardVerdictDetail: LoanStepDetail = {
+  deadline: { type: "deadline", items: [standardVerdictAppealItem] },
+  preparationItems: standardVerdictPreparationItems,
+  tools: standardVerdictTools,
 };
 
 export const caseGuideDetails: Record<string, CaseGuideData> = {
@@ -178,40 +251,7 @@ export const caseGuideDetails: Record<string, CaseGuideData> = {
         ],
       },
       "court-filing": courtFilingDetail,
-      hearing: {
-        deadline: {
-          type: "deadline",
-          items: [
-            {
-              title: "답변서 제출",
-              roleBadge: "피고",
-              periodLabel: "소장 부본을 송달받은 날부터",
-              period: "30일",
-              noteTag: "민사소송법 제256조 제1항",
-              description:
-                "피고가 30일 안에 답변서를 내지 않으면 변론 없이 판결이 날 수 있어요(같은 법 제257조).",
-            },
-            {
-              title: "준비서면 제출",
-              roleBadge: "양쪽",
-              periodLabel: "변론기일부터",
-              period: "7일 전까지",
-              noteTag: "재판장이 정한 기한 (민사소송법 제280조)",
-              description: "상대방이 준비할 시간을 두고 미리 냅니다.",
-            },
-          ],
-        },
-        preparationItems: [
-          "상대방 답변서·준비서면",
-          "반박할 증거",
-          "준비서면 (상대방 수 + 1부)",
-        ],
-        tools: [
-          { label: "문서 생성으로 가기", to: "/document" },
-          { label: "증빙자료 올리러 가기", to: "/evidence" },
-        ],
-        secondaryLink: { label: "비슷한 판례 찾아보기", to: "/case" },
-      },
+      hearing: standardHearingDetail,
       verdict: {
         deadline: {
           type: "deadline",
@@ -225,14 +265,7 @@ export const caseGuideDetails: Record<string, CaseGuideData> = {
               description:
                 "상대방이 스스로 나가지 않으면 별도로 강제집행(인도집행)을 신청해야 합니다.",
             },
-            {
-              title: "항소",
-              roleBadge: "패소한 쪽",
-              periodLabel: "판결서를 송달받은 날부터",
-              period: "2주",
-              noteTag: "민사소송법 제396조 제1항 (불변기간)",
-              description: "2주가 지나면 판결이 확정돼 더 다툴 수 없어요.",
-            },
+            standardVerdictAppealItem,
           ],
         },
         preparationItems: [
@@ -241,7 +274,7 @@ export const caseGuideDetails: Record<string, CaseGuideData> = {
           "집행문",
           "(인도집행 시) 집행비용 예납",
         ],
-        tools: [{ label: "기일 · 기한 등록하기", to: "/schedule" }],
+        tools: standardVerdictTools,
       },
     },
   },
@@ -251,40 +284,139 @@ export const caseGuideDetails: Record<string, CaseGuideData> = {
       {
         id: "dispute",
         title: "분쟁 발생",
-        description: "다툼이 생긴 시점이에요. 소송보다 먼저 자료를 모아 둬요.",
+        doneDate: "2026. 1. 19.",
+        description: "손해가 발생한 시점이에요. 시간이 지나면 증거 확보가 어려워집니다.",
         items: [
-          "사고·손해 발생 경위 기록",
-          "피해 사진·영상 등 증거 확보",
-          "손해액 산정 자료 모으기",
+          "사고 자료·진단서 즉시 확보",
+          "해지 사유가 되는 연체 기수인지 확인",
+          "3년 시효 기산일(안 날) 확인",
         ],
       },
       {
         id: "content-certification",
         title: "내용증명",
         typeTag: "선택",
-        description: "내용증명으로 손해배상을 청구하는 단계예요.",
-        items: ["내용증명으로 배상 요구", "배달증명 보관", "협의·합의 가능성 우선 검토"],
+        description: "보험사와 협의 중이라면 제시액과 실제 손해액을 먼저 비교하세요.",
+        items: [
+          "보험사 제시액과 실제 손해액 비교",
+          "합의 시도 기록 남기기",
+          "내용증명 발송",
+        ],
       },
       {
         id: "petition-draft",
         title: "소장 작성",
+        progressTag: "0%",
         description: "청구취지·청구원인·증거를 갖춘 소장을 만드는 단계예요.",
-        items: ["손해 항목별 금액 정리", "과실 비율 관련 자료 정리", "증거 목록 작성"],
+        items: [
+          "적극손해·일실수입·위자료를 나눠 계산",
+          "과실비율에 대한 입장 정리",
+          "신체감정이 필요한지 판단",
+        ],
       },
       courtFilingStep,
       {
         id: "hearing",
         title: "변론",
-        description: "상대방이 과실·손해액을 다투는 경우가 많은 단계예요.",
+        description: "과실비율과 손해액 산정을 두고 다투는 단계예요.",
         items: [
-          "과실 비율에 대한 반박 준비",
-          "손해액 산정 근거 보완",
-          "감정·전문가 의견 필요 여부 검토",
+          "과실비율 반박 준비",
+          "신체감정 촉탁 신청 검토",
+          "일실수입 산정 근거 보강",
         ],
       },
-      verdictStep,
+      {
+        id: "verdict",
+        title: "판결",
+        breadcrumbLabel: "공통",
+        description: "선고를 받고, 확정되면 집행으로 이어집니다.",
+        items: [
+          "판결문 수령",
+          "항소 여부 판단 — 송달 다음 날부터 2주",
+          "집행문 받아 강제집행 신청",
+        ],
+      },
     ],
-    stepDetails: {},
+    stepDetails: {
+      dispute: {
+        deadline: {
+          type: "deadline",
+          items: [
+            {
+              title: "손해배상청구권 소멸시효 (단기)",
+              roleBadge: "피해자",
+              periodLabel: "손해와 가해자를 안 날부터",
+              period: "3년",
+              noteTag: "민법 제766조 제1항",
+              description: "치료가 이어지는 동안에도 시효는 진행합니다.",
+            },
+            {
+              title: "손해배상청구권 소멸시효 (장기)",
+              roleBadge: "피해자",
+              periodLabel: "불법행위를 한 날부터",
+              period: "10년",
+              noteTag: "민법 제766조 제2항",
+              description: "둘 중 먼저 오는 기간이 지나면 청구할 수 없습니다.",
+            },
+          ],
+        },
+        preparationItems: [
+          "사고사실확인원·사고 경위서",
+          "진단서·치료비 영수증",
+          "사진·블랙박스 영상",
+          "휴업손해 입증자료 (급여명세서 등)",
+        ],
+        tools: [
+          { label: "증빙자료 올리러 가기", to: "/evidence" },
+          { label: "비슷한 판례 찾아보기", to: "/case" },
+        ],
+      },
+      "content-certification": {
+        deadline: {
+          type: "deadline",
+          items: [
+            {
+              title: "회신 기한 (내가 정하는 기간)",
+              roleBadge: "상대방",
+              periodLabel: "내용증명이 도달한 날부터",
+              period: "14일",
+              noteTag: "법으로 정해진 기한은 아님",
+              description: "보통 7~14일을 줍니다. 이 기간이 지나면 소 제기를 준비하세요.",
+            },
+          ],
+        },
+        preparationItems: [
+          "보험사 제시액과 산정 근거",
+          "합의 시도 기록",
+          "내용증명 3부 + 배달증명",
+        ],
+        tools: [
+          { label: "일정 등록하기", to: "/schedule" },
+          { label: "소송 비용 계산기" },
+        ],
+        secondaryLink: { label: "증빙자료 올리러 가기", to: "/evidence" },
+      },
+      "petition-draft": {
+        deadline: {
+          type: "notice",
+          heading: "이 단계에는 법으로 정해진 기한이 없어요.",
+          body: "다만 청구권은 시효로 사라지지 않게 미루지 마세요.",
+        },
+        preparationItems: [
+          "당사자 인적사항",
+          "진단서·영수증·사고자료 (갑호증)",
+          "적극손해·일실수입·위자료 계산 내역",
+          "인지대·송달료",
+        ],
+        tools: [
+          { label: "소장 작성하러 가기", to: "/document" },
+          { label: "소송 비용 계산기" },
+        ],
+      },
+      "court-filing": courtFilingDetail,
+      hearing: standardHearingDetail,
+      verdict: standardVerdictDetail,
+    },
   },
   "4": {
     title: "임금체불(임금·퇴직금) 청구",
