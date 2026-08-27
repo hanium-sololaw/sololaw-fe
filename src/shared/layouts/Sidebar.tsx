@@ -17,7 +17,7 @@ const mainNavItems = [
   { to: "/case", icon: JudgeIcon, label: "판례 검색" },
   { to: "/guide", icon: BookIcon, label: "절차 안내" },
   { to: "/evidence", icon: DataIcon, label: "증빙 자료" },
-  { to: "/schedule", icon: BellIcon, label: "스케줄 관리" },
+  { to: "/schedule", icon: BellIcon, label: "일정 관리" },
 ];
 
 const bottomNavItems = [

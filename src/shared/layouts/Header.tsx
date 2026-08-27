@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import AlertIcon from "@/assets/icons/shared/alert-bell-icon.svg?react";
 
 export default function Header() {
@@ -8,7 +9,7 @@ export default function Header() {
           <AlertIcon className="h-5 w-5" />
         </button>
 
-        <div className="flex items-center gap-3">
+        <Link to="/mypage" className="flex items-center gap-3">
           <div className="h-10 w-10 overflow-hidden rounded-full bg-gray-200">
             <img alt="프로필" className="h-full w-full object-cover" />
           </div>
@@ -18,7 +19,7 @@ export default function Header() {
             </span>
             <span className="text-xs text-gray-500">example@gmail.com</span>
           </div>
-        </div>
+        </Link>
       </div>
     </header>
   );
