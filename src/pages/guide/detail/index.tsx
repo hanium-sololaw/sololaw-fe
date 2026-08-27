@@ -1,39 +1,14 @@
-import GuideHeader from "../ui/GuideHeader";
-import CaseSummaryBar from "./ui/CaseSummaryBar";
-import ProcedureTimeline from "./ui/ProcedureTimeline";
-import UpcomingSchedule from "./ui/UpcomingSchedule";
-import SubmittedDocuments from "./ui/SubmittedDocuments";
-import {
-  caseSummary,
-  procedureSteps,
-  upcomingSchedules,
-  submittedDocuments,
-} from "./data/mockGuideDetail";
+import { useParams } from "react-router-dom";
+import CaseGuideDetailPage from "./CaseGuideDetailPage";
+
+const KNOWN_CASE_IDS = ["1", "2", "3", "4", "5"];
 
 export default function GuideDetailPage() {
-  return (
-    <div className="flex flex-col gap-6">
-      <GuideHeader />
+  const { id } = useParams();
 
-      <CaseSummaryBar
-        category={caseSummary.category}
-        title={caseSummary.title}
-        court={caseSummary.court}
-        caseNumber={caseSummary.caseNumber}
-        progress={caseSummary.progress}
-      />
+  if (id && KNOWN_CASE_IDS.includes(id)) {
+    return <CaseGuideDetailPage caseId={id} />;
+  }
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]">
-        <ProcedureTimeline steps={procedureSteps} />
-
-        <div className="flex flex-col gap-6">
-          <UpcomingSchedule schedules={upcomingSchedules} />
-          <SubmittedDocuments
-            caseTitle={caseSummary.title}
-            documents={submittedDocuments}
-          />
-        </div>
-      </div>
-    </div>
-  );
+  return <CaseGuideDetailPage caseId="1" />;
 }
