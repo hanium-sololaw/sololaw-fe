@@ -22,14 +22,6 @@ const courtFilingStep: LoanProcedureStep = {
   ],
 };
 
-const verdictStep: LoanProcedureStep = {
-  id: "verdict",
-  title: "판결",
-  breadcrumbLabel: "공통",
-  description: "선고를 받고, 확정되면 집행으로 이어집니다.",
-  items: ["판결문 수령", "항소 여부 판단", "확정 후 강제집행 신청"],
-};
-
 const courtFilingDetail: LoanStepDetail = {
   deadline: {
     type: "deadline",
@@ -424,11 +416,12 @@ export const caseGuideDetails: Record<string, CaseGuideData> = {
       {
         id: "dispute",
         title: "분쟁 발생",
-        description: "다툼이 생긴 시점이에요. 소송보다 먼저 자료를 모아 둬요.",
+        doneDate: "2023. 9. 4.",
+        description: "체불이 확인된 시점이에요. 임금채권은 3년으로 짧으니 서두르세요.",
         items: [
-          "근로계약서·급여명세서 확보",
-          "미지급 임금·퇴직금 내역 정리",
-          "재직 기간 및 근무 기록 확인",
+          "근로계약서·급여내역 확보",
+          "고용노동부 진정 접수 검토",
+          "임금채권 3년 시효 확인",
         ],
       },
       {
@@ -436,33 +429,125 @@ export const caseGuideDetails: Record<string, CaseGuideData> = {
         title: "내용증명",
         typeTag: "선택",
         description:
-          "내용증명으로 체불 임금 지급을 최고하는 단계예요. 소액이면 진정·신고가 더 빠를 수 있어요.",
-        items: ["내용증명으로 지급 최고", "배달증명 보관", "고용노동부 진정도 함께 검토"],
+          "고용노동부 진정을 먼저 넣는 경우가 많아요. 체불금품 확인원이 강력한 증거가 됩니다.",
+        items: ["고용노동부 진정 접수", "체불금품 확인원 발급받기", "내용증명 발송"],
       },
       {
         id: "petition-draft",
         title: "소장 작성",
+        progressTag: "40%",
         description: "청구취지·청구원인·증거를 갖춘 소장을 만드는 단계예요.",
         items: [
-          "미지급 임금·퇴직금 항목별 계산",
-          "근로 기간 및 급여 내역 정리",
-          "증거 목록 작성",
+          "미지급 항목별로 나눠 계산 (임금·연장근로·퇴직금)",
+          "사용자가 법인이면 법인등기부 확인",
+          "근로자 수에 따른 법 적용 확인",
         ],
       },
       courtFilingStep,
       {
         id: "hearing",
         title: "변론",
-        description: "사용자가 지급 여부·금액을 다투는 경우가 많은 단계예요.",
+        description: "근로시간과 지급액을 두고 다투는 단계예요.",
         items: [
-          "체불 금액 산정 근거 보완",
-          "근로 사실 증명 자료 준비",
-          "지연이자 계산 확인",
+          "근태기록으로 연장근로 입증",
+          "사용자의 상계 항변 검토",
+          "체불금품 확인원 제출",
         ],
       },
-      verdictStep,
+      {
+        id: "verdict",
+        title: "판결",
+        breadcrumbLabel: "공통",
+        description: "선고를 받고, 확정되면 집행으로 이어집니다.",
+        items: [
+          "판결문 수령",
+          "항소 여부 판단 — 송달 다음 날부터 2주",
+          "확정 후 강제집행 신청",
+        ],
+      },
     ],
-    stepDetails: {},
+    stepDetails: {
+      dispute: {
+        deadline: {
+          type: "deadline",
+          items: [
+            {
+              title: "사용자의 금품청산 의무",
+              roleBadge: "사용자",
+              periodLabel: "퇴직 등 지급 사유가 발생한 때",
+              period: "14일",
+              noteTag: "근로기준법 제36조",
+              description:
+                "14일이 지나도록 지급하지 않으면 체불입니다. 합의로 기일을 연장할 수는 있어요.",
+            },
+            {
+              title: "임금채권 소멸시효",
+              roleBadge: "근로자",
+              periodLabel: "임금 지급일부터",
+              period: "3년",
+              noteTag: "근로기준법 제49조",
+              description:
+                "퇴직금도 3년입니다(근로자퇴직급여 보장법 제10조). 다른 채권보다 훨씬 짧으니 주의하세요.",
+            },
+          ],
+        },
+        preparationItems: [
+          "근로계약서",
+          "급여명세서·급여 이체내역",
+          "근태기록·출퇴근 기록",
+          "사내 메신저 등 업무 지시 내역",
+        ],
+        tools: [
+          { label: "증빙자료 올리러 가기", to: "/evidence" },
+          { label: "비슷한 판례 찾아보기", to: "/case" },
+        ],
+      },
+      "content-certification": {
+        deadline: {
+          type: "deadline",
+          items: [
+            {
+              title: "회신 기한 (내가 정하는 기간)",
+              roleBadge: "상대방",
+              periodLabel: "내용증명이 도달한 날부터",
+              period: "14일",
+              noteTag: "법으로 정해진 기간은 아님",
+              description: "보통 7~14일을 줍니다. 이 기간이 지나면 소 제기를 준비하세요.",
+            },
+          ],
+        },
+        preparationItems: [
+          "고용노동부 진정 접수증·처리결과",
+          "체불금품 확인원",
+          "내용증명 3부 + 배달증명",
+        ],
+        tools: [
+          { label: "일정 등록하기", to: "/schedule" },
+          { label: "소송 비용 계산기" },
+        ],
+        secondaryLink: { label: "증빙자료 올리러 가기", to: "/evidence" },
+      },
+      "petition-draft": {
+        deadline: {
+          type: "notice",
+          heading: "이 단계에는 법으로 정해진 기한이 없어요.",
+          body: "다만 청구권은 시효로 사라지지 않게 미루지 마세요.",
+        },
+        preparationItems: [
+          "당사자 인적사항 (법인이면 법인등기부)",
+          "근로계약서·급여내역 (갑호증)",
+          "미지급 항목별 계산 내역",
+          "인지대·송달료",
+        ],
+        tools: [
+          { label: "소장 작성하러 가기", to: "/document" },
+          { label: "소송 비용 계산기" },
+        ],
+      },
+      "court-filing": courtFilingDetail,
+      hearing: standardHearingDetail,
+      verdict: standardVerdictDetail,
+    },
   },
   "5": {
     title: "임대차 보증금 반환 청구",
@@ -470,44 +555,139 @@ export const caseGuideDetails: Record<string, CaseGuideData> = {
       {
         id: "dispute",
         title: "분쟁 발생",
-        description: "다툼이 생긴 시점이에요. 소송보다 먼저 자료를 모아 둬요.",
+        description: "다툼이 생긴 시점이에요. 소송보다 먼저 자료를 모아 둡니다.",
         items: [
-          "임대차계약서·보증금 지급 내역 확보",
-          "계약 종료(해지) 사유와 시점 확인",
-          "원상회복·공제 관련 자료 정리",
+          "임대차계약서·입금증 확보",
+          "목적물 인도 당시 상태 사진 촬영",
+          "임차권등기명령을 낼지 판단",
         ],
       },
       {
         id: "content-certification",
         title: "내용증명",
         typeTag: "선택",
-        description:
-          "내용증명으로 보증금 반환을 최고하는 단계예요. 소액이면 지급명령이 더 빠를 수 있어요.",
-        items: ["내용증명으로 반환 요청", "배달증명 보관", "지급명령(독촉)으로 갈지 판단"],
+        description: "소송 전에 상대방에게 이행을 요구하는 단계예요. 꼭 거쳐야 하는 건 아닙니다.",
+        items: [
+          "내용증명으로 보증금 반환 최고",
+          "배달증명 보관",
+          "임차권등기 완료 여부 확인",
+        ],
       },
       {
         id: "petition-draft",
         title: "소장 작성",
+        progressTag: "40%",
         description: "청구취지·청구원인·증거를 갖춘 소장을 만드는 단계예요.",
         items: [
-          "보증금·공제 내역 정리",
-          "계약 종료일과 반환 지연 기간 정리",
-          "증거 목록 작성",
+          "공제 주장에 대한 반박 정리",
+          "목적물 인도일 특정 (지연손해금 기산일)",
+          "원상회복 범위 다툼 준비",
         ],
       },
       courtFilingStep,
       {
         id: "hearing",
         title: "변론",
-        description: "임대인이 공제·원상회복 비용을 다투는 경우가 많은 단계예요.",
+        description: "원상회복·공제 범위를 두고 다투는 단계예요.",
         items: [
-          "공제 항목에 대한 반박 준비",
-          "원상회복 비용 근거 확인",
-          "지연이자 계산 확인",
+          "임대인의 공제 주장 항목별 반박",
+          "통상손모와 훼손을 구분해 정리",
+          "견적서의 인과관계 다투기",
         ],
       },
-      verdictStep,
+      {
+        id: "verdict",
+        title: "판결",
+        breadcrumbLabel: "공통",
+        description: "선고를 받고, 확정되면 집행으로 이어집니다.",
+        items: [
+          "판결문 수령",
+          "항소 여부 판단 — 송달 다음 날부터 2주",
+          "확정 후 강제집행 신청",
+        ],
+      },
     ],
-    stepDetails: {},
+    stepDetails: {
+      dispute: {
+        deadline: {
+          type: "deadline",
+          items: [
+            {
+              title: "임차권등기명령 신청",
+              roleBadge: "임차인",
+              periodLabel: "임대차가 끝난 뒤 — 이사하기 전 부터",
+              period: "조건으로 정해짐",
+              noteTag: "주택임대차보호법 제3조의3",
+              description:
+                "등기를 마치기 전에 이사하면 대항력과 우선변제권을 잃습니다. 날짜로 정해진 기한은 아니지만 순서가 중요합니다.",
+            },
+            {
+              title: "보증금반환채권 소멸시효",
+              roleBadge: "임차인",
+              periodLabel: "임대차가 끝난 날부터",
+              period: "10년",
+              noteTag: "민법 제162조 제1항",
+              description:
+                "보증금반환채권 소멸시효 — 일부라도 변제받으면 시효가 새로 시작합니다. 입금내역을 꼭 보관하세요.",
+            },
+          ],
+        },
+        preparationItems: [
+          "임대차계약서 원본",
+          "보증금 입금증·이체내역",
+          "목적물 인도 당시 사진",
+          "전입세대확인서·확정일자",
+        ],
+        tools: [
+          { label: "증빙자료 올리러 가기", to: "/evidence" },
+          { label: "비슷한 판례 찾아보기", to: "/case" },
+        ],
+      },
+      "content-certification": {
+        deadline: {
+          type: "deadline",
+          items: [
+            {
+              title: "회신 기한 (내가 정하는 기간)",
+              roleBadge: "상대방",
+              periodLabel: "내용증명이 도달한 날부터",
+              period: "14일",
+              noteTag: "법으로 정해진 기간은 아님",
+              description: "보통 7~14일을 줍니다. 이 기간이 지나면 소 제기를 준비하세요.",
+            },
+          ],
+        },
+        preparationItems: [
+          "내용증명 3부 (임대인·우체국·본인)",
+          "배달증명 영수증",
+          "임차권등기명령 신청 검토",
+        ],
+        tools: [
+          { label: "일정 등록하기", to: "/schedule" },
+          { label: "소송 비용 계산기" },
+        ],
+        secondaryLink: { label: "증빙자료 올리러 가기", to: "/evidence" },
+      },
+      "petition-draft": {
+        deadline: {
+          type: "notice",
+          heading: "이 단계에는 법으로 정해진 기한이 없어요.",
+          body: "다만 청구권은 시효로 사라지지 않게 미루지 마세요.",
+        },
+        preparationItems: [
+          "당사자 인적사항",
+          "임대차계약서·입금증·인도 사진 (갑호증)",
+          "공제 주장에 대한 반박 자료",
+          "인지대·송달료",
+        ],
+        tools: [
+          { label: "소장 작성하러 가기", to: "/document" },
+          { label: "소송 비용 계산기" },
+        ],
+      },
+      "court-filing": courtFilingDetail,
+      hearing: standardHearingDetail,
+      verdict: standardVerdictDetail,
+    },
   },
 };
