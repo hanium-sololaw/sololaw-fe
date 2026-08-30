@@ -51,7 +51,7 @@ export default function CaseSearchPage() {
   ];
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 pb-6">
       <CaseSearchHeader
         citationCount={citedItems.length}
         onOpenCitationList={citationModal.open}
