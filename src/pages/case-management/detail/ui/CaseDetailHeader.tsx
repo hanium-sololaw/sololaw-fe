@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import TrashIcon from "@/assets/icons/shared/trash-icon.svg?react";
-import { caseStatusStyle, type CaseStatus } from "../../data/mockCases";
+import type { ApiCaseStatus } from "../../api/types";
+import { caseStatusMeta } from "../../lib/caseDisplay";
 
-const statusOptions: CaseStatus[] = ["진행 중", "준비 중", "종료"];
+const statusOptions = Object.keys(caseStatusMeta) as ApiCaseStatus[];
 
 type CaseDetailHeaderProps = {
   title: string;
-  status: CaseStatus;
+  status: ApiCaseStatus;
   caseNumber: string;
   court: string;
   lastActivity: string;
@@ -14,7 +15,7 @@ type CaseDetailHeaderProps = {
   petitionTitle: string;
   petitionProgress: number;
   remainingTasksToFile: number;
-  onStatusChange: (status: CaseStatus) => void;
+  onStatusChange: (status: ApiCaseStatus) => void;
   onDelete: () => void;
 };
 
@@ -31,6 +32,8 @@ export default function CaseDetailHeader({
   onStatusChange,
   onDelete,
 }: CaseDetailHeaderProps) {
+  const statusMeta = caseStatusMeta[status];
+
   return (
     <div className="flex flex-col gap-4">
       <Link
@@ -62,9 +65,9 @@ export default function CaseDetailHeader({
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="text-xl font-bold text-gray-900">{title}</h1>
               <span
-                className={`rounded-full px-2.5 py-1 text-xs font-semibold ${caseStatusStyle[status]}`}
+                className={`rounded-full px-2.5 py-1 text-xs font-semibold ${statusMeta.style}`}
               >
-                {status}
+                {statusMeta.label}
               </span>
             </div>
             <p className="text-sm text-gray-500">
@@ -108,13 +111,13 @@ export default function CaseDetailHeader({
             <select
               value={status}
               onChange={(event) =>
-                onStatusChange(event.target.value as CaseStatus)
+                onStatusChange(event.target.value as ApiCaseStatus)
               }
               className="rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm font-semibold text-gray-800 outline-none focus:border-blue-400"
             >
               {statusOptions.map((option) => (
                 <option key={option} value={option}>
-                  {option}
+                  {caseStatusMeta[option].label}
                 </option>
               ))}
             </select>
