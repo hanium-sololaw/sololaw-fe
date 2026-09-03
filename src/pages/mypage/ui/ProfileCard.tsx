@@ -1,53 +1,94 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DocumentIcon from "@/assets/icons/mypage/document-icon.svg?react";
 import DataIcon from "@/assets/icons/mypage/folder-icon.svg?react";
 import CalendarIcon from "@/assets/icons/mypage/calendar-icon.svg?react";
 import { useModal } from "@/shared/hooks/useModal";
 import { myProfile } from "../data/mockMyPage";
+import { getMyProfile } from "../api/getMyProfile";
+import { updateMyProfile } from "../api/updateMyProfile";
+import { getSchedules } from "@/pages/schedule/api/getSchedules";
 import PremiumUpgradeModal from "./PremiumUpgradeModal";
-
-const statItems = [
-  {
-    icon: DocumentIcon,
-    value: myProfile.stats.documents,
-    label: "생성한 문서",
-  },
-  { icon: DataIcon, value: myProfile.stats.evidence, label: "등록한 증거" },
-  {
-    icon: CalendarIcon,
-    value: myProfile.stats.schedules,
-    label: "등록한 일정",
-  },
-];
 
 export default function ProfileCard() {
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState(myProfile.name);
-  const [email, setEmail] = useState(myProfile.email);
+  const [profileName, setProfileName] = useState(myProfile.name);
+  const [profileEmail, setProfileEmail] = useState(myProfile.email);
+  const [draftName, setDraftName] = useState(myProfile.name);
+  const [draftEmail, setDraftEmail] = useState(myProfile.email);
+  const [isSaving, setIsSaving] = useState(false);
+  const [scheduleCount, setScheduleCount] = useState(myProfile.stats.schedules);
   const premiumModal = useModal();
 
+  useEffect(() => {
+    getMyProfile()
+      .then((profile) => {
+        setProfileName(profile.name);
+        setProfileEmail(profile.email);
+      })
+      .catch(() => {
+        // keep the placeholder profile when the API call fails
+      });
+
+    getSchedules()
+      .then((schedules) => setScheduleCount(schedules.length))
+      .catch(() => {
+        // keep the placeholder schedule count when the API call fails
+      });
+  }, []);
+
+  const handleEdit = () => {
+    setDraftName(profileName);
+    setDraftEmail(profileEmail);
+    setIsEditing(true);
+  };
+
   const handleCancel = () => {
-    setName(myProfile.name);
-    setEmail(myProfile.email);
     setIsEditing(false);
   };
 
-  const handleSave = () => {
-    setIsEditing(false);
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      const updated = await updateMyProfile({
+        name: draftName,
+        email: draftEmail,
+      });
+      setProfileName(updated.name);
+      setProfileEmail(updated.email);
+      setIsEditing(false);
+    } catch {
+      window.alert("프로필을 저장하지 못했어요. 잠시 후 다시 시도해주세요.");
+    } finally {
+      setIsSaving(false);
+    }
   };
+
+  const statItems = [
+    {
+      icon: DocumentIcon,
+      value: myProfile.stats.documents,
+      label: "생성한 문서",
+    },
+    { icon: DataIcon, value: myProfile.stats.evidence, label: "등록한 증거" },
+    {
+      icon: CalendarIcon,
+      value: scheduleCount,
+      label: "등록한 일정",
+    },
+  ];
 
   return (
     <section className="flex flex-col items-center gap-4 rounded-[20px] border border-gray-200 bg-white p-6">
       <div className="flex w-full flex-col items-center gap-4">
         <div className="flex flex-col items-center gap-3">
           <div className="flex h-19 w-19 items-center justify-center rounded-full bg-blue-50 text-2xl font-bold text-blue-500">
-            {myProfile.name.slice(0, 1)}
+            {profileName.slice(0, 1)}
           </div>
 
           <div className="flex flex-col items-center gap-2">
             <div className="flex items-center gap-3">
               <span className="text-lg leading-[1.6] font-bold text-gray-900">
-                {myProfile.name}
+                {profileName}
               </span>
               <button
                 type="button"
@@ -58,7 +99,7 @@ export default function ProfileCard() {
               </button>
             </div>
             <p className="text-sm leading-[1.6] font-medium text-gray-500">
-              {myProfile.email}
+              {profileEmail}
             </p>
           </div>
         </div>
@@ -66,13 +107,13 @@ export default function ProfileCard() {
         {isEditing ? (
           <div className="flex w-full flex-col gap-3">
             <input
-              value={name}
-              onChange={(event) => setName(event.target.value)}
+              value={draftName}
+              onChange={(event) => setDraftName(event.target.value)}
               className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm font-bold text-gray-700 outline-none placeholder:text-gray-400 focus:border-blue-400"
             />
             <input
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              value={draftEmail}
+              onChange={(event) => setDraftEmail(event.target.value)}
               className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm font-bold text-gray-700 outline-none placeholder:text-gray-400 focus:border-blue-400"
             />
 
@@ -87,16 +128,17 @@ export default function ProfileCard() {
               <button
                 type="button"
                 onClick={handleSave}
-                className="flex-1 rounded-[10px] bg-blue-300 py-2.5 text-sm font-semibold text-white"
+                disabled={isSaving}
+                className="flex-1 rounded-[10px] bg-blue-300 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
               >
-                저장
+                {isSaving ? "저장 중..." : "저장"}
               </button>
             </div>
           </div>
         ) : (
           <button
             type="button"
-            onClick={() => setIsEditing(true)}
+            onClick={handleEdit}
             className="w-full rounded-xl border border-gray-200 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50"
           >
             프로필 수정

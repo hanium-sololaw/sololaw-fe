@@ -9,11 +9,13 @@ const WEEKDAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 type DaySchedulePanelProps = {
   selectedDate: Date;
   events: ScheduleEvent[];
+  onCreated: () => void;
 };
 
 export default function DaySchedulePanel({
   selectedDate,
   events,
+  onCreated,
 }: DaySchedulePanelProps) {
   const addModal = useModal();
 
@@ -60,6 +62,10 @@ export default function DaySchedulePanel({
         <AddScheduleModal
           selectedDate={selectedDate}
           onClose={addModal.close}
+          onCreated={() => {
+            onCreated();
+            addModal.close();
+          }}
         />
       )}
     </section>

@@ -1,9 +1,36 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChevronRightIcon from "@/assets/icons/mypage/chevron-right-icon.svg?react";
-import { myCases, caseStatusStyle } from "../data/mockMyPage";
+import { getCaseList, type CaseListItem } from "@/pages/case-management/api/getCaseList";
+import { caseStatusMeta } from "@/pages/case-management/lib/caseDisplay";
+
+const MAX_VISIBLE_CASES = 3;
 
 export default function MyCases() {
   const navigate = useNavigate();
+  const [cases, setCases] = useState<CaseListItem[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    getCaseList({ size: 20 })
+      .then((page) => {
+        if (cancelled) return;
+
+        const sorted = [...page.content].sort(
+          (a, b) =>
+            new Date(b.modifiedAt).getTime() - new Date(a.modifiedAt).getTime(),
+        );
+        setCases(sorted.slice(0, MAX_VISIBLE_CASES));
+      })
+      .catch(() => {
+        // keep the empty-state UI when the API call fails
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <section className="flex flex-col gap-5 rounded-[20px] border border-gray-200 bg-white p-5">
@@ -17,6 +44,7 @@ export default function MyCases() {
 
         <button
           type="button"
+          onClick={() => navigate("/case-management")}
           className="flex items-center gap-0.5 text-sm font-medium text-gray-500 hover:text-gray-700"
         >
           전체보기
@@ -24,7 +52,7 @@ export default function MyCases() {
         </button>
       </div>
 
-      {myCases.length === 0 ? (
+      {cases.length === 0 ? (
         <div className="flex flex-col items-center gap-3 rounded-xl bg-gray-50 px-6 py-10 text-center">
           <p className="text-sm font-semibold text-gray-700">
             아직 등록한 사건이 없어요.
@@ -34,6 +62,7 @@ export default function MyCases() {
           </p>
           <button
             type="button"
+            onClick={() => navigate("/case-management")}
             className="mt-1 rounded-xl bg-blue-400 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-500"
           >
             첫 사건 만들기
@@ -41,32 +70,36 @@ export default function MyCases() {
         </div>
       ) : (
         <div className="flex flex-col gap-3">
-          {myCases.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => navigate(`/guide/${item.id}`)}
-              className="flex items-center justify-between rounded-xl border border-gray-200 px-4 py-3.5 text-left hover:bg-gray-50"
-            >
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-base font-bold text-gray-900">
-                    {item.title}
-                  </span>
-                  <span
-                    className={`rounded-full px-2.5 py-1 text-xs font-semibold ${caseStatusStyle[item.status]}`}
-                  >
-                    {item.status}
-                  </span>
-                </div>
-                <p className="text-sm text-gray-500">
-                  {item.caseNumber} · {item.court}
-                </p>
-              </div>
+          {cases.map((item) => {
+            const statusMeta = caseStatusMeta[item.status];
 
-              <ChevronRightIcon />
-            </button>
-          ))}
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => navigate(`/guide/${item.id}`)}
+                className="flex items-center justify-between rounded-xl border border-gray-200 px-4 py-3.5 text-left hover:bg-gray-50"
+              >
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base font-bold text-gray-900">
+                      {item.title}
+                    </span>
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-xs font-semibold ${statusMeta.style}`}
+                    >
+                      {statusMeta.label}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-500">
+                    {item.caseNumber} · {item.court}
+                  </p>
+                </div>
+
+                <ChevronRightIcon />
+              </button>
+            );
+          })}
         </div>
       )}
     </section>
