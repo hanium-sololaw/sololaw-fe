@@ -11,6 +11,8 @@ import GuideDetailPage from "@/pages/guide/detail";
 import MyPage from "@/pages/mypage";
 import NotificationsPage from "@/pages/mypage/notifications";
 import SchedulePage from "@/pages/schedule";
+import CaseManagementPage from "@/pages/case-management";
+import CaseManagementDetailPage from "@/pages/case-management/detail";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
@@ -26,6 +28,8 @@ export const router = createBrowserRouter([
     children: [
       { path: "/dashboard", element: <DashboardPage /> },
       { path: "/case", element: <CaseSearchPage /> },
+      { path: "/case-management", element: <CaseManagementPage /> },
+      { path: "/case-management/:id", element: <CaseManagementDetailPage /> },
       { path: "/guide", element: <GuidePage /> },
       { path: "/guide/:id", element: <GuideDetailPage /> },
       { path: "/mypage", element: <MyPage /> },
