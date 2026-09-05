@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import AlertIcon from "@/assets/icons/shared/alert-bell-icon.svg?react";
 import { getMyProfile, type UserProfile } from "@/shared/api/users";
 
@@ -30,7 +31,7 @@ export default function Header() {
               {profile?.email ?? ""}
             </span>
           </div>
-        </div>
+        </Link>
       </div>
     </header>
   );

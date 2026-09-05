@@ -11,6 +11,13 @@ import ComplaintWizardPage from "@/pages/document/complaint";
 import BriefWizardPage from "@/pages/document/brief";
 import EvidenceListWizardPage from "@/pages/document/evidence";
 import PetitionWizardPage from "@/pages/document/petition";
+import GuidePage from "@/pages/guide";
+import GuideDetailPage from "@/pages/guide/detail";
+import MyPage from "@/pages/mypage";
+import NotificationsPage from "@/pages/mypage/notifications";
+import SchedulePage from "@/pages/schedule";
+import CaseManagementPage from "@/pages/case-management";
+import CaseManagementDetailPage from "@/pages/case-management/detail";
 
 export const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
@@ -31,6 +38,13 @@ export const router = createBrowserRouter([
       { path: "/document/evidence", element: <EvidenceListWizardPage /> },
       { path: "/document/petition", element: <PetitionWizardPage /> },
       { path: "/case", element: <CaseSearchPage /> },
+      { path: "/case-management", element: <CaseManagementPage /> },
+      { path: "/case-management/:id", element: <CaseManagementDetailPage /> },
+      { path: "/guide", element: <GuidePage /> },
+      { path: "/guide/:id", element: <GuideDetailPage /> },
+      { path: "/mypage", element: <MyPage /> },
+      { path: "/mypage/notifications", element: <NotificationsPage /> },
+      { path: "/schedule", element: <SchedulePage /> },
     ],
   },
 ]);
