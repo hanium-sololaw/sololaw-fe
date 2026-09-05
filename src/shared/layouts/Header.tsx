@@ -19,7 +19,7 @@ export default function Header() {
           <AlertIcon className="h-5 w-5" />
         </button>
 
-        <div className="flex items-center gap-3">
+        <Link to="/mypage" className="flex items-center gap-3">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-[18px] font-semibold text-blue-500">
             {profile?.name.charAt(0) ?? ""}
           </div>

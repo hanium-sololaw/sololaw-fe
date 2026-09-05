@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-type DropdownProps<T extends string> = {
+type DropdownProps<T extends string | number> = {
   value: T;
   options: readonly T[];
   onChange: (value: T) => void;
@@ -9,7 +9,7 @@ type DropdownProps<T extends string> = {
   placeholder?: ReactNode;
 };
 
-export default function Dropdown<T extends string>({
+export default function Dropdown<T extends string | number>({
   value,
   options,
   onChange,
