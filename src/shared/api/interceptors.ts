@@ -1,10 +1,8 @@
 export function withAuth(options: RequestInit = {}): RequestInit {
-  const token = localStorage.getItem('access_token')
   return {
     ...options,
-    headers: {
-      ...options.headers,
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
+    // Auth is cookie-based (ACCESS_TOKEN/REFRESH_TOKEN set by the server on login) — fetch
+    // doesn't send cookies cross-origin without this.
+    credentials: 'include',
   }
 }

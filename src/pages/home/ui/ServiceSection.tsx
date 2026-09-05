@@ -1,4 +1,4 @@
-import service from "@/assets/images/service.png";
+import service from "@/assets/images/home/service.png";
 import SectionHeader from "./SectionHeader";
 
 export default function ServiceSection() {

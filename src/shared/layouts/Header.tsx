@@ -1,7 +1,17 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AlertIcon from "@/assets/icons/shared/alert-bell-icon.svg?react";
+import { getMyProfile, type UserProfile } from "@/shared/api/users";
 
 export default function Header() {
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+    getMyProfile()
+      .then(setProfile)
+      .catch(() => setProfile(null));
+  }, []);
+
   return (
     <header className="flex h-16 shrink-0 items-center justify-end px-6">
       <div className="flex items-center gap-4">
@@ -10,14 +20,16 @@ export default function Header() {
         </button>
 
         <Link to="/mypage" className="flex items-center gap-3">
-          <div className="h-10 w-10 overflow-hidden rounded-full bg-gray-200">
-            <img alt="프로필" className="h-full w-full object-cover" />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-[18px] font-semibold text-blue-500">
+            {profile?.name.charAt(0) ?? ""}
           </div>
           <div className="flex flex-col">
             <span className="text-base font-semibold text-gray-900">
-              김지민
+              {profile?.name ?? ""}
             </span>
-            <span className="text-xs text-gray-500">example@gmail.com</span>
+            <span className="text-xs text-gray-500">
+              {profile?.email ?? ""}
+            </span>
           </div>
         </Link>
       </div>

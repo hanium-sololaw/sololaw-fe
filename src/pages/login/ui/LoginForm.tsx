@@ -12,6 +12,7 @@ export default function LoginForm() {
     setPassword,
     keepLogin,
     setKeepLogin,
+    loginError,
     handleSubmit,
   } = useLoginForm();
 
@@ -39,6 +40,7 @@ export default function LoginForm() {
           placeholder="비밀번호를 입력해주세요"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          error={loginError}
         />
       </div>
 

@@ -8,7 +8,7 @@ export default function SignupForm() {
   const {
     name, setName,
     email, emailError, handleEmailChange, handleEmailBlur,
-    username, usernameError, setUsername, setUsernameError,
+    username, usernameError, setUsername, setUsernameError, handleUsernameBlur,
     password, passwordError, handlePasswordChange, handlePasswordBlur,
     passwordConfirm, setPasswordConfirm,
     passwordConfirmError, passwordConfirmSuccess,
@@ -48,6 +48,7 @@ export default function SignupForm() {
           placeholder="아이디를 입력해주세요"
           value={username}
           onChange={(e) => { setUsername(e.target.value); setUsernameError(""); }}
+          onBlur={handleUsernameBlur}
           error={usernameError}
         />
         <FormInput
