@@ -1,88 +1,168 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Icon from "@/shared/ui/Icon";
 import SearchIcon from "@/assets/icons/case-search/search-icon.svg?react";
-import {
-  categoryFilters,
-  suggestedKeywords,
-  autocompleteKeywords,
-  keywordSearchResults,
-  matchesCategoryFilter,
-  matchesQuery,
-  type CategoryFilter,
-} from "../../data/keywordSearch";
+import { suggestedKeywords, autocompleteKeywords } from "../../data/keywordSearch";
+import { CATEGORY_OPTIONS } from "../../lib/search";
+import type { SearchCategory } from "../../lib/search";
 import CaseResultCard from "../shared/CaseResultCard";
+import SearchLoading from "../shared/SearchLoading";
 import { useCaseSearchStore } from "../../store/useCaseSearchStore";
 
 type ResultTab = "search" | "saved";
 
-const PAGE_SIZE = 5;
-
 export default function KeywordSearchTab() {
-  const savedKeywordCaseIds = useCaseSearchStore(
-    (state) => state.savedKeywordCaseIds,
-  );
-  const toggleSavedKeywordCase = useCaseSearchStore(
-    (state) => state.toggleSavedKeywordCase,
-  );
-  const citedKeywordCaseIds = useCaseSearchStore(
-    (state) => state.citedKeywordCaseIds,
-  );
-  const toggleCitedKeywordCase = useCaseSearchStore(
-    (state) => state.toggleCitedKeywordCase,
-  );
-  const savedResults = keywordSearchResults.filter((item) =>
-    savedKeywordCaseIds.has(item.id),
-  );
+  const savedKeywordCaseIds = useCaseSearchStore((state) => state.savedKeywordCaseIds);
+  const toggleSavedKeywordCase = useCaseSearchStore((state) => state.toggleSavedKeywordCase);
+  const citedKeywordCaseIds = useCaseSearchStore((state) => state.citedKeywordCaseIds);
+  const toggleCitedKeywordCase = useCaseSearchStore((state) => state.toggleCitedKeywordCase);
+  const isSearching = useCaseSearchStore((state) => state.isSearching);
+  const hasSearched = useCaseSearchStore((state) => state.hasSearched);
+  const searchError = useCaseSearchStore((state) => state.searchError);
+  const keywordCases = useCaseSearchStore((state) => state.keywordCases);
+  const keywordCasesTotal = useCaseSearchStore((state) => state.keywordCasesTotal);
+  const runSearchAction = useCaseSearchStore((state) => state.search);
+
+  const savedResults = keywordCases.filter((item) => savedKeywordCaseIds.has(item.id));
   const [searchParams, setSearchParams] = useSearchParams();
   const initialQuery = searchParams.get("q") ?? "";
   const [query, setQuery] = useState(initialQuery);
-  const [submittedQuery, setSubmittedQuery] = useState(initialQuery);
-  const [searched, setSearched] = useState(initialQuery !== "");
-  const [activeCategory, setActiveCategory] = useState<CategoryFilter | null>(
-    null,
-  );
+  const [activeCategory, setActiveCategory] = useState<SearchCategory | null>(null);
   const [resultTab, setResultTab] = useState<ResultTab>("search");
-  const [currentPage, setCurrentPage] = useState(1);
   const [isInputFocused, setIsInputFocused] = useState(false);
 
-  const runSearch = (value?: string) => {
+  const runSearch = (value?: string, category = activeCategory) => {
     const nextQuery = value ?? query;
+    if (nextQuery.trim() === "") return;
     if (value !== undefined) setQuery(value);
-    setSubmittedQuery(nextQuery);
-    setSearched(true);
-    setCurrentPage(1);
     setIsInputFocused(false);
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev);
-      if (nextQuery) next.set("q", nextQuery);
-      else next.delete("q");
+      next.set("q", nextQuery);
       return next;
     });
+    void runSearchAction(nextQuery, category);
   };
 
-  const matchingAutocomplete = autocompleteKeywords.filter((keyword) =>
-    keyword.includes(query.trim()),
-  );
-  const showAutocomplete =
-    isInputFocused && query.trim() !== "" && matchingAutocomplete.length > 0;
+  useEffect(() => {
+    if (initialQuery) void runSearchAction(initialQuery, null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const selectCategory = (category: CategoryFilter) => {
-    setActiveCategory((prev) => (prev === category ? null : category));
-    setSearched(true);
-    setCurrentPage(1);
+  const matchingAutocomplete = autocompleteKeywords.filter((keyword) => keyword.includes(query.trim()));
+  const showAutocomplete = isInputFocused && query.trim() !== "" && matchingAutocomplete.length > 0;
+
+  const selectCategory = (category: SearchCategory) => {
+    const label = CATEGORY_OPTIONS.find((option) => option.value === category)?.label ?? "";
+    setActiveCategory(category);
+    runSearch(label, category);
   };
 
-  const filteredResults = keywordSearchResults.filter(
-    (item) =>
-      matchesCategoryFilter(item, activeCategory) &&
-      matchesQuery(item, submittedQuery),
-  );
-  const totalPages = Math.max(1, Math.ceil(filteredResults.length / PAGE_SIZE));
-  const pagedResults = filteredResults.slice(
-    (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE,
-  );
+  function renderResults() {
+    if (resultTab === "saved") {
+      if (savedResults.length === 0) {
+        return (
+          <p className="rounded-xl bg-gray-50 px-5 py-8 text-center text-sm text-gray-500">
+            아직 저장한 판례가 없어요.
+          </p>
+        );
+      }
+      return savedResults.map((item) => (
+        <CaseResultCard
+          key={item.id}
+          title={item.title}
+          outcome={item.outcome}
+          court={item.court}
+          caseNumber={item.caseNumber}
+          date={item.date}
+          relevance={item.relevance}
+          summary={item.summary}
+          detailUrl={item.detailUrl}
+          cited={citedKeywordCaseIds.has(item.id)}
+          onToggleCite={() => toggleCitedKeywordCase(item.id)}
+          saved
+          onToggleSave={() => toggleSavedKeywordCase(item.id)}
+        />
+      ));
+    }
+
+    if (isSearching) {
+      return <SearchLoading title="AI가 판례를 검색하고 있어요" subtitle="입력하신 키워드와 관련된 판례를 찾는 중입니다..." />;
+    }
+
+    if (searchError) {
+      return (
+        <div className="flex flex-col items-center gap-1 rounded-xl bg-red-50 px-8 py-16 text-center">
+          <p className="text-base font-semibold text-red-500">판례 검색에 실패했어요</p>
+          <p className="text-sm text-red-400">{searchError} 잠시 후 다시 시도해주세요.</p>
+        </div>
+      );
+    }
+
+    if (!hasSearched) {
+      return (
+        <div className="flex flex-col items-center justify-center gap-2 rounded-xl px-8 py-16 text-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-gray-400">
+            <Icon icon={SearchIcon} size={22} />
+          </div>
+          <p className="text-lg font-semibold text-gray-900">찾고 싶은 내용을 입력해 주세요</p>
+          <p className="text-sm text-gray-500">
+            사건 내용을 문장 그대로 넣어도 괜찮아요.
+            <br />
+            쟁점·금액을 함께 적으면 더 가까운 판례가 나옵니다.
+          </p>
+        </div>
+      );
+    }
+
+    if (keywordCases.length === 0) {
+      return (
+        <div className="flex flex-col items-center justify-center gap-2 rounded-xl px-8 py-16 text-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-gray-400">
+            <Icon icon={SearchIcon} size={22} />
+          </div>
+          <p className="text-lg font-semibold text-gray-900">검색 결과가 없어요</p>
+          <p className="text-sm text-gray-500">
+            입력하신 키워드와 관련된 공개 판례를 찾지 못했어요.
+            <br />
+            키워드를 줄이거나 다른 표현으로 다시 검색해보세요.
+          </p>
+          <div className="mt-2 flex flex-wrap justify-center gap-2">
+            {suggestedKeywords.map((keyword) => (
+              <button
+                key={keyword}
+                type="button"
+                onClick={() => runSearch(keyword)}
+                className="rounded-full bg-blue-50 px-3 py-1.5 text-sm font-semibold text-blue-500"
+              >
+                {keyword}
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    return keywordCases.map((item) => (
+      <CaseResultCard
+        key={item.id}
+        title={item.title}
+        outcome={item.outcome}
+        court={item.court}
+        caseNumber={item.caseNumber}
+        date={item.date}
+        relevance={item.relevance}
+        summary={item.summary}
+        detailUrl={item.detailUrl}
+        cited={citedKeywordCaseIds.has(item.id)}
+        onToggleCite={() => toggleCitedKeywordCase(item.id)}
+        saved={savedKeywordCaseIds.has(item.id)}
+        onToggleSave={() => toggleSavedKeywordCase(item.id)}
+      />
+    ));
+  }
+
+  const resultsContent = renderResults();
 
   return (
     <div className="flex flex-col gap-6">
@@ -118,11 +198,7 @@ export default function KeywordSearchTab() {
                     onClick={() => runSearch(keyword)}
                     className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50"
                   >
-                    <Icon
-                      icon={SearchIcon}
-                      size={14}
-                      className="shrink-0 text-gray-400"
-                    />
+                    <Icon icon={SearchIcon} size={14} className="shrink-0 text-gray-400" />
                     {keyword}
                   </button>
                 </li>
@@ -132,18 +208,16 @@ export default function KeywordSearchTab() {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {categoryFilters.map((category) => (
+          {CATEGORY_OPTIONS.map((category) => (
             <button
-              key={category}
+              key={category.label}
               type="button"
-              onClick={() => selectCategory(category)}
+              onClick={() => selectCategory(category.value)}
               className={`rounded-full px-4 py-2 text-sm font-semibold ${
-                activeCategory === category
-                  ? "bg-blue-400 text-white"
-                  : "bg-gray-100 text-gray-600"
+                activeCategory === category.value ? "bg-blue-400 text-white" : "bg-gray-100 text-gray-600"
               }`}
             >
-              {category}
+              {category.label}
             </button>
           ))}
         </div>
@@ -151,20 +225,22 @@ export default function KeywordSearchTab() {
 
       <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-4 sm:p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">
-            관련 판례{" "}
-            <span className="text-blue-500">
-              {searched ? filteredResults.length : 0}건
-            </span>
-          </h2>
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">
+              관련 판례 <span className="text-blue-500">{hasSearched && !isSearching ? keywordCasesTotal : 0}건</span>
+            </h2>
+            {hasSearched && !isSearching && keywordCases.length > 0 && keywordCasesTotal > keywordCases.length && (
+              <p className="mt-1 text-xs text-gray-400">
+                관련도 높은 상위 {keywordCases.length}건을 표시하고 있어요.
+              </p>
+            )}
+          </div>
           <div className="flex gap-1 self-start rounded-lg bg-gray-100 p-1 text-sm">
             <button
               type="button"
               onClick={() => setResultTab("search")}
               className={`rounded-md px-3 py-1.5 ${
-                resultTab === "search"
-                  ? "bg-white text-gray-900 shadow-sm"
-                  : "text-gray-500"
+                resultTab === "search" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
               }`}
             >
               검색 결과
@@ -173,9 +249,7 @@ export default function KeywordSearchTab() {
               type="button"
               onClick={() => setResultTab("saved")}
               className={`rounded-md px-3 py-1.5 ${
-                resultTab === "saved"
-                  ? "bg-white text-gray-900 shadow-sm"
-                  : "text-gray-500"
+                resultTab === "saved" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500"
               }`}
             >
               저장됨({savedResults.length})
@@ -183,112 +257,7 @@ export default function KeywordSearchTab() {
           </div>
         </div>
 
-        {resultTab === "saved" ? (
-          savedResults.length === 0 ? (
-            <p className="rounded-xl bg-gray-50 px-5 py-8 text-center text-sm text-gray-500">
-              아직 저장한 판례가 없어요.
-            </p>
-          ) : (
-            savedResults.map((item) => (
-              <CaseResultCard
-                key={item.id}
-                title={item.title}
-                outcome={item.outcome}
-                court={item.court}
-                caseNumber={item.caseNumber}
-                date={item.date}
-                relevance={item.relevance}
-                summary={item.summary}
-                relatedLaws={item.relatedLaws}
-                cited={citedKeywordCaseIds.has(item.id)}
-                onToggleCite={() => toggleCitedKeywordCase(item.id)}
-                saved
-                onToggleSave={() => toggleSavedKeywordCase(item.id)}
-              />
-            ))
-          )
-        ) : !searched || filteredResults.length === 0 ? (
-          <div className="flex flex-col items-center justify-center gap-2 rounded-xl px-8 py-16 text-center">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-gray-400">
-              <Icon icon={SearchIcon} size={22} />
-            </div>
-            <p className="text-lg font-semibold text-gray-900">
-              검색 결과가 없어요
-            </p>
-            <p className="text-sm text-gray-500">
-              입력하신 키워드와 관련된 공개 판례를 찾지 못했어요.
-              <br />
-              키워드를 줄이거나 다른 표현으로 다시 검색해보세요.
-            </p>
-            <div className="mt-2 flex flex-wrap justify-center gap-2">
-              {suggestedKeywords.map((keyword) => (
-                <button
-                  key={keyword}
-                  type="button"
-                  onClick={() => runSearch(keyword)}
-                  className="rounded-full bg-blue-50 px-3 py-1.5 text-sm font-semibold text-blue-500"
-                >
-                  {keyword}
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <>
-            {pagedResults.map((item) => (
-              <CaseResultCard
-                key={item.id}
-                title={item.title}
-                outcome={item.outcome}
-                court={item.court}
-                caseNumber={item.caseNumber}
-                date={item.date}
-                relevance={item.relevance}
-                summary={item.summary}
-                relatedLaws={item.relatedLaws}
-                cited={citedKeywordCaseIds.has(item.id)}
-                onToggleCite={() => toggleCitedKeywordCase(item.id)}
-                saved={savedKeywordCaseIds.has(item.id)}
-                onToggleSave={() => toggleSavedKeywordCase(item.id)}
-              />
-            ))}
-
-            <div className="flex flex-wrap items-center justify-center gap-1 pt-2 text-sm text-gray-500">
-              <button
-                type="button"
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                className="flex h-8 w-8 items-center justify-center rounded-lg"
-              >
-                &lt;
-              </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (page) => (
-                  <button
-                    key={page}
-                    type="button"
-                    onClick={() => setCurrentPage(page)}
-                    className={`flex h-8 w-8 items-center justify-center rounded-lg ${
-                      currentPage === page
-                        ? "bg-blue-400 font-semibold text-white"
-                        : "text-gray-500"
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ),
-              )}
-              <button
-                type="button"
-                onClick={() =>
-                  setCurrentPage((p) => Math.min(totalPages, p + 1))
-                }
-                className="flex h-8 w-8 items-center justify-center rounded-lg"
-              >
-                &gt;
-              </button>
-            </div>
-          </>
-        )}
+        {resultsContent}
       </section>
     </div>
   );

@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { buildEvidenceListDoc } from "./lib/buildDoc";
-import { loadDraft, saveDraft, savedAgo } from "./lib/draft";
+import { useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { loadDraft, saveDraft } from "./lib/draft";
+import { generateEvidenceList } from "./lib/generate";
 import { emptyEvidenceListForm } from "./lib/types";
 import type { EvidenceListForm } from "./lib/types";
 import CaseInfoStep from "./ui/CaseInfoStep";
@@ -9,6 +9,7 @@ import DoneView from "./ui/DoneView";
 import EvidenceItemsStep from "./ui/EvidenceItemsStep";
 import ReviewStep from "./ui/ReviewStep";
 import GenerateNotice from "../shared/GenerateNotice";
+import { useDocGeneration } from "../shared/useDocGeneration";
 import WizardLayout from "../shared/WizardLayout";
 
 type Phase = "writing" | "generating" | "ready" | "done";
@@ -17,37 +18,32 @@ const STEP_TITLES = ["사건 정보", "증거 추가", "순서 확인"];
 
 export default function EvidenceListWizardPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const caseId = searchParams.get("caseId") ? Number(searchParams.get("caseId")) : null;
   const [draft] = useState(() => loadDraft());
 
   const [phase, setPhase] = useState<Phase>("writing");
   const [form, setForm] = useState<EvidenceListForm>(draft?.form ?? emptyEvidenceListForm);
   const [stepIndex, setStepIndex] = useState(0);
-  const [savedAt, setSavedAt] = useState<number | null>(draft?.savedAt ?? null);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    if (phase !== "generating") return undefined;
-    const timer = setTimeout(() => setPhase("ready"), 1500);
-    return () => clearTimeout(timer);
-  }, [phase]);
-
-  useEffect(() => {
-    if (phase !== "ready") return undefined;
-    const timer = setTimeout(() => setPhase("done"), 1000);
-    return () => clearTimeout(timer);
-  }, [phase]);
+  const { doc, error, setError } = useDocGeneration(
+    phase,
+    setPhase,
+    (signal) => generateEvidenceList(form, caseId, signal),
+    "증거목록 생성에 실패했습니다.",
+  );
 
   const updateField = <K extends keyof EvidenceListForm>(key: K, value: EvidenceListForm[K]) => {
     const next = { ...form, [key]: value };
     setForm(next);
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
-      if (saveDraft(next)) setSavedAt(Date.now());
+      saveDraft(next);
     }, 600);
   };
 
-  if (phase === "done") {
-    const doc = buildEvidenceListDoc(form);
+  if (phase === "done" && doc) {
     return <DoneView doc={doc} onEdit={() => setPhase("writing")} onExit={() => navigate("/document")} />;
   }
 
@@ -68,14 +64,26 @@ export default function EvidenceListWizardPage() {
         <p className="mt-1 text-sm text-gray-500">가지고 있는 증거를 추가하면 AI가 증거설명서로 정리합니다.</p>
       </div>
 
+      {error && (
+        <p className="rounded-xl border border-red-200 bg-red-50 p-3.5 text-xs leading-relaxed text-red-500">
+          {error} 잠시 후 다시 시도해주세요.
+        </p>
+      )}
+
       <WizardLayout
         badge="증거목록 작성"
         steps={steps}
         activeIndex={stepIndex}
         onSelectStep={setStepIndex}
-        savedLabel={savedAt ? `${savedAgo(savedAt)} 저장됨` : ""}
         onPrev={() => (stepIndex > 0 ? setStepIndex(stepIndex - 1) : navigate("/document"))}
-        onNext={() => (isLastStep ? setPhase("generating") : setStepIndex(stepIndex + 1))}
+        onNext={() => {
+          if (isLastStep) {
+            setError(null);
+            setPhase("generating");
+          } else {
+            setStepIndex(stepIndex + 1);
+          }
+        }}
         nextLabel="증거목록 생성하기"
         isLastStep={isLastStep}
       >

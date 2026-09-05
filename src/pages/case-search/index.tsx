@@ -5,23 +5,23 @@ import CaseSelectionCard from "./ui/analysis-info/CaseSelectionCard";
 import SelectedCaseBar from "./ui/analysis-info/SelectedCaseBar";
 import AnalysisInfoCard from "./ui/analysis-info/AnalysisInfoCard";
 import AccuracyBanner from "./ui/analysis-info/AccuracyBanner";
-import CaseAnalysisLoading from "./ui/result/CaseAnalysisLoading";
 import CaseResultPanel from "./ui/result/CaseResultPanel";
 import RelatedStatsCard from "./ui/result/RelatedStatsCard";
 import RelatedLawsCard from "./ui/sidebar/RelatedLawsCard";
-// import AITipsCard from "./ui/sidebar/AITipsCard";
 import AboutSearchCard from "./ui/sidebar/AboutSearchCard";
 import KeywordSearchTab from "./ui/keyword/KeywordSearchTab";
 import KeywordDisclaimerCard from "./ui/keyword/KeywordDisclaimerCard";
 import CitationListModal from "./ui/shared/CitationListModal";
-import { myCases } from "./data/myCases";
-import { mockCases } from "./data/mockCases";
-import { keywordSearchResults } from "./data/keywordSearch";
+import SearchLoading from "./ui/shared/SearchLoading";
 import { useCaseSearchStore } from "./store/useCaseSearchStore";
 import { useModal } from "@/shared/hooks/useModal";
+import { useEffect } from "react";
 
 export default function CaseSearchPage() {
   const activeTab = useCaseSearchStore((state) => state.activeTab);
+  const myCases = useCaseSearchStore((state) => state.myCases);
+  const casesLoading = useCaseSearchStore((state) => state.casesLoading);
+  const loadMyCases = useCaseSearchStore((state) => state.loadMyCases);
   const selectedCaseId = useCaseSearchStore((state) => state.selectedCaseId);
   const caseConfirmed = useCaseSearchStore((state) => state.caseConfirmed);
   const hasAnalyzed = useCaseSearchStore((state) => state.hasAnalyzed);
@@ -34,15 +34,21 @@ export default function CaseSearchPage() {
   const toggleCitedKeywordCase = useCaseSearchStore(
     (state) => state.toggleCitedKeywordCase,
   );
+  const cases = useCaseSearchStore((state) => state.cases);
+  const keywordCases = useCaseSearchStore((state) => state.keywordCases);
   const citationModal = useModal();
 
-  const selectedCase = myCases.find((item) => item.id === selectedCaseId)!;
+  useEffect(() => {
+    loadMyCases();
+  }, [loadMyCases]);
+
+  const selectedCase = myCases.find((item) => item.id === selectedCaseId);
 
   const citedItems = [
-    ...mockCases
+    ...cases
       .filter((item) => citedCaseIds.has(item.id))
-      .map((item) => ({ ...item, onRemove: () => toggleCitedCase(item.id) })),
-    ...keywordSearchResults
+      .map((item) => ({ ...item, onRemove: () => toggleCitedCase(item) })),
+    ...keywordCases
       .filter((item) => citedKeywordCaseIds.has(item.id))
       .map((item) => ({
         ...item,
@@ -71,7 +77,6 @@ export default function CaseSearchPage() {
 
               <div className="flex flex-col gap-6">
                 <RelatedLawsCard />
-                {/* <AITipsCard /> */}
                 <AboutSearchCard />
                 <KeywordDisclaimerCard />
               </div>
@@ -79,7 +84,9 @@ export default function CaseSearchPage() {
           ) : (
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
               <div className="flex flex-col gap-6">
-                {myCases.length === 0 ? (
+                {casesLoading ? (
+                  <SearchLoading title="내 사건을 불러오고 있어요" subtitle="잠시만 기다려주세요..." />
+                ) : !selectedCase ? (
                   <SimilarCaseAnalysis />
                 ) : (
                   <>
@@ -97,7 +104,7 @@ export default function CaseSearchPage() {
                     )}
                   </>
                 )}
-                {isAnalyzing ? <CaseAnalysisLoading /> : <CaseResultPanel />}
+                {isAnalyzing ? <SearchLoading /> : <CaseResultPanel />}
               </div>
 
               <div className="flex flex-col gap-6">

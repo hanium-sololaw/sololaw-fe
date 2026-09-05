@@ -28,15 +28,6 @@ const fmtDate = (value: string) => {
   return `${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}.`;
 };
 
-/** purpose(입증취지)를 비워두면 서증명을 보고 AI가 그럴듯하게 제안했다고 가정한 더미 로직 */
-function suggestPurpose(name: string): string {
-  if (/계약|차용|약정/.test(name)) return "당사자 간 계약 체결 사실을 증명";
-  if (/입금|이체|송금|영수증|명세서/.test(name)) return "금원 지급 및 수령 사실을 증명";
-  if (/문자|카카오톡|대화|메시지/.test(name)) return "당사자 간 대화 내용 및 의사표시를 증명";
-  if (/사진|현장|영상/.test(name)) return "현장 상태를 증명";
-  return "청구 원인이 되는 사실관계를 증명";
-}
-
 export function evidenceNoLabel(prefix: string, startNo: number, index: number, item: EvidenceItem): string {
   const branch = item.branchNo.trim();
   return `${prefix} 제${startNo + index}호증${branch ? `의 ${branch}` : ""}`;
@@ -51,7 +42,7 @@ export function buildEvidenceListDoc(form: EvidenceListForm): EvidenceListDoc {
   const rows: EvidenceRow[] = items.map((item, index) => ({
     no: evidenceNoLabel(prefix, startNo, index, item),
     name: item.name,
-    purpose: item.purpose.trim() || suggestPurpose(item.name),
+    purpose: item.purpose.trim() || "[입증취지 기재 필요]",
     originalLabel: item.originalType === "original" ? "원본" : "사본",
     author: item.author.trim() || "[작성자 기재 필요]",
     date: item.date ? fmtDate(item.date) : "[작성일 기재 필요]",

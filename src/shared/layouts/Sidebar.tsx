@@ -1,5 +1,6 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
+import { logout } from "@/shared/api/auth";
 import LogoIcon from "@/assets/icons/shared/logo-full.svg?react";
 import LogominiIcon from "@/assets/icons/shared/logo.svg?react";
 import DashboardIcon from "@/assets/icons/shared/dashboard-icon.svg?react";
@@ -22,7 +23,6 @@ const mainNavItems = [
 
 const bottomNavItems = [
   { to: "/help", icon: GuideIcon, label: "가이드" },
-  { to: "/logout", icon: LogoutIcon, label: "로그아웃" },
 ];
 
 type NavItemProps = {
@@ -52,6 +52,26 @@ function NavItem({ to, icon: Icon, label, small = false }: NavItemProps) {
   );
 }
 
+function LogoutButton() {
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    await logout().catch(() => {});
+    navigate("/login");
+  };
+  return (
+    <button
+      type="button"
+      onClick={handleLogout}
+      className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden whitespace-nowrap rounded-[10px] text-sm text-gray-500 lg:w-full lg:justify-start lg:px-4"
+    >
+      <span className="flex h-5 w-5 shrink-0 items-center justify-center">
+        <LogoutIcon />
+      </span>
+      <span className="hidden pl-3 lg:inline">로그아웃</span>
+    </button>
+  );
+}
+
 export default function Sidebar() {
   return (
     <aside className="flex h-screen w-20 shrink-0 flex-col overflow-hidden bg-white lg:w-64">
@@ -76,6 +96,7 @@ export default function Sidebar() {
         {bottomNavItems.map((item) => (
           <NavItem key={item.to} {...item} small />
         ))}
+        <LogoutButton />
       </nav>
     </aside>
   );

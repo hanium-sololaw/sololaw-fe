@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import CheckIcon from "@/assets/icons/case-search/check-icon.svg?react";
 import WriteIcon from "@/assets/icons/case-search/write-icon.svg?react";
 import UploadIcon from "@/assets/icons/case-search/upload-icon.svg?react";
@@ -20,10 +20,22 @@ export default function AnalysisInfoCard({
 }: AnalysisInfoCardProps) {
   const [context, setContext] = useState("");
   const checkedItems = useCaseSearchStore((state) => state.checkedItems);
-  const onToggleItem = useCaseSearchStore(
-    (state) => state.toggleChecklistItem,
-  );
+  const setChecklistItem = useCaseSearchStore((state) => state.setChecklistItem);
   const onAnalyze = useCaseSearchStore((state) => state.analyze);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [pendingId, setPendingId] = useState<ChecklistId | null>(null);
+
+  const handleRegisterClick = (id: ChecklistId) => {
+    setPendingId(id);
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (file && pendingId) setChecklistItem(pendingId, true);
+    setPendingId(null);
+  };
 
   const checkedCount = Object.values(checkedItems).filter(Boolean).length;
   const accuracy = getAccuracyLevel(checkedCount);
@@ -32,6 +44,12 @@ export default function AnalysisInfoCard({
 
   return (
     <section className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5 sm:p-8">
+      <input
+        ref={fileInputRef}
+        type="file"
+        className="hidden"
+        onChange={handleFileChange}
+      />
       <div className="flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-300 text-xs font-semibold text-white">
@@ -86,7 +104,9 @@ export default function AnalysisInfoCard({
 
               <button
                 type="button"
-                onClick={() => onToggleItem(id)}
+                onClick={() =>
+                  checked ? setChecklistItem(id, false) : handleRegisterClick(id)
+                }
                 className={`shrink-0 rounded-xl px-3 py-1.5 text-xs font-semibold ${
                   checked
                     ? "bg-gray-100 text-gray-500"
@@ -133,7 +153,7 @@ export default function AnalysisInfoCard({
 
         <button
           type="button"
-          onClick={onAnalyze}
+          onClick={() => onAnalyze(context.trim() || caseTitle)}
           className="flex items-center justify-center gap-1.5 rounded-lg bg-blue-400 px-5 py-2.5 text-sm font-semibold text-white"
         >
           이 정보로 유사 판례 분석

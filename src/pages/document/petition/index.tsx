@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { buildPetitionDoc } from "./lib/buildDoc";
-import { loadDraft, saveDraft, savedAgo } from "./lib/draft";
+import { useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { loadDraft, saveDraft } from "./lib/draft";
+import { generatePetition } from "./lib/generate";
 import { findPetitionType } from "./lib/petitionTypes";
 import { emptyPetitionForm } from "./lib/types";
 import type { PetitionForm, PetitionTypeId } from "./lib/types";
@@ -13,41 +13,38 @@ import PartyStep from "./ui/PartyStep";
 import PrecedentsStep from "./ui/PrecedentsStep";
 import TypeStep from "./ui/TypeStep";
 import GenerateNotice from "../shared/GenerateNotice";
+import { useDocGeneration } from "../shared/useDocGeneration";
 import WizardLayout from "../shared/WizardLayout";
 
 type Phase = "type" | "writing" | "generating" | "ready" | "done";
 
 export default function PetitionWizardPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const caseId = searchParams.get("caseId") ? Number(searchParams.get("caseId")) : null;
   const [draft] = useState(() => loadDraft());
 
   const [phase, setPhase] = useState<Phase>(draft ? "writing" : "type");
   const [typeId, setTypeId] = useState<PetitionTypeId>(draft?.typeId ?? "payment");
   const [form, setForm] = useState<PetitionForm>(draft?.form ?? emptyPetitionForm);
   const [stepIndex, setStepIndex] = useState(0);
-  const [savedAt, setSavedAt] = useState<number | null>(draft?.savedAt ?? null);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const type = findPetitionType(typeId);
 
-  useEffect(() => {
-    if (phase !== "generating") return undefined;
-    const timer = setTimeout(() => setPhase("ready"), 1500);
-    return () => clearTimeout(timer);
-  }, [phase]);
-
-  useEffect(() => {
-    if (phase !== "ready") return undefined;
-    const timer = setTimeout(() => setPhase("done"), 1000);
-    return () => clearTimeout(timer);
-  }, [phase]);
+  const { doc, error, setError } = useDocGeneration(
+    phase,
+    setPhase,
+    (signal) => generatePetition(type, form, caseId, signal),
+    "신청서 생성에 실패했습니다.",
+  );
 
   const updateField = <K extends keyof PetitionForm>(key: K, value: PetitionForm[K]) => {
     const next = { ...form, [key]: value };
     setForm(next);
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
-      if (saveDraft(typeId, next)) setSavedAt(Date.now());
+      saveDraft(typeId, next);
     }, 600);
   };
 
@@ -65,8 +62,7 @@ export default function PetitionWizardPage() {
     );
   }
 
-  if (phase === "done") {
-    const doc = buildPetitionDoc(type, form);
+  if (phase === "done" && doc) {
     return <DoneView doc={doc} onEdit={() => setPhase("writing")} onExit={() => navigate("/document")} />;
   }
 
@@ -95,14 +91,26 @@ export default function PetitionWizardPage() {
         <p className="mt-1 text-sm text-gray-500">단계별로 입력하면 AI가 신청서로 정리합니다.</p>
       </div>
 
+      {error && (
+        <p className="rounded-xl border border-red-200 bg-red-50 p-3.5 text-xs leading-relaxed text-red-500">
+          {error} 잠시 후 다시 시도해주세요.
+        </p>
+      )}
+
       <WizardLayout
         badge="신청서 작성"
         steps={steps}
         activeIndex={stepIndex}
         onSelectStep={setStepIndex}
-        savedLabel={savedAt ? `${savedAgo(savedAt)} 저장됨` : ""}
         onPrev={() => (stepIndex > 0 ? setStepIndex(stepIndex - 1) : navigate("/document"))}
-        onNext={() => (isLastStep ? setPhase("generating") : setStepIndex(stepIndex + 1))}
+        onNext={() => {
+          if (isLastStep) {
+            setError(null);
+            setPhase("generating");
+          } else {
+            setStepIndex(stepIndex + 1);
+          }
+        }}
         nextLabel="신청서 생성하기"
         isLastStep={isLastStep}
       >

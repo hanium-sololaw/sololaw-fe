@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "@/pages/signup/api/signup";
+import { checkEmailAvailable, checkLoginIdAvailable } from "@/pages/signup/api/checkAvailability";
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -36,10 +37,20 @@ export function useSignupForm() {
     if (emailError && isValidEmail(value)) setEmailError("");
   }
 
-  function handleEmailBlur() {
-    if (email && !isValidEmail(email)) {
+  async function handleEmailBlur() {
+    if (!email) return;
+    if (!isValidEmail(email)) {
       setEmailError("이메일 형식이 맞지않아요. @ 와 도메인(.com 등)을 확인해주세요");
+      return;
     }
+    const available = await checkEmailAvailable(email).catch(() => true);
+    if (!available) setEmailError("이미 사용 중인 이메일입니다.");
+  }
+
+  async function handleUsernameBlur() {
+    if (!username) return;
+    const available = await checkLoginIdAvailable(username).catch(() => true);
+    if (!available) setUsernameError("이미 동일한 아이디가 존재합니다.");
   }
 
   function handlePasswordChange(value: string) {
@@ -65,7 +76,7 @@ export function useSignupForm() {
     }
     if (password !== passwordConfirm) return;
     try {
-      await signup({ name, email, username, password });
+      await signup({ name, email, loginId: username, password, agreeToTerms: agreed });
       navigate("/login");
     } catch (err) {
       if (err instanceof Error && err.message.includes("409")) {
@@ -77,7 +88,7 @@ export function useSignupForm() {
   return {
     name, setName,
     email, emailError, handleEmailChange, handleEmailBlur,
-    username, usernameError, setUsername, setUsernameError,
+    username, usernameError, setUsername, setUsernameError, handleUsernameBlur,
     password, passwordError, handlePasswordChange, handlePasswordBlur,
     passwordConfirm, setPasswordConfirm,
     passwordConfirmError, passwordConfirmSuccess,

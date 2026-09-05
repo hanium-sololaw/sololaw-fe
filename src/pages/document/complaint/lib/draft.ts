@@ -30,12 +30,3 @@ export function loadDraft(): ComplaintDraft | null {
 export function clearDraft() {
   localStorage.removeItem(DRAFT_KEY);
 }
-
-export function savedAgo(savedAt: number): string {
-  const seconds = Math.floor((Date.now() - savedAt) / 1000);
-  if (seconds < 60) return "방금";
-  const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes}분 전`;
-  const hours = Math.floor(minutes / 60);
-  return `${hours}시간 전`;
-}

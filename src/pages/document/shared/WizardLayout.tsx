@@ -10,7 +10,6 @@ type WizardLayoutProps = {
   steps: WizardStepNavItem[];
   activeIndex: number;
   onSelectStep: (index: number) => void;
-  savedLabel?: string;
   onPrev: () => void;
   onNext: () => void;
   nextLabel: string;
@@ -24,7 +23,6 @@ export default function WizardLayout({
   steps,
   activeIndex,
   onSelectStep,
-  savedLabel,
   onPrev,
   onNext,
   nextLabel,
@@ -68,7 +66,6 @@ export default function WizardLayout({
         <div className="px-5 py-5 sm:px-6 sm:py-6">{children}</div>
 
         <div className="sticky bottom-0 flex flex-wrap items-center gap-2 rounded-b-2xl border-t border-gray-100 bg-white/95 px-5 py-3 backdrop-blur-sm">
-          {savedLabel && <span className="hidden text-xs text-gray-400 sm:inline">{savedLabel}</span>}
           <div className="ml-auto flex items-center gap-2">
             <button
               type="button"

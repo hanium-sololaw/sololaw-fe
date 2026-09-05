@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { buildComplaintDoc } from "./lib/buildDoc";
+import { useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { findComplaintType } from "./lib/complaintTypes";
-import { loadDraft, saveDraft, savedAgo } from "./lib/draft";
+import { loadDraft, saveDraft } from "./lib/draft";
+import { generateComplaint } from "./lib/generate";
 import { emptyComplaintForm } from "./lib/types";
 import type { ComplaintForm, ComplaintTypeId } from "./lib/types";
 import AttachmentsStep from "./ui/AttachmentsStep";
@@ -13,6 +13,7 @@ import FactsStep from "./ui/FactsStep";
 import GenerateNotice from "../shared/GenerateNotice";
 import PartyStep from "./ui/PartyStep";
 import TypeStep from "./ui/TypeStep";
+import { useDocGeneration } from "../shared/useDocGeneration";
 import WizardLayout from "../shared/WizardLayout";
 
 type Phase = "type" | "writing" | "generating" | "ready" | "done";
@@ -21,35 +22,31 @@ const STEP_TITLES = ["법원·청구금액", "당사자 정보", "사실관계",
 
 export default function ComplaintWizardPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const caseId = searchParams.get("caseId") ? Number(searchParams.get("caseId")) : null;
   const [draft] = useState(() => loadDraft());
 
   const [phase, setPhase] = useState<Phase>(draft ? "writing" : "type");
   const [typeId, setTypeId] = useState<ComplaintTypeId>(draft?.typeId ?? "loan");
   const [form, setForm] = useState<ComplaintForm>(draft?.form ?? emptyComplaintForm);
   const [stepIndex, setStepIndex] = useState(0);
-  const [savedAt, setSavedAt] = useState<number | null>(draft?.savedAt ?? null);
 
   const type = findComplaintType(typeId);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    if (phase !== "generating") return undefined;
-    const timer = setTimeout(() => setPhase("ready"), 1500);
-    return () => clearTimeout(timer);
-  }, [phase]);
-
-  useEffect(() => {
-    if (phase !== "ready") return undefined;
-    const timer = setTimeout(() => setPhase("done"), 1000);
-    return () => clearTimeout(timer);
-  }, [phase]);
+  const { doc, error, setError } = useDocGeneration(
+    phase,
+    setPhase,
+    (signal) => generateComplaint(type, form, caseId, signal),
+    "소장 생성에 실패했습니다.",
+  );
 
   const updateField = <K extends keyof ComplaintForm>(key: K, value: ComplaintForm[K]) => {
     const next = { ...form, [key]: value };
     setForm(next);
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
-      if (saveDraft(typeId, next)) setSavedAt(Date.now());
+      saveDraft(typeId, next);
     }, 600);
   };
 
@@ -66,8 +63,7 @@ export default function ComplaintWizardPage() {
     );
   }
 
-  if (phase === "done") {
-    const doc = buildComplaintDoc(type, form);
+  if (phase === "done" && doc) {
     return <DoneView doc={doc} onEdit={() => setPhase("writing")} onExit={() => navigate("/document")} />;
   }
 
@@ -91,14 +87,26 @@ export default function ComplaintWizardPage() {
         <p className="mt-1 text-sm text-gray-500">단계별로 입력하면 AI가 소장 문서로 정리합니다.</p>
       </div>
 
+      {error && (
+        <p className="rounded-xl border border-red-200 bg-red-50 p-3.5 text-xs leading-relaxed text-red-500">
+          {error} 잠시 후 다시 시도해주세요.
+        </p>
+      )}
+
       <WizardLayout
         badge="소장 작성"
         steps={steps}
         activeIndex={stepIndex}
         onSelectStep={setStepIndex}
-        savedLabel={savedAt ? `${savedAgo(savedAt)} 저장됨` : ""}
         onPrev={() => (stepIndex > 0 ? setStepIndex(stepIndex - 1) : navigate("/document"))}
-        onNext={() => (isLastStep ? setPhase("generating") : setStepIndex(stepIndex + 1))}
+        onNext={() => {
+          if (isLastStep) {
+            setError(null);
+            setPhase("generating");
+          } else {
+            setStepIndex(stepIndex + 1);
+          }
+        }}
         nextLabel="소장 생성하기"
         isLastStep={isLastStep}
       >
