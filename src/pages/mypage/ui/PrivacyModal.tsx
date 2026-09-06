@@ -32,7 +32,7 @@ const collectionTable = {
 
 export default function PrivacyModal({ onClose }: PrivacyModalProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+    <div data-modal className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="scrollbar-none flex max-h-[85vh] w-full max-w-lg flex-col gap-5 overflow-y-auto rounded-2xl bg-white p-6 sm:p-8">
         <div className="flex items-start justify-between">
           <div className="flex flex-col gap-1">

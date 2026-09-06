@@ -1,7 +1,13 @@
 import FolderImage from "@/assets/lawsuit/folder-image.svg?react";
-import { caseStatusStyle, type CaseSummary } from "../data/mockCases";
+import type { Case } from "@/shared/api/cases";
+import {
+  caseStatusMeta,
+  caseTypeLabel,
+  formatAmount,
+  formatDate,
+} from "../lib/caseDisplay";
 
-type CaseCardProps = CaseSummary & {
+type CaseCardProps = Case & {
   onClick?: () => void;
 };
 
@@ -9,17 +15,15 @@ export default function CaseCard({
   title,
   court,
   caseNumber,
+  caseType,
   status,
-  currentStage,
-  nextTodo,
-  petitionTitle,
-  petitionProgress,
-  remainingTasks,
-  documentCount,
-  evidenceCount,
-  updatedAt,
+  progressRate,
+  claimAmount,
+  modifiedAt,
   onClick,
 }: CaseCardProps) {
+  const statusMeta = caseStatusMeta[status];
+
   return (
     <button
       type="button"
@@ -42,43 +46,37 @@ export default function CaseCard({
 
       <div className="absolute inset-x-0 bottom-0 flex flex-col gap-3 rounded-b-[20px] bg-[rgba(242,244,246,0.68)] px-6 pt-5 pb-6 backdrop-blur-md">
         <div className="flex items-start justify-between gap-2">
-          <div className="flex min-w-0 flex-col gap-0.5">
-            <p className="text-xs font-semibold text-blue-500">
-              {currentStage}
-            </p>
-            <p className="truncate text-sm text-gray-700">{nextTodo}</p>
-          </div>
+          <p className="text-xs font-semibold text-blue-500">
+            {caseTypeLabel[caseType]}
+          </p>
 
           <span
-            className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold whitespace-nowrap ${caseStatusStyle[status]}`}
+            className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold whitespace-nowrap ${statusMeta.style}`}
           >
-            {status}
+            {statusMeta.label}
           </span>
         </div>
 
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between">
             <span className="text-sm font-semibold text-gray-800">
-              {petitionTitle}
+              진행률
             </span>
             <span className="text-sm font-bold text-blue-500">
-              {petitionProgress}%
+              {progressRate}%
             </span>
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/70">
             <div
               className="h-full rounded-full bg-blue-400"
-              style={{ width: `${petitionProgress}%` }}
+              style={{ width: `${progressRate}%` }}
             />
           </div>
         </div>
 
         <div className="flex items-center justify-between gap-2 text-xs text-gray-500">
-          <span className="truncate">
-            남은 준비 {remainingTasks} · 문서 {documentCount} · 증빙{" "}
-            {evidenceCount}
-          </span>
-          <span className="shrink-0">{updatedAt}</span>
+          <span className="truncate">청구금액 {formatAmount(claimAmount)}</span>
+          <span className="shrink-0">{formatDate(modifiedAt)}</span>
         </div>
       </div>
     </button>

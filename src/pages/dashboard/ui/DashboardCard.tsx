@@ -1,3 +1,10 @@
+import { useEffect, useState } from "react";
+import { listMyCases } from "@/shared/api/cases";
+import { getSchedules } from "@/pages/schedule/api/getSchedules";
+import { formatDDay, formatMonthDay } from "@/pages/schedule/lib/scheduleMapping";
+import { listDocuments } from "@/pages/document/shared/listDocuments";
+import { listEvidence } from "@/pages/evidence/api";
+
 type SummaryCard = {
   id: string;
   title: string;
@@ -5,40 +12,7 @@ type SummaryCard = {
   badge: string;
 };
 
-const summaryCards: SummaryCard[] = [
-  {
-    id: "cases",
-    title: "진행 중인 사건",
-    value: "2건",
-    badge: "1건 기일 임박",
-  },
-  {
-    id: "deadline",
-    title: "다음 변론기일",
-    value: "D-3",
-    badge: "7월 1일",
-  },
-  {
-    id: "documents",
-    title: "생성한 문서",
-    value: "7",
-    badge: "2개 제출 완료",
-  },
-  {
-    id: "evidence",
-    title: "등록된 증거",
-    value: "14",
-    badge: "갑호증 9개",
-  },
-];
-
-type SummaryCardItemProps = {
-  title: string;
-  value: string;
-  badge: string;
-};
-
-function SummaryCardItem({ title, value, badge }: SummaryCardItemProps) {
+function SummaryCardItem({ title, value, badge }: Omit<SummaryCard, "id">) {
   return (
     <div
       className="
@@ -92,15 +66,129 @@ function SummaryCardItem({ title, value, badge }: SummaryCardItemProps) {
 }
 
 export default function DashboardSummary() {
+  const [activeCaseCount, setActiveCaseCount] = useState<number | null>(null);
+  const [urgentCaseCount, setUrgentCaseCount] = useState<number | null>(null);
+  const [nextHearing, setNextHearing] = useState<{
+    dDay: string;
+    date: string;
+  } | null>(null);
+  const [documentCount, setDocumentCount] = useState<number | null>(null);
+  const [submittedDocumentCount, setSubmittedDocumentCount] = useState<
+    number | null
+  >(null);
+  const [evidenceCount, setEvidenceCount] = useState<number | null>(null);
+  const [gapEvidenceCount, setGapEvidenceCount] = useState<number | null>(
+    null,
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    listMyCases({ status: "IN_PROGRESS", size: 1 })
+      .then((page) => {
+        if (!cancelled) setActiveCaseCount(page.totalElements);
+      })
+      .catch(() => {
+        // keep the placeholder count when the API call fails
+      });
+
+    listDocuments({ isLatest: true, size: 1 })
+      .then((page) => {
+        if (!cancelled) setDocumentCount(page.totalElements);
+      })
+      .catch(() => {
+        // keep the placeholder count when the API call fails
+      });
+
+    listDocuments({ isLatest: true, status: "SUBMITTED", size: 1 })
+      .then((page) => {
+        if (!cancelled) setSubmittedDocumentCount(page.totalElements);
+      })
+      .catch(() => {
+        // keep the placeholder count when the API call fails
+      });
+
+    listEvidence({ size: 1 })
+      .then((page) => {
+        if (!cancelled) setEvidenceCount(page.totalElements);
+      })
+      .catch(() => {
+        // keep the placeholder count when the API call fails
+      });
+
+    listEvidence({ partyType: "GAP", size: 1 })
+      .then((page) => {
+        if (!cancelled) setGapEvidenceCount(page.totalElements);
+      })
+      .catch(() => {
+        // keep the placeholder count when the API call fails
+      });
+
+    getSchedules()
+      .then((schedules) => {
+        if (cancelled) return;
+
+        const urgentCaseIds = new Set(
+          schedules
+            .filter((item) => item.dDay >= 0 && item.dDay <= 3 && item.caseId)
+            .map((item) => item.caseId),
+        );
+        setUrgentCaseCount(urgentCaseIds.size);
+
+        const nextHearingItem = schedules
+          .filter((item) => item.scheduleType === "HEARING" && item.dDay >= 0)
+          .sort((a, b) => a.dDay - b.dDay)[0];
+
+        if (nextHearingItem) {
+          setNextHearing({
+            dDay: formatDDay(nextHearingItem.dDay),
+            date: formatMonthDay(nextHearingItem.eventDate),
+          });
+        }
+      })
+      .catch(() => {
+        // keep the placeholder deadline when the API call fails
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const summaryCards: SummaryCard[] = [
+    {
+      id: "cases",
+      title: "진행 중인 사건",
+      value: activeCaseCount !== null ? `${activeCaseCount}건` : "-",
+      badge: urgentCaseCount !== null ? `${urgentCaseCount}건 기일 임박` : "-",
+    },
+    {
+      id: "deadline",
+      title: "다음 변론기일",
+      value: nextHearing?.dDay ?? "-",
+      badge: nextHearing?.date ?? "일정 없음",
+    },
+    {
+      id: "documents",
+      title: "생성한 문서",
+      value: documentCount !== null ? `${documentCount}` : "-",
+      badge:
+        submittedDocumentCount !== null
+          ? `${submittedDocumentCount}개 제출 완료`
+          : "-",
+    },
+    {
+      id: "evidence",
+      title: "등록된 증거",
+      value: evidenceCount !== null ? `${evidenceCount}` : "-",
+      badge: gapEvidenceCount !== null ? `갑호증 ${gapEvidenceCount}개` : "-",
+    },
+  ];
+
   return (
     <section className="grid grid-cols-4 gap-2.5">
       {summaryCards.map((card) => (
-        <SummaryCardItem
-          key={card.id}
-          title={card.title}
-          value={card.value}
-          badge={card.badge}
-        />
+        <SummaryCardItem key={card.id} {...card} />
       ))}
     </section>
   );

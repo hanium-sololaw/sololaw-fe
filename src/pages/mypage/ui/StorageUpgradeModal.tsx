@@ -11,7 +11,7 @@ export default function StorageUpgradeModal({
   onClose,
 }: StorageUpgradeModalProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+    <div data-modal className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="flex w-full max-w-[1000px] flex-col gap-4.5 rounded-2xl bg-white p-6 sm:p-8">
         <div className="flex items-start justify-between">
           <div className="flex flex-col gap-1">

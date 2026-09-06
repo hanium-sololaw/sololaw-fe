@@ -4,12 +4,18 @@ import CheckButtonIcon from "@/assets/icons/mypage/check-button.svg?react";
 import ChevronDownIcon from "@/assets/icons/home/arrow-bottom.svg?react";
 import ClockIcon from "@/assets/icons/schedule/clock-icon.svg?react";
 import DateField from "@/shared/ui/DateField";
-import { mockLawsuits } from "@/pages/guide/data/mockLawsuits";
+import { listMyCases } from "@/shared/api/cases";
+import { createSchedule } from "../api/createSchedule";
+import {
+  reminderValueByLabel,
+  scheduleTypeByLabel,
+} from "../lib/scheduleMapping";
 import { toDateKey } from "../utils";
 
 type AddScheduleModalProps = {
   selectedDate: Date;
   onClose: () => void;
+  onCreated: () => void;
 };
 
 const eventTypes = ["변론기일", "제출기한", "서류 준비", "상담", "기타"];
@@ -90,10 +96,17 @@ function SelectField({
   );
 }
 
+type CaseOption = {
+  id: number;
+  title: string;
+};
+
 export default function AddScheduleModal({
   selectedDate,
   onClose,
+  onCreated,
 }: AddScheduleModalProps) {
+  const [caseOptions, setCaseOptions] = useState<CaseOption[]>([]);
   const [caseTitle, setCaseTitle] = useState("");
   const [title, setTitle] = useState("");
   const [eventType, setEventType] = useState("");
@@ -101,9 +114,59 @@ export default function AddScheduleModal({
   const [time, setTime] = useState("");
   const [notifyEnabled, setNotifyEnabled] = useState(false);
   const [notifyTiming, setNotifyTiming] = useState("1일 전");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
+  useEffect(() => {
+    listMyCases({ size: 200 })
+      .then((page) => {
+        setCaseOptions(
+          page.content.map((item) => ({ id: item.id, title: item.title })),
+        );
+      })
+      .catch(() => {
+        // leave the case selector empty when the API call fails
+      });
+  }, []);
+
+  const handleSubmit = async () => {
+    if (!title.trim() || !eventType || !date) {
+      setSubmitError("일정 제목, 유형, 날짜는 필수예요.");
+      return;
+    }
+
+    const selectedCase = caseOptions.find((item) => item.title === caseTitle);
+    const [hour, minute] = time ? time.split(":").map(Number) : [];
+
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      await createSchedule({
+        caseId: selectedCase?.id,
+        title: title.trim(),
+        scheduleType: scheduleTypeByLabel[eventType],
+        eventDate: date,
+        eventTime:
+          hour !== undefined && minute !== undefined
+            ? { hour, minute, second: 0, nano: 0 }
+            : undefined,
+        reminderEnabled: notifyEnabled,
+        reminderValue: notifyEnabled
+          ? reminderValueByLabel[notifyTiming]
+          : undefined,
+        reminderUnit: notifyEnabled ? "DAY" : undefined,
+      });
+      onCreated();
+    } catch {
+      setSubmitError("일정을 추가하지 못했어요. 잠시 후 다시 시도해주세요.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+    <div data-modal className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="flex w-full max-w-lg flex-col gap-5 rounded-2xl bg-white p-6 sm:p-8">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-gray-900">일정 추가</h2>
@@ -113,11 +176,13 @@ export default function AddScheduleModal({
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-bold text-gray-700">사건</label>
+          <label className="text-sm font-bold text-gray-700">
+            사건 <span className="font-medium text-gray-400">(선택)</span>
+          </label>
           <SelectField
             value={caseTitle}
             placeholder="선택하세요"
-            options={mockLawsuits.map((lawsuit) => lawsuit.title)}
+            options={caseOptions.map((item) => item.title)}
             onChange={setCaseTitle}
           />
         </div>
@@ -199,6 +264,10 @@ export default function AddScheduleModal({
           </div>
         </div>
 
+        {submitError && (
+          <p className="text-xs font-medium text-red-500">{submitError}</p>
+        )}
+
         <div className="flex items-center justify-end gap-2">
           <button
             type="button"
@@ -209,10 +278,11 @@ export default function AddScheduleModal({
           </button>
           <button
             type="button"
-            onClick={onClose}
-            className="rounded-[10px] bg-blue-400 px-4.5 py-2.5 text-sm font-semibold text-white hover:bg-blue-500"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className="rounded-[10px] bg-blue-400 px-4.5 py-2.5 text-sm font-semibold text-white hover:bg-blue-500 disabled:opacity-60"
           >
-            일정 추가하기
+            {isSubmitting ? "추가하는 중..." : "일정 추가하기"}
           </button>
         </div>
       </div>

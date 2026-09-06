@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import JudgeIcon from "@/assets/icons/shared/judge-icon.svg?react";
-import type { RelatedCaseItem } from "../data/mockCaseDetail";
+import type { RelatedCaseItem } from "../model";
 
 type RelatedCasesCardProps = {
   cases: RelatedCaseItem[];
@@ -19,6 +19,7 @@ export default function RelatedCasesCard({ cases }: RelatedCasesCardProps) {
         </span>
       </div>
 
+      {cases.length === 0 && <p className="text-sm text-gray-400">이 사건에 연결된 판례가 없습니다.</p>}
       <ul className="flex flex-col gap-2.5">
         {cases.map((item) => (
           <li

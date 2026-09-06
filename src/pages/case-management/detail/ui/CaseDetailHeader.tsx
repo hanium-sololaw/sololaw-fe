@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import TrashIcon from "@/assets/icons/shared/trash-icon.svg?react";
-import { caseStatusStyle, type CaseStatus } from "../../data/mockCases";
+import type { CaseStatus } from "@/shared/api/cases";
+import { caseStatusMeta } from "../../lib/caseDisplay";
 
-const statusOptions: CaseStatus[] = ["진행 중", "준비 중", "종료"];
+const statusOptions = Object.keys(caseStatusMeta) as CaseStatus[];
 
 type CaseDetailHeaderProps = {
   title: string;
@@ -13,7 +14,7 @@ type CaseDetailHeaderProps = {
   currentStageLabel: string;
   petitionTitle: string;
   petitionProgress: number;
-  remainingTasksToFile: number;
+  remainingTasksToFile: number | null;
   onStatusChange: (status: CaseStatus) => void;
   onDelete: () => void;
 };
@@ -31,6 +32,8 @@ export default function CaseDetailHeader({
   onStatusChange,
   onDelete,
 }: CaseDetailHeaderProps) {
+  const statusMeta = caseStatusMeta[status];
+
   return (
     <div className="flex flex-col gap-4">
       <Link
@@ -62,9 +65,9 @@ export default function CaseDetailHeader({
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="text-xl font-bold text-gray-900">{title}</h1>
               <span
-                className={`rounded-full px-2.5 py-1 text-xs font-semibold ${caseStatusStyle[status]}`}
+                className={`rounded-full px-2.5 py-1 text-xs font-semibold ${statusMeta.style}`}
               >
-                {status}
+                {statusMeta.label}
               </span>
             </div>
             <p className="text-sm text-gray-500">
@@ -97,9 +100,9 @@ export default function CaseDetailHeader({
           </div>
 
           <div className="flex flex-col gap-1">
-            <span className="text-xs text-gray-400">접수까지 남은 작업</span>
+            <span className="text-xs text-gray-400">미완료 할 일</span>
             <span className="text-lg font-bold text-red-500">
-              {remainingTasksToFile}건
+              {remainingTasksToFile === null ? "—" : `${remainingTasksToFile}건`}
             </span>
           </div>
 
@@ -114,7 +117,7 @@ export default function CaseDetailHeader({
             >
               {statusOptions.map((option) => (
                 <option key={option} value={option}>
-                  {option}
+                  {caseStatusMeta[option].label}
                 </option>
               ))}
             </select>

@@ -3,6 +3,11 @@ import CloseIcon from "@/assets/icons/mypage/close-icon.svg?react";
 import ChevronDownIcon from "@/assets/icons/home/arrow-bottom.svg?react";
 import UploadIcon from "@/assets/icons/schedule/upload-outline-icon.svg?react";
 import AboutIcon from "@/assets/icons/case-search/about-icon.svg?react";
+import { createCase } from "@/shared/api/cases";
+import {
+  caseTypeByLabel,
+  startingStageByProgressId,
+} from "../lib/newCaseMapping";
 
 const caseTypes = [
   "대여금",
@@ -117,9 +122,10 @@ function SelectField({
 
 type NewCaseModalProps = {
   onClose: () => void;
+  onCreated: () => void;
 };
 
-export default function NewCaseModal({ onClose }: NewCaseModalProps) {
+export default function NewCaseModal({ onClose, onCreated }: NewCaseModalProps) {
   const [caseTitle, setCaseTitle] = useState("");
   const [caseType, setCaseType] = useState("");
   const [defendant, setDefendant] = useState("");
@@ -129,9 +135,38 @@ export default function NewCaseModal({ onClose }: NewCaseModalProps) {
   const [progressStage, setProgressStage] = useState("none");
   const [fileName, setFileName] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
+  const handleSubmit = async () => {
+    if (!caseTitle.trim() || !defendant.trim()) {
+      setSubmitError("사건명과 상대방(피고)은 필수예요.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      await createCase({
+        title: caseTitle.trim(),
+        caseType: caseTypeByLabel[caseType],
+        opponentName: defendant.trim(),
+        claimAmount: claimAmount ? Number(claimAmount) : undefined,
+        court: court || undefined,
+        caseNumber: caseNumber.trim() || undefined,
+        startingStage: startingStageByProgressId[progressStage],
+      });
+      onCreated();
+    } catch {
+      setSubmitError("사건을 만들지 못했어요. 잠시 후 다시 시도해주세요.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+    <div data-modal className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="scrollbar-none flex max-h-[90vh] w-full max-w-xl flex-col gap-5 overflow-y-auto rounded-2xl bg-white p-6 sm:p-8 [&::-webkit-scrollbar]:hidden">
         <div className="flex items-start justify-between gap-3">
           <div className="flex flex-col gap-1">
@@ -317,6 +352,10 @@ export default function NewCaseModal({ onClose }: NewCaseModalProps) {
           </p>
         </div>
 
+        {submitError && (
+          <p className="text-xs font-medium text-red-500">{submitError}</p>
+        )}
+
         <div className="flex items-center justify-end gap-2 border-t border-gray-100 pt-4">
           <button
             type="button"
@@ -327,10 +366,11 @@ export default function NewCaseModal({ onClose }: NewCaseModalProps) {
           </button>
           <button
             type="button"
-            onClick={onClose}
-            className="rounded-[10px] bg-blue-400 px-4.5 py-2.5 text-sm font-semibold text-white hover:bg-blue-500"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className="rounded-[10px] bg-blue-400 px-4.5 py-2.5 text-sm font-semibold text-white hover:bg-blue-500 disabled:opacity-60"
           >
-            사건 만들기
+            {isSubmitting ? "만드는 중..." : "사건 만들기"}
           </button>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import BannerSvg from "@/assets/dashboard/banner-1.svg?react";
 import BannerWideSvg from "@/assets/dashboard/banner-2.svg?react";
 import ArrowUpRightIcon from "@/assets/icons/shared/tabler-arrow-up.svg?react";
@@ -22,6 +23,8 @@ const aiTasks: AiTask[] = [
 ];
 
 export default function DashboardBanner() {
+  const navigate = useNavigate();
+
   return (
     <div className="flex items-center justify-between gap-4">
       {/* 왼쪽 */}
@@ -31,13 +34,17 @@ export default function DashboardBanner() {
           <BannerSvg className="col-start-1 row-start-1 hidden lg:block" />
 
           <div className="col-start-1 row-start-1 flex justify-end">
-            <button className="flex h-14 items-center gap-2 rounded-2xl border border-gray-200 bg-white px-8 text-lg font-semibold text-gray-600 shadow-[inset_0_6px_10px_-2px_rgba(130,130,132,0.10),inset_0_-10px_50px_-6px_rgba(255,255,255,0.40),inset_0_-40px_30px_-8px_#E2E8F0,inset_0_-80px_60px_-30px_#F7F9FF]">
+            <button
+              type="button"
+              onClick={() => navigate("/document/brief")}
+              className="flex h-14 items-center gap-2 rounded-2xl border border-gray-200 bg-white px-8 text-lg font-semibold text-gray-600 shadow-[inset_0_6px_10px_-2px_rgba(130,130,132,0.10),inset_0_-10px_50px_-6px_rgba(255,255,255,0.40),inset_0_-40px_30px_-8px_#E2E8F0,inset_0_-80px_60px_-30px_#F7F9FF]"
+            >
               바로 작성하러 가기
               <ArrowUpRightIcon className="text-gray-400" />
             </button>
           </div>
 
-          <div className="col-start-1 row-start-1 flex h-full flex-col px-10 py-6">
+          <div className="col-start-1 row-start-1 flex h-full flex-col px-10 py-6 pointer-events-none">
             <div className="flex flex-1 flex-col justify-center gap-2.25">
               <p className="text-3xl leading-tight font-semibold text-blue-400">
                 준비서면 제출 D-3

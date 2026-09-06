@@ -1,4 +1,5 @@
-import type { DocumentItem } from "../data/mockCaseDetail";
+import { Link } from "react-router-dom";
+import type { DocumentItem } from "../model";
 
 type DocumentsCardProps = {
   documents: DocumentItem[];
@@ -14,6 +15,7 @@ export default function DocumentsCard({ documents }: DocumentsCardProps) {
         </span>
       </div>
 
+      {documents.length === 0 && <p className="text-sm text-gray-400">등록된 문서가 없습니다.</p>}
       <div className="flex flex-col gap-3">
         {documents.map((doc) => (
           <div key={doc.id} className="flex flex-col gap-1.5">
@@ -38,12 +40,11 @@ export default function DocumentsCard({ documents }: DocumentsCardProps) {
         ))}
       </div>
 
-      <button
-        type="button"
+      <Link to="/document"
         className="self-start text-sm font-semibold text-blue-500 hover:text-blue-600"
       >
         문서 생성으로 →
-      </button>
+      </Link>
     </section>
   );
 }

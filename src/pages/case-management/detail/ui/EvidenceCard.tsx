@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 type EvidenceCardProps = {
   completed: number;
   total: number;
+  caseId: string;
 };
 
-export default function EvidenceCard({ completed, total }: EvidenceCardProps) {
+export default function EvidenceCard({ completed, total, caseId }: EvidenceCardProps) {
   const progress = total === 0 ? 0 : Math.round((completed / total) * 100);
 
   return (
@@ -32,7 +33,7 @@ export default function EvidenceCard({ completed, total }: EvidenceCardProps) {
       </div>
 
       <Link
-        to="/evidence"
+        to={`/evidence?caseId=${caseId}`}
         className="self-start text-sm font-semibold text-blue-500 hover:text-blue-600"
       >
         증빙자료에서 보기 →

@@ -1,7 +1,11 @@
+import { useEffect, useState } from "react";
 import ProgressIcon from "@/assets/dashboard/progress-bar.svg?react";
 import InProgressIcon from "@/assets/dashboard/in-progress-bar.svg?react";
 import ClockIcon from "@/assets/icons/dashboard/clock-icon.svg?react";
 import CheckIcon from "@/assets/icons/dashboard/check-icon.svg?react";
+import { getSchedules } from "@/pages/schedule/api/getSchedules";
+import { formatMonthDay } from "@/pages/schedule/lib/scheduleMapping";
+import { getAllTodos } from "@/pages/case-management/api/getAllTodos";
 
 type WeekDay = {
   day: string;
@@ -21,47 +25,82 @@ type CompletedTask = {
   title: string;
 };
 
-const weekDays: WeekDay[] = [
-  { day: "월", date: "18" },
-  { day: "화", date: "19" },
-  { day: "수", date: "20", active: true },
-  { day: "목", date: "21" },
-  { day: "금", date: "22" },
-  { day: "토", date: "23" },
-  { day: "일", date: "24" },
-];
+const WEEKDAY_LABELS = ["월", "화", "수", "목", "금", "토", "일"];
 
-const schedules: ScheduleItem[] = [
-  {
-    id: "submit",
-    title: "소장 제출 기한",
-    date: "2026-05-17",
-  },
-  {
-    id: "evidence",
-    title: "증거 자료 정리",
-    date: "2026-05-18",
-  },
-  {
-    id: "brief",
-    title: "준비 서면 작성",
-    date: "2026-05-20",
-    active: true,
-  },
-];
+function toDateKey(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
 
-const completedTasks: CompletedTask[] = [
-  {
-    id: "evidence-submit",
-    title: "증거자료 수집",
-  },
-  {
-    id: "case-organize",
-    title: "사건 정리",
-  },
-];
+function getCurrentWeek(): WeekDay[] {
+  const today = new Date();
+  const todayKey = toDateKey(today);
+  const mondayOffset = (today.getDay() + 6) % 7;
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - mondayOffset);
+
+  return Array.from({ length: 7 }, (_, index) => {
+    const date = new Date(monday);
+    date.setDate(monday.getDate() + index);
+    return {
+      day: WEEKDAY_LABELS[index],
+      date: String(date.getDate()),
+      active: toDateKey(date) === todayKey,
+    };
+  });
+}
 
 export default function DashboardSchedule() {
+  const [weekDays] = useState<WeekDay[]>(() => getCurrentWeek());
+  const [schedules, setSchedules] = useState<ScheduleItem[]>([]);
+  const [completedTasks, setCompletedTasks] = useState<CompletedTask[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    const todayKey = toDateKey(new Date());
+
+    getSchedules({ from: todayKey })
+      .then((records) => {
+        if (cancelled) return;
+
+        const upcoming = [...records]
+          .sort((a, b) => a.eventDate.localeCompare(b.eventDate))
+          .slice(0, 3)
+          .map((record, index) => ({
+            id: String(record.id),
+            title: record.title,
+            date: formatMonthDay(record.eventDate),
+            active: index === 0,
+          }));
+
+        setSchedules(upcoming);
+      })
+      .catch(() => {
+        // keep the placeholder (empty) schedule list when the API call fails
+      });
+
+    getAllTodos({ isDone: true })
+      .then((todos) => {
+        if (cancelled) return;
+
+        setCompletedTasks(
+          todos.slice(0, 5).map((todo) => ({
+            id: String(todo.id),
+            title: todo.title,
+          })),
+        );
+      })
+      .catch(() => {
+        // keep the placeholder (empty) completed-task list when the API call fails
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <section
       className="
@@ -95,7 +134,13 @@ export default function DashboardSchedule() {
 
       <div className="relative z-10">
         <div className="flex flex-col gap-2.5 px-2">
-          <p className="text-sm text-gray-700">May 20, 2026</p>
+          <p className="text-sm text-gray-700">
+            {new Date().toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </p>
           <h2 className="text-2xl font-semibold text-gray-900">
             다가오는 일정
           </h2>
@@ -137,62 +182,70 @@ export default function DashboardSchedule() {
         {/* 타임라인 */}
         <div className="mt-6.5 flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            {schedules.map((item) => {
-              const TimelineIcon = item.active ? InProgressIcon : ProgressIcon;
+            {schedules.length === 0 ? (
+              <p className="py-4 text-center text-sm text-gray-400">
+                다가오는 일정이 없어요
+              </p>
+            ) : (
+              schedules.map((item) => {
+                const TimelineIcon = item.active
+                  ? InProgressIcon
+                  : ProgressIcon;
 
-              return (
-                <div key={item.id} className="flex items-center gap-2.75">
-                  <TimelineIcon />
+                return (
+                  <div key={item.id} className="flex items-center gap-2.75">
+                    <TimelineIcon />
 
-                  <div
-                    className={`
-                    relative
-                    flex-1
-                    overflow-hidden
-                    rounded-[20px]
-                    w-60
-                    pl-3.75
-                    ${
-                      item.active
-                        ? "bg-blue-400 text-white pt-3.5 pb-4.5"
-                        : "bg-gray-100 text-gray-900 py-2 h-15"
-                    }
-                  `}
-                  >
-                    {!item.active && (
-                      <div
-                        className="
-                        pointer-events-none
-                        absolute
-                        top-0
-                        right-0
-                        z-20
-                        h-full
-                        w-16
-                        bg-[linear-gradient(90deg,rgba(243,244,246,0)_60%,#ffffff_100%)]
-                      "
-                      />
-                    )}
+                    <div
+                      className={`
+                      relative
+                      flex-1
+                      overflow-hidden
+                      rounded-[20px]
+                      w-60
+                      pl-3.75
+                      ${
+                        item.active
+                          ? "bg-blue-400 text-white pt-3.5 pb-4.5"
+                          : "bg-gray-100 text-gray-900 py-2 h-15"
+                      }
+                    `}
+                    >
+                      {!item.active && (
+                        <div
+                          className="
+                          pointer-events-none
+                          absolute
+                          top-0
+                          right-0
+                          z-20
+                          h-full
+                          w-16
+                          bg-[linear-gradient(90deg,rgba(243,244,246,0)_60%,#ffffff_100%)]
+                        "
+                        />
+                      )}
 
-                    <div className="relative z-10 flex flex-col">
-                      <div className="flex items-center gap-3">
-                        {!item.active && <ClockIcon />}
-                        <p className="text-base font-bold">{item.title}</p>
+                      <div className="relative z-10 flex flex-col">
+                        <div className="flex items-center gap-3">
+                          {!item.active && <ClockIcon />}
+                          <p className="text-base font-bold">{item.title}</p>
+                        </div>
+
+                        <p
+                          className={`
+                          text-xs
+                          ${item.active ? "text-gray-100" : "text-gray-700 pl-7"}
+                        `}
+                        >
+                          {item.date}
+                        </p>
                       </div>
-
-                      <p
-                        className={`
-                        text-xs
-                        ${item.active ? "text-gray-100" : "text-gray-700 pl-7"}
-                      `}
-                      >
-                        {item.date}
-                      </p>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
 
           <div className="h-px w-full bg-gray-200" />
@@ -203,15 +256,17 @@ export default function DashboardSchedule() {
           <h3 className="text-lg font-semibold text-gray-900">완료된 작업</h3>
 
           <div className="flex flex-col gap-3">
-            {completedTasks.map((task) => (
-              <div key={task.id} className="flex items-center gap-4">
-                <CheckIcon />
+            {completedTasks.length === 0 ? (
+              <p className="text-sm text-gray-400">완료된 작업이 없어요</p>
+            ) : (
+              completedTasks.map((task) => (
+                <div key={task.id} className="flex items-center gap-4">
+                  <CheckIcon />
 
-                <p className="text-base text-gray-700">
-                  {task.title}
-                </p>
-              </div>
-            ))}
+                  <p className="text-base text-gray-700">{task.title}</p>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

@@ -21,7 +21,7 @@ export default function AIReviewCard({ notes }: AIReviewCardProps) {
       </div>
 
       {notes.length === 0 ? (
-        <p className="text-sm text-gray-400">발견된 이슈가 없습니다.</p>
+        <p className="text-sm text-gray-400">아직 AI 검토 결과가 없습니다.</p>
       ) : (
         <ul className="flex flex-col gap-2">
           {notes.map((note) => (
