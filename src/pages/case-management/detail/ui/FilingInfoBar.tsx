@@ -15,7 +15,7 @@ export default function FilingInfoBar({
         진행 표시 · 접수 정보
       </span>
       <span className="flex items-center gap-1.5 text-sm text-gray-500">
-        {caseNumber} · {filedAt} 접수
+        {caseNumber} · {filedAt ? `${filedAt} 접수` : "접수일 미등록"}
         <ChevronRightIcon />
       </span>
     </div>

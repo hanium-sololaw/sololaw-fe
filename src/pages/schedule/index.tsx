@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCaseList } from "@/pages/case-management/api/getCaseList";
+import { listMyCases } from "@/shared/api/cases";
 import ScheduleHeader from "./ui/ScheduleHeader";
 import ScheduleNoticeBanner from "./ui/ScheduleNoticeBanner";
 import ScheduleCalendar from "./ui/ScheduleCalendar";
@@ -18,7 +18,7 @@ export default function SchedulePage() {
   useEffect(() => {
     let cancelled = false;
 
-    Promise.all([getSchedules(), getCaseList({ size: 200 })])
+    Promise.all([getSchedules(), listMyCases({ size: 200 })])
       .then(([schedules, caseListPage]) => {
         if (cancelled) return;
 

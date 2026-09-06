@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
-import { getCaseList, type CaseListItem } from "../api/getCaseList";
+import { listMyCases, type Case } from "@/shared/api/cases";
 import CaseCard from "./CaseCard";
 import NewCaseTile from "./NewCaseTile";
 
@@ -17,7 +17,7 @@ export default function CaseListSection({
 }: CaseListSectionProps) {
   const navigate = useNavigate();
   const [sortOrder, setSortOrder] = useState<SortOrder>("recent");
-  const [cases, setCases] = useState<CaseListItem[]>([]);
+  const [cases, setCases] = useState<Case[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,7 +27,7 @@ export default function CaseListSection({
     setIsLoading(true);
     setError(null);
 
-    getCaseList()
+    listMyCases()
       .then((result) => {
         if (!cancelled) setCases(result.content);
       })

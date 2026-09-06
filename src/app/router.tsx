@@ -19,6 +19,8 @@ import SchedulePage from "@/pages/schedule";
 import CaseManagementPage from "@/pages/case-management";
 import CaseManagementDetailPage from "@/pages/case-management/detail";
 
+import EvidencePage from "@/pages/evidence";
+
 export const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
   {
@@ -45,6 +47,7 @@ export const router = createBrowserRouter([
       { path: "/mypage", element: <MyPage /> },
       { path: "/mypage/notifications", element: <NotificationsPage /> },
       { path: "/schedule", element: <SchedulePage /> },
+      { path: "/evidence", element: <EvidencePage /> },
     ],
   },
 ]);

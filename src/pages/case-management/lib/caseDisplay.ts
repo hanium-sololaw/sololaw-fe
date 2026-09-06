@@ -1,7 +1,7 @@
-import type { ApiCaseStatus, ApiCaseType } from "../api/getCaseList";
+import type { CaseStatus, CaseType } from "@/shared/api/cases";
 
 export const caseStatusMeta: Record<
-  ApiCaseStatus,
+  CaseStatus,
   { label: string; style: string }
 > = {
   PREPARING: { label: "준비 중", style: "bg-yellow-50 text-yellow-600" },
@@ -14,7 +14,7 @@ export const caseStatusMeta: Record<
   CLOSED: { label: "종료", style: "bg-gray-100 text-gray-500" },
 };
 
-export const caseTypeLabel: Record<ApiCaseType, string> = {
+export const caseTypeLabel: Record<CaseType, string> = {
   LOAN: "대여금",
   DEPOSIT: "임대차 보증금 반환",
   WAGE: "임금체불",

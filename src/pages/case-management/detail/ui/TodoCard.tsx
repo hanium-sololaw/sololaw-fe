@@ -1,13 +1,14 @@
 import { useState } from "react";
 import CheckButtonIcon from "@/assets/icons/mypage/check-button.svg?react";
 import AddIcon from "@/assets/icons/schedule/add-icon.svg?react";
-import type { TodoItem } from "../data/mockCaseDetail";
+import type { TodoItem } from "../model";
 
 type TodoCardProps = {
   todos: TodoItem[];
   nextDeadline: { dDay: string; date: string };
   onToggle: (id: string) => void;
-  onAdd: (title: string, dueDate: string) => void;
+  onAdd: (title: string, dueDate: string) => Promise<boolean>;
+  busy?: boolean;
 };
 
 export default function TodoCard({
@@ -15,13 +16,14 @@ export default function TodoCard({
   nextDeadline,
   onToggle,
   onAdd,
+  busy = false,
 }: TodoCardProps) {
   const [title, setTitle] = useState("");
   const [dueDate, setDueDate] = useState("");
 
-  const handleAdd = () => {
-    if (!title.trim()) return;
-    onAdd(title.trim(), dueDate);
+  const handleAdd = async () => {
+    if (!title.trim() || busy) return;
+    if (!(await onAdd(title.trim(), dueDate))) return;
     setTitle("");
     setDueDate("");
   };
@@ -45,11 +47,13 @@ export default function TodoCard({
         </span>
       </div>
 
+      {todos.length === 0 && <p className="text-sm text-gray-400">등록된 할 일이 없습니다.</p>}
       <div className="flex flex-col gap-2">
         {todos.map((todo) => (
           <button
             key={todo.id}
             type="button"
+            disabled={busy}
             onClick={() => onToggle(todo.id)}
             className="flex items-center justify-between gap-3 rounded-xl border border-gray-100 px-3.5 py-3 text-left hover:bg-gray-50"
           >
@@ -94,6 +98,7 @@ export default function TodoCard({
         />
         <button
           type="button"
+          disabled={busy}
           onClick={handleAdd}
           className="flex shrink-0 items-center gap-1 rounded-xl bg-blue-50 px-3 py-2.5 text-sm font-semibold text-blue-500 hover:bg-blue-100"
         >
@@ -102,12 +107,7 @@ export default function TodoCard({
         </button>
       </div>
 
-      <button
-        type="button"
-        className="self-start text-sm font-semibold text-blue-500 hover:text-blue-600"
-      >
-        전체 관리 →
-      </button>
+
     </section>
   );
 }

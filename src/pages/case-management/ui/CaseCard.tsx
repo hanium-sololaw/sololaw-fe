@@ -1,5 +1,5 @@
 import FolderImage from "@/assets/lawsuit/folder-image.svg?react";
-import type { CaseListItem } from "../api/getCaseList";
+import type { Case } from "@/shared/api/cases";
 import {
   caseStatusMeta,
   caseTypeLabel,
@@ -7,7 +7,7 @@ import {
   formatDate,
 } from "../lib/caseDisplay";
 
-type CaseCardProps = CaseListItem & {
+type CaseCardProps = Case & {
   onClick?: () => void;
 };
 

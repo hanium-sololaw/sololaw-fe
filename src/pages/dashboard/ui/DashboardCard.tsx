@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCaseList } from "@/pages/case-management/api/getCaseList";
+import { listMyCases } from "@/shared/api/cases";
 import { getSchedules } from "@/pages/schedule/api/getSchedules";
 import { formatDDay, formatMonthDay } from "@/pages/schedule/lib/scheduleMapping";
 
@@ -74,7 +74,7 @@ export default function DashboardSummary() {
   useEffect(() => {
     let cancelled = false;
 
-    getCaseList({ status: "IN_PROGRESS", size: 1 })
+    listMyCases({ status: "IN_PROGRESS", size: 1 })
       .then((page) => {
         if (!cancelled) setActiveCaseCount(page.totalElements);
       })

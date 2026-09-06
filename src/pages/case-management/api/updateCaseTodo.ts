@@ -1,6 +1,7 @@
 import { apiClient } from "@/shared/api/client";
 import { withAuth } from "@/shared/api/interceptors";
-import type { ApiEnvelope, TodoRecord } from "./types";
+import type { ApiEnvelope } from "@/shared/api/types";
+import type { TodoRecord } from "./types";
 
 export type UpdateCaseTodoRequest = {
   title?: string;

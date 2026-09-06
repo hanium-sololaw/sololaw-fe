@@ -14,7 +14,7 @@ export default function Modal({
   maxWidthClassName = "max-w-lg",
 }: ModalProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+    <div data-modal className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div
         className={`flex max-h-[85vh] w-full ${maxWidthClassName} flex-col gap-5 overflow-y-auto rounded-3xl bg-white p-5 sm:p-8`}
       >

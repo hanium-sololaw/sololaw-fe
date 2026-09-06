@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type { UpcomingScheduleItem } from "../data/mockCaseDetail";
+import type { UpcomingScheduleItem } from "../model";
 
 type UpcomingScheduleCardProps = {
   schedules: UpcomingScheduleItem[];

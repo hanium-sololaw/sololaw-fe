@@ -20,7 +20,7 @@ export default function CitationListModal({
   onClose,
 }: CitationListModalProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+    <div data-modal className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="flex max-h-[85vh] w-full max-w-lg flex-col gap-5 overflow-y-auto rounded-3xl bg-white p-5 sm:p-8">
         <div className="flex items-start justify-between">
           <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">

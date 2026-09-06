@@ -4,7 +4,7 @@ import CheckButtonIcon from "@/assets/icons/mypage/check-button.svg?react";
 import ChevronDownIcon from "@/assets/icons/home/arrow-bottom.svg?react";
 import ClockIcon from "@/assets/icons/schedule/clock-icon.svg?react";
 import DateField from "@/shared/ui/DateField";
-import { getCaseList } from "@/pages/case-management/api/getCaseList";
+import { listMyCases } from "@/shared/api/cases";
 import { createSchedule } from "../api/createSchedule";
 import {
   reminderValueByLabel,
@@ -118,7 +118,7 @@ export default function AddScheduleModal({
   const [submitError, setSubmitError] = useState("");
 
   useEffect(() => {
-    getCaseList({ size: 200 })
+    listMyCases({ size: 200 })
       .then((page) => {
         setCaseOptions(
           page.content.map((item) => ({ id: item.id, title: item.title })),
@@ -166,7 +166,7 @@ export default function AddScheduleModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+    <div data-modal className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="flex w-full max-w-lg flex-col gap-5 rounded-2xl bg-white p-6 sm:p-8">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-gray-900">일정 추가</h2>

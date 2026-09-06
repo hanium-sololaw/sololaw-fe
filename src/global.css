@@ -94,3 +94,19 @@
   --color-red-400: #f66570;
   --color-red-500: #f04452;
 }
+
+/* Hide modal scrollbars, including nested scroll areas, without disabling scrolling. */
+@layer base {
+  :where(dialog, [data-modal]),
+  :where(dialog, [data-modal]) * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  :where(dialog, [data-modal])::-webkit-scrollbar,
+  :where(dialog, [data-modal]) *::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}

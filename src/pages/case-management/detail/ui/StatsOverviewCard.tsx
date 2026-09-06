@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import ChevronRightIcon from "@/assets/icons/mypage/chevron-right-icon.svg?react";
-import type { CaseDetail } from "../data/mockCaseDetail";
+import type { CaseDetail } from "../model";
 
 type StatsOverviewCardProps = {
   stats: CaseDetail["stats"];

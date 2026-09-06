@@ -3,7 +3,7 @@ import CloseIcon from "@/assets/icons/mypage/close-icon.svg?react";
 import ChevronDownIcon from "@/assets/icons/home/arrow-bottom.svg?react";
 import UploadIcon from "@/assets/icons/schedule/upload-outline-icon.svg?react";
 import AboutIcon from "@/assets/icons/case-search/about-icon.svg?react";
-import { createCase } from "../api/createCase";
+import { createCase } from "@/shared/api/cases";
 import {
   caseTypeByLabel,
   startingStageByProgressId,
@@ -166,7 +166,7 @@ export default function NewCaseModal({ onClose, onCreated }: NewCaseModalProps) 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+    <div data-modal className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="scrollbar-none flex max-h-[90vh] w-full max-w-xl flex-col gap-5 overflow-y-auto rounded-2xl bg-white p-6 sm:p-8 [&::-webkit-scrollbar]:hidden">
         <div className="flex items-start justify-between gap-3">
           <div className="flex flex-col gap-1">

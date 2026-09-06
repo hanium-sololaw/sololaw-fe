@@ -1,21 +1,21 @@
 import { Link } from "react-router-dom";
 import TrashIcon from "@/assets/icons/shared/trash-icon.svg?react";
-import type { ApiCaseStatus } from "../../api/types";
+import type { CaseStatus } from "@/shared/api/cases";
 import { caseStatusMeta } from "../../lib/caseDisplay";
 
-const statusOptions = Object.keys(caseStatusMeta) as ApiCaseStatus[];
+const statusOptions = Object.keys(caseStatusMeta) as CaseStatus[];
 
 type CaseDetailHeaderProps = {
   title: string;
-  status: ApiCaseStatus;
+  status: CaseStatus;
   caseNumber: string;
   court: string;
   lastActivity: string;
   currentStageLabel: string;
   petitionTitle: string;
   petitionProgress: number;
-  remainingTasksToFile: number;
-  onStatusChange: (status: ApiCaseStatus) => void;
+  remainingTasksToFile: number | null;
+  onStatusChange: (status: CaseStatus) => void;
   onDelete: () => void;
 };
 
@@ -100,9 +100,9 @@ export default function CaseDetailHeader({
           </div>
 
           <div className="flex flex-col gap-1">
-            <span className="text-xs text-gray-400">접수까지 남은 작업</span>
+            <span className="text-xs text-gray-400">미완료 할 일</span>
             <span className="text-lg font-bold text-red-500">
-              {remainingTasksToFile}건
+              {remainingTasksToFile === null ? "—" : `${remainingTasksToFile}건`}
             </span>
           </div>
 
@@ -111,7 +111,7 @@ export default function CaseDetailHeader({
             <select
               value={status}
               onChange={(event) =>
-                onStatusChange(event.target.value as ApiCaseStatus)
+                onStatusChange(event.target.value as CaseStatus)
               }
               className="rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm font-semibold text-gray-800 outline-none focus:border-blue-400"
             >

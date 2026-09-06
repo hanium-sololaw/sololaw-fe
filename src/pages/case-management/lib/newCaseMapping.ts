@@ -1,6 +1,7 @@
-import type { ApiCaseType, ApiStartingStage } from "../api/types";
+import type { CaseType } from "@/shared/api/cases";
+import type { ApiStartingStage } from "../api/types";
 
-export const caseTypeByLabel: Record<string, ApiCaseType | undefined> = {
+export const caseTypeByLabel: Record<string, CaseType | undefined> = {
   "대여금": "LOAN",
   "임대차 보증금 반환": "DEPOSIT",
   "건물명도": "EVICTION",

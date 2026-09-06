@@ -4,7 +4,7 @@ import DataIcon from "@/assets/icons/mypage/folder-icon.svg?react";
 import CalendarIcon from "@/assets/icons/mypage/calendar-icon.svg?react";
 import { useModal } from "@/shared/hooks/useModal";
 import { myProfile } from "../data/mockMyPage";
-import { getMyProfile } from "../api/getMyProfile";
+import { getMyProfile } from "@/shared/api/users";
 import { updateMyProfile } from "../api/updateMyProfile";
 import { getSchedules } from "@/pages/schedule/api/getSchedules";
 import PremiumUpgradeModal from "./PremiumUpgradeModal";

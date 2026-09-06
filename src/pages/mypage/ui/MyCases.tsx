@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChevronRightIcon from "@/assets/icons/mypage/chevron-right-icon.svg?react";
-import { getCaseList, type CaseListItem } from "@/pages/case-management/api/getCaseList";
+import { listMyCases, type Case } from "@/shared/api/cases";
 import { caseStatusMeta } from "@/pages/case-management/lib/caseDisplay";
 
 const MAX_VISIBLE_CASES = 3;
 
 export default function MyCases() {
   const navigate = useNavigate();
-  const [cases, setCases] = useState<CaseListItem[]>([]);
+  const [cases, setCases] = useState<Case[]>([]);
 
   useEffect(() => {
     let cancelled = false;
 
-    getCaseList({ size: 20 })
+    listMyCases({ size: 20 })
       .then((page) => {
         if (cancelled) return;
 

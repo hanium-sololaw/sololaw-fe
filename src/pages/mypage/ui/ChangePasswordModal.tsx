@@ -45,7 +45,7 @@ export default function ChangePasswordModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
+    <div data-modal className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="flex w-full max-w-lg flex-col gap-5 rounded-2xl bg-white p-6 sm:p-8">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-gray-900">비밀번호 변경</h2>

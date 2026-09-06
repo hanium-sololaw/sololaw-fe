@@ -13,7 +13,7 @@ type GenerateNoticeProps = {
 
 export default function GenerateNotice({ done, label }: GenerateNoticeProps) {
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-black/30 p-4 backdrop-blur-[2px]">
+    <div data-modal className="fixed inset-0 z-50 grid place-items-center bg-black/30 p-4 backdrop-blur-[2px]">
       <div role="status" aria-live="polite" className="w-full max-w-[420px] rounded-2xl bg-white px-8 py-12 text-center shadow-2xl">
         {done ? (
           <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-blue-400 text-white">✓</span>

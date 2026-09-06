@@ -1,6 +1,7 @@
 import { apiClient } from "@/shared/api/client";
 import { withAuth } from "@/shared/api/interceptors";
-import type { ApiEnvelope, ApiStageStatus, StageRecord } from "./types";
+import type { ApiEnvelope } from "@/shared/api/types";
+import type { ApiStageStatus, StageRecord } from "./types";
 
 export async function updateCaseStageStatus(
   caseId: number | string,

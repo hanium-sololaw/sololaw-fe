@@ -1,4 +1,4 @@
-import type { ActivityLogItem } from "../data/mockCaseDetail";
+import type { ActivityLogItem } from "../model";
 
 type RecentChangesCardProps = {
   activityLog: ActivityLogItem[];

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCaseList } from "@/pages/case-management/api/getCaseList";
+import { listMyCases } from "@/shared/api/cases";
 import NewCaseModal from "@/pages/case-management/ui/NewCaseModal";
 import { useModal } from "@/shared/hooks/useModal";
 import DashboardHeader from "./ui/DashboardHeader";
@@ -21,7 +21,7 @@ export default function DashboardPage() {
   useEffect(() => {
     let cancelled = false;
 
-    getCaseList({ size: 1 })
+    listMyCases({ size: 1 })
       .then((page) => {
         if (!cancelled) setHasCases(page.totalElements > 0);
       })
