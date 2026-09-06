@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { listMyCases } from "@/shared/api/cases";
 import { getSchedules } from "@/pages/schedule/api/getSchedules";
 import { formatDDay, formatMonthDay } from "@/pages/schedule/lib/scheduleMapping";
+import { listDocuments } from "@/pages/document/shared/listDocuments";
+import { listEvidence } from "@/pages/evidence/api";
 
 type SummaryCard = {
   id: string;
@@ -70,6 +72,14 @@ export default function DashboardSummary() {
     dDay: string;
     date: string;
   } | null>(null);
+  const [documentCount, setDocumentCount] = useState<number | null>(null);
+  const [submittedDocumentCount, setSubmittedDocumentCount] = useState<
+    number | null
+  >(null);
+  const [evidenceCount, setEvidenceCount] = useState<number | null>(null);
+  const [gapEvidenceCount, setGapEvidenceCount] = useState<number | null>(
+    null,
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -77,6 +87,38 @@ export default function DashboardSummary() {
     listMyCases({ status: "IN_PROGRESS", size: 1 })
       .then((page) => {
         if (!cancelled) setActiveCaseCount(page.totalElements);
+      })
+      .catch(() => {
+        // keep the placeholder count when the API call fails
+      });
+
+    listDocuments({ isLatest: true, size: 1 })
+      .then((page) => {
+        if (!cancelled) setDocumentCount(page.totalElements);
+      })
+      .catch(() => {
+        // keep the placeholder count when the API call fails
+      });
+
+    listDocuments({ isLatest: true, status: "SUBMITTED", size: 1 })
+      .then((page) => {
+        if (!cancelled) setSubmittedDocumentCount(page.totalElements);
+      })
+      .catch(() => {
+        // keep the placeholder count when the API call fails
+      });
+
+    listEvidence({ size: 1 })
+      .then((page) => {
+        if (!cancelled) setEvidenceCount(page.totalElements);
+      })
+      .catch(() => {
+        // keep the placeholder count when the API call fails
+      });
+
+    listEvidence({ partyType: "GAP", size: 1 })
+      .then((page) => {
+        if (!cancelled) setGapEvidenceCount(page.totalElements);
       })
       .catch(() => {
         // keep the placeholder count when the API call fails
@@ -129,10 +171,18 @@ export default function DashboardSummary() {
     {
       id: "documents",
       title: "생성한 문서",
-      value: "7",
-      badge: "2개 제출 완료",
+      value: documentCount !== null ? `${documentCount}` : "-",
+      badge:
+        submittedDocumentCount !== null
+          ? `${submittedDocumentCount}개 제출 완료`
+          : "-",
     },
-    { id: "evidence", title: "등록된 증거", value: "14", badge: "갑호증 9개" },
+    {
+      id: "evidence",
+      title: "등록된 증거",
+      value: evidenceCount !== null ? `${evidenceCount}` : "-",
+      badge: gapEvidenceCount !== null ? `갑호증 ${gapEvidenceCount}개` : "-",
+    },
   ];
 
   return (
