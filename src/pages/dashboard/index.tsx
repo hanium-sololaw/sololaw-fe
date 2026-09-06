@@ -57,7 +57,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pb-6">
       <main className="flex flex-col gap-8">
         <div>
           <DashboardHeader hasCases />

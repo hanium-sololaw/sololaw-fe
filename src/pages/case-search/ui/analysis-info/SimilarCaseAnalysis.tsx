@@ -3,11 +3,15 @@ import DocumentIcon from "@/assets/icons/shared/document-icon.svg?react";
 import PaperIcon from "@/assets/icons/case-search/paper-icon.svg?react";
 import ShineSolidIcon from "@/assets/icons/case-search/shine-solid-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
+import { useModal } from "@/shared/hooks/useModal";
 import { useCaseSearchStore } from "../../store/useCaseSearchStore";
+import CreateCaseModal from "./CreateCaseModal";
 
 export default function SimilarCaseAnalysis() {
   const [situation, setSituation] = useState("");
   const analyze = useCaseSearchStore((state) => state.analyze);
+  const loadMyCases = useCaseSearchStore((state) => state.loadMyCases);
+  const createCaseModal = useModal();
 
   return (
     <section className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-5 sm:p-8">
@@ -33,11 +37,16 @@ export default function SimilarCaseAnalysis() {
 
         <button
           type="button"
+          onClick={createCaseModal.open}
           className="flex shrink-0 items-center gap-1.5 rounded-lg bg-blue-400 px-4 py-2.5 text-sm text-white"
         >
           <DocumentIcon className="h-4 w-4" />새 사건 만들기
         </button>
       </div>
+
+      {createCaseModal.isOpen && (
+        <CreateCaseModal onClose={createCaseModal.close} onCreated={loadMyCases} />
+      )}
 
       <div className="flex items-center gap-4 text-sm text-gray-400">
         <span className="h-px flex-1 bg-gray-200" />
@@ -62,7 +71,7 @@ export default function SimilarCaseAnalysis() {
         <button
           type="button"
           disabled={situation.trim() === ""}
-          onClick={() => analyze()}
+          onClick={() => analyze(situation)}
           className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-blue-400 py-3.5 text-base text-white disabled:bg-blue-200"
         >
           <Icon icon={PaperIcon} size={16} className="text-white" />이 내용으로

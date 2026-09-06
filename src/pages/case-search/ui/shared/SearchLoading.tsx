@@ -1,17 +1,21 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-export default function CaseAnalysisLoading() {
+type SearchLoadingProps = {
+  title?: string;
+  subtitle?: string;
+};
+
+export default function SearchLoading({
+  title = "AI가 유사 판례를 분석하고 있어요",
+  subtitle = "선택한 사건의 쟁점을 추출해 관련 판례를 찾는 중입니다...",
+}: SearchLoadingProps) {
   return (
     <section className="flex flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-6">
       <div className="flex flex-col items-center gap-2 py-4 text-center">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-400 border-t-transparent" />
-        <p className="mt-2 font-semibold text-blue-500">
-          AI가 유사 판례를 분석하고 있어요
-        </p>
-        <p className="text-sm text-gray-400">
-          선택한 사건의 쟁점을 추출해 관련 판례를 찾는 중입니다...
-        </p>
+        <p className="mt-2 font-semibold text-blue-500">{title}</p>
+        <p className="text-sm text-gray-400">{subtitle}</p>
       </div>
 
       <div className="flex flex-col gap-4">

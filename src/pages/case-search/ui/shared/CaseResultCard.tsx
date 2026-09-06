@@ -9,7 +9,7 @@ import PaperIcon from "@/assets/icons/case-search/paper-icon.svg?react";
 import CopyIcon from "@/assets/icons/case-search/copy-icon.svg?react";
 import StarLineIcon from "@/assets/icons/case-search/star-line-icon.svg?react";
 import CheckIcon from "@/assets/icons/case-search/check-icon.svg?react";
-import { outcomeStyles, type CaseOutcome } from "../../data/mockCases";
+import { outcomeStyles, type CaseOutcome } from "../../lib/search";
 
 type CaseResultCardProps = {
   title: string;
@@ -19,7 +19,7 @@ type CaseResultCardProps = {
   date: string;
   relevance: "높음" | "보통";
   summary: string;
-  relatedLaws?: string[];
+  detailUrl?: string;
   cited: boolean;
   onToggleCite: () => void;
   saved: boolean;
@@ -38,7 +38,7 @@ export default function CaseResultCard({
   date,
   relevance,
   summary,
-  relatedLaws,
+  detailUrl,
   cited,
   onToggleCite,
   saved,
@@ -58,14 +58,18 @@ export default function CaseResultCard({
       <div className="flex flex-wrap items-start justify-between gap-3">
         <p className="flex flex-wrap items-center gap-2 font-semibold text-gray-900">
           {title}
-          <span
-            className={`shrink-0 rounded-xl px-3 py-1 text-xs font-semibold ${outcomeStyles[outcome]}`}
-          >
-            {outcome}
-          </span>
+          {outcome && (
+            <span
+              className={`shrink-0 rounded-xl px-3 py-1 text-xs font-semibold ${outcomeStyles[outcome]}`}
+            >
+              {outcome}
+            </span>
+          )}
         </p>
         <a
-          href="#"
+          href={detailUrl ?? "#"}
+          target={detailUrl ? "_blank" : undefined}
+          rel={detailUrl ? "noreferrer" : undefined}
           className="flex shrink-0 items-center text-sm text-gray-500"
         >
           원문보기
@@ -96,34 +100,10 @@ export default function CaseResultCard({
         </p>
       </div>
 
-      {relatedLaws && relatedLaws.length > 0 ? (
-        <div className="flex flex-col gap-1">
-          <div className="rounded-lg bg-gray-50 px-3.5 py-3">
-            <p className="text-sm font-semibold text-gray-500 pb-1">
-              핵심 요지
-            </p>
-            <p className="text-sm text-gray-600">{summary}</p>
-          </div>
-        </div>
-      ) : (
-        <div className="rounded-lg bg-gray-50 px-3.5 py-3">
-          <p className="text-sm text-gray-600">{summary}</p>
-        </div>
-      )}
-
-      {relatedLaws && relatedLaws.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1.5">
-          <p className="text-sm font-semibold text-gray-500">관련 법령</p>
-          {relatedLaws.map((law) => (
-            <span
-              key={law}
-              className="rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1 text-[13px] text-gray-700"
-            >
-              {law}
-            </span>
-          ))}
-        </div>
-      )}
+      <div className="rounded-lg bg-gray-50 px-3.5 py-3">
+        <p className="text-sm font-semibold text-gray-500 pb-1">핵심 요지</p>
+        <p className="text-sm text-gray-600">{summary}</p>
+      </div>
 
       <div className="flex flex-wrap gap-2 pt-1">
         {cited ? (

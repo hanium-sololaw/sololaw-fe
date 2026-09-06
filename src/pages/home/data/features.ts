@@ -1,7 +1,7 @@
-import feature0 from "@/assets/images/feature0.png";
-import feature1 from "@/assets/images/feature1.png";
-import feature2 from "@/assets/images/feature2.png";
-import feature3 from "@/assets/images/feature3.png";
+import feature0 from "@/assets/images/home/feature0.png";
+import feature1 from "@/assets/images/home/feature1.png";
+import feature2 from "@/assets/images/home/feature2.png";
+import feature3 from "@/assets/images/home/feature3.png";
 
 export const FEATURES = [
   {
