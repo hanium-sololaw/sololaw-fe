@@ -7,6 +7,8 @@ import CaseResultCard from "../shared/CaseResultCard";
 
 type ResultTab = "search" | "saved";
 
+const VISIBLE_LIMIT = 5;
+
 export default function CaseResultPanel() {
   const hasAnalyzed = useCaseSearchStore((state) => state.hasAnalyzed);
   const analyzeError = useCaseSearchStore((state) => state.analyzeError);
@@ -18,6 +20,7 @@ export default function CaseResultPanel() {
   const toggleCitedCase = useCaseSearchStore((state) => state.toggleCitedCase);
   const [resultTab, setResultTab] = useState<ResultTab>("search");
   const savedCases = cases.filter((item) => savedCaseIds.has(item.id));
+  const visibleCases = cases.slice(0, VISIBLE_LIMIT);
 
   if (!hasAnalyzed) {
     return (
@@ -55,11 +58,6 @@ export default function CaseResultPanel() {
               {resultTab === "saved" ? savedCases.length : casesTotal}건
             </span>
           </h2>
-          {resultTab === "search" && cases.length > 0 && casesTotal > cases.length && (
-            <p className="mt-1 text-xs text-gray-400">
-              관련도 높은 상위 {cases.length}건을 표시하고 있어요.
-            </p>
-          )}
         </div>
         <div className="flex gap-1 self-start rounded-lg bg-gray-100 p-1 text-sm">
           <button
@@ -119,23 +117,30 @@ export default function CaseResultPanel() {
           입력하신 사건과 관련된 공개 판례를 찾지 못했어요.
         </p>
       ) : (
-        cases.map((item) => (
-          <CaseResultCard
-            key={item.id}
-            title={item.title}
-            outcome={item.outcome}
-            court={item.court}
-            caseNumber={item.caseNumber}
-            date={item.date}
-            relevance={item.relevance}
-            summary={item.summary}
-            detailUrl={item.detailUrl}
-            cited={citedCaseIds.has(item.id)}
-            onToggleCite={() => toggleCitedCase(item)}
-            saved={savedCaseIds.has(item.id)}
-            onToggleSave={() => toggleSavedCase(item.id)}
-          />
-        ))
+        <>
+          {visibleCases.map((item) => (
+            <CaseResultCard
+              key={item.id}
+              title={item.title}
+              outcome={item.outcome}
+              court={item.court}
+              caseNumber={item.caseNumber}
+              date={item.date}
+              relevance={item.relevance}
+              summary={item.summary}
+              detailUrl={item.detailUrl}
+              cited={citedCaseIds.has(item.id)}
+              onToggleCite={() => toggleCitedCase(item)}
+              saved={savedCaseIds.has(item.id)}
+              onToggleSave={() => toggleSavedCase(item.id)}
+            />
+          ))}
+          {casesTotal > visibleCases.length && (
+            <p className="rounded-xl bg-gray-50 px-5 py-4 text-center text-sm text-gray-500">
+              유사 판례 {casesTotal}건이 더 있어요
+            </p>
+          )}
+        </>
       )}
     </section>
   );
