@@ -129,9 +129,6 @@ export const useCaseSearchStore = create<CaseSearchState>((set, get) => ({
   analyze: async (caseContext) => {
     set({ isAnalyzing: true, analyzeError: null });
     try {
-      // TEMP: category 필터를 끄고 테스트 — categoryFromCaseType 매핑이 0건의 원인인지 확인용.
-      // const selectedCase = get().myCases.find((item) => item.id === get().selectedCaseId);
-      // const category = categoryFromCaseType(selectedCase?.caseType);
       const result = await searchCases({ caseContext, limit: RESULT_LIMIT });
       set({
         isAnalyzing: false,
@@ -192,12 +189,17 @@ export const useCaseSearchStore = create<CaseSearchState>((set, get) => ({
       const citationId = state.citationIdByCase[item.id];
       set((s) => ({ citedCaseIds: toggleId(s.citedCaseIds, item.id) }));
       if (citationId !== undefined) {
-        await deleteCitation(citationId).catch(() => {});
-        set((s) => {
-          const next = { ...s.citationIdByCase };
-          delete next[item.id];
-          return { citationIdByCase: next };
-        });
+        try {
+          await deleteCitation(citationId);
+          set((s) => {
+            const next = { ...s.citationIdByCase };
+            delete next[item.id];
+            return { citationIdByCase: next };
+          });
+        } catch {
+          // 삭제 실패 시 서버에는 인용이 남아있으므로 UI도 되돌려 재시도할 수 있게 한다.
+          set((s) => ({ citedCaseIds: toggleId(s.citedCaseIds, item.id) }));
+        }
       }
       return;
     }

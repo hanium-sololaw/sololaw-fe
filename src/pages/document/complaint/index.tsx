@@ -9,6 +9,7 @@ import AttachmentsStep from "./ui/AttachmentsStep";
 import CourtClaimStep from "./ui/CourtClaimStep";
 import DemandStep from "./ui/DemandStep";
 import DoneView from "./ui/DoneView";
+import EFilingGuideView from "./ui/EFilingGuideView";
 import FactsStep from "./ui/FactsStep";
 import GenerateNotice from "../shared/GenerateNotice";
 import PartyStep from "./ui/PartyStep";
@@ -16,7 +17,7 @@ import TypeStep from "./ui/TypeStep";
 import { useDocGeneration } from "../shared/useDocGeneration";
 import WizardLayout from "../shared/WizardLayout";
 
-type Phase = "type" | "writing" | "generating" | "ready" | "done";
+type Phase = "type" | "writing" | "generating" | "ready" | "done" | "efiling";
 
 const STEP_TITLES = ["법원·청구금액", "당사자 정보", "사실관계", "독촉 내역", "증빙 자료"];
 
@@ -63,8 +64,27 @@ export default function ComplaintWizardPage() {
     );
   }
 
+  if (phase === "efiling" && doc) {
+    return (
+      <EFilingGuideView
+        doc={doc}
+        form={form}
+        typeTitle={type.title}
+        onEdit={() => setPhase("writing")}
+        onBack={() => setPhase("done")}
+      />
+    );
+  }
+
   if (phase === "done" && doc) {
-    return <DoneView doc={doc} onEdit={() => setPhase("writing")} onExit={() => navigate("/document")} />;
+    return (
+      <DoneView
+        doc={doc}
+        onEdit={() => setPhase("writing")}
+        onExit={() => navigate("/document")}
+        onSubmitGuide={() => setPhase("efiling")}
+      />
+    );
   }
 
   const steps = STEP_TITLES.map((title, index) => ({ title, done: index < stepIndex }));

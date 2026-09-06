@@ -1,5 +1,4 @@
-const inputCls =
-  "w-full rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-blue-400";
+import { inputCls } from "../../shared/formStyles";
 
 type NarrativeStepProps = {
   question: string;

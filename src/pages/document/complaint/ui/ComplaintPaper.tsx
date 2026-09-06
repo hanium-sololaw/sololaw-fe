@@ -1,3 +1,5 @@
+import PaperContainer from "../../shared/PaperContainer";
+import PaperSectionTitle from "../../shared/PaperSectionTitle";
 import type { ComplaintDoc } from "../lib/buildDoc";
 
 type ComplaintPaperProps = {
@@ -6,7 +8,7 @@ type ComplaintPaperProps = {
 
 export default function ComplaintPaper({ doc }: ComplaintPaperProps) {
   return (
-    <div className="font-serif text-[13px] leading-loose text-gray-800">
+    <PaperContainer>
       <p className="text-center text-xl font-bold tracking-[0.4em] text-gray-900">소 장</p>
 
       <div className="mt-6 space-y-0.5 whitespace-pre-wrap">
@@ -20,26 +22,26 @@ export default function ComplaintPaper({ doc }: ComplaintPaperProps) {
       </p>
       <p className="mt-1 text-gray-600">소송목적의 값 · {doc.objectValue}</p>
 
-      <p className="mt-5 mb-2 text-center text-[15px] font-bold tracking-[0.35em] text-gray-900">청 구 취 지</p>
+      <PaperSectionTitle>청 구 취 지</PaperSectionTitle>
       {doc.claimPurpose.map((line, index) => (
         <p key={index}>{line}</p>
       ))}
 
-      <p className="mt-5 mb-2 text-center text-[15px] font-bold tracking-[0.35em] text-gray-900">청 구 원 인</p>
+      <PaperSectionTitle>청 구 원 인</PaperSectionTitle>
       {doc.claimCause.map((line, index) => (
         <p key={index} className="whitespace-pre-wrap">
           {line}
         </p>
       ))}
 
-      <p className="mt-5 mb-2 text-center text-[15px] font-bold tracking-[0.35em] text-gray-900">입 증 방 법</p>
+      <PaperSectionTitle>입 증 방 법</PaperSectionTitle>
       {doc.evidence.length === 0 ? (
         <p className="text-gray-400">[ 가지고 있는 자료를 체크하면 이 자리에 나열됩니다 ]</p>
       ) : (
         doc.evidence.map((line, index) => <p key={index}>{line}</p>)
       )}
 
-      <p className="mt-5 mb-2 text-center text-[15px] font-bold tracking-[0.35em] text-gray-900">첨 부 서 류</p>
+      <PaperSectionTitle>첨 부 서 류</PaperSectionTitle>
       {doc.attachments.map((line, index) => (
         <p key={index}>1. {line}</p>
       ))}
@@ -65,6 +67,6 @@ export default function ComplaintPaper({ doc }: ComplaintPaperProps) {
           </p>
         </div>
       )}
-    </div>
+    </PaperContainer>
   );
 }

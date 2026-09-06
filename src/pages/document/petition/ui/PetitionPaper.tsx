@@ -1,3 +1,5 @@
+import PaperContainer from "../../shared/PaperContainer";
+import PaperSectionTitle from "../../shared/PaperSectionTitle";
 import type { PetitionDoc } from "../lib/buildDoc";
 
 type PetitionPaperProps = {
@@ -6,12 +8,12 @@ type PetitionPaperProps = {
 
 export default function PetitionPaper({ doc }: PetitionPaperProps) {
   return (
-    <div className="font-serif text-[13px] leading-loose text-gray-800">
+    <PaperContainer>
       <p className="text-center text-xl font-bold tracking-[0.4em] text-gray-900">{doc.title}</p>
 
       {doc.sections.map((section) => (
         <div key={section.heading}>
-          <p className="mt-5 mb-2 text-center text-[15px] font-bold tracking-[0.35em] text-gray-900">{section.heading}</p>
+          <PaperSectionTitle>{section.heading}</PaperSectionTitle>
           {section.lines.map((line, index) => (
             <p key={index} className="whitespace-pre-wrap">
               {line}
@@ -49,6 +51,6 @@ export default function PetitionPaper({ doc }: PetitionPaperProps) {
           </p>
         </div>
       )}
-    </div>
+    </PaperContainer>
   );
 }

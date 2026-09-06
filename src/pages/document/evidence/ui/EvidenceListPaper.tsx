@@ -1,3 +1,4 @@
+import PaperContainer from "../../shared/PaperContainer";
 import type { EvidenceListDoc } from "../lib/buildDoc";
 
 type EvidenceListPaperProps = {
@@ -6,7 +7,7 @@ type EvidenceListPaperProps = {
 
 export default function EvidenceListPaper({ doc }: EvidenceListPaperProps) {
   return (
-    <div className="font-serif text-[13px] leading-loose text-gray-800">
+    <PaperContainer>
       <p className="text-center text-xl font-bold tracking-[0.4em] text-gray-900">증 거 설 명 서</p>
       <p className="mt-1 text-center text-sm text-gray-500">{doc.title}</p>
 
@@ -59,6 +60,6 @@ export default function EvidenceListPaper({ doc }: EvidenceListPaperProps) {
       <p className="mt-8 text-center font-semibold tracking-[0.15em]">
         <b className="text-blue-500">{doc.court}</b>
       </p>
-    </div>
+    </PaperContainer>
   );
 }

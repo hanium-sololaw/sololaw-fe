@@ -85,19 +85,16 @@ export async function generatePetition(
       .map((precedent) => ({ case_no: precedent.caseNo, summary: precedent.summary })),
   };
 
-  const documentId = await createDraftIfNeeded({
-    caseId,
-    docType: "APPLICATION",
-    applicationSubtype: type.applicationType.toUpperCase(),
-    title: type.title,
-    content: form,
-  });
-  const { sections: apiSections, raw_text } = await postSSE<GenerateResponse>(
-    "/api/v1/documents/application/generate",
-    body,
-    undefined,
-    signal,
-  );
+  const [documentId, { sections: apiSections, raw_text }] = await Promise.all([
+    createDraftIfNeeded({
+      caseId,
+      docType: "APPLICATION",
+      applicationSubtype: type.applicationType.toUpperCase(),
+      title: type.title,
+      content: form,
+    }),
+    postSSE<GenerateResponse>("/api/v1/documents/application/generate", body, undefined, signal),
+  ]);
   await saveResultIfNeeded(documentId, raw_text, apiSections);
   const { sections, extraDoc } = splitSections(apiSections);
 

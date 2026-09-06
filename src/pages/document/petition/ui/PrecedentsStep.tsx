@@ -1,7 +1,5 @@
+import { inputCls } from "../../shared/formStyles";
 import { emptyCitedPrecedent, type CitedPrecedent } from "../lib/types";
-
-const inputCls =
-  "w-full rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-blue-400";
 
 type PrecedentsStepProps = {
   precedents: CitedPrecedent[];
