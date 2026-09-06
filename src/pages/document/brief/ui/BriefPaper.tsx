@@ -1,3 +1,5 @@
+import PaperContainer from "../../shared/PaperContainer";
+import PaperSectionTitle from "../../shared/PaperSectionTitle";
 import type { BriefDoc } from "../lib/buildDoc";
 
 type BriefPaperProps = {
@@ -6,7 +8,7 @@ type BriefPaperProps = {
 
 export default function BriefPaper({ doc }: BriefPaperProps) {
   return (
-    <div className="font-serif text-[13px] leading-loose text-gray-800">
+    <PaperContainer>
       <p className="text-center text-xl font-bold tracking-[0.4em] text-gray-900">{doc.title}</p>
 
       <div className="mt-6 space-y-0.5 whitespace-pre-wrap">
@@ -15,40 +17,40 @@ export default function BriefPaper({ doc }: BriefPaperProps) {
         ))}
       </div>
 
-      <p className="mt-5 mb-2 text-center text-[15px] font-bold tracking-[0.35em] text-gray-900">1. 상대방 주장의 요지</p>
+      <PaperSectionTitle>1. 상대방 주장의 요지</PaperSectionTitle>
       {doc.opponentSummary.map((line, index) => (
         <p key={index} className="whitespace-pre-wrap">
           {line}
         </p>
       ))}
 
-      <p className="mt-5 mb-2 text-center text-[15px] font-bold tracking-[0.35em] text-gray-900">2. 반 박</p>
+      <PaperSectionTitle>2. 반 박</PaperSectionTitle>
       {doc.rebuttal.map((line, index) => (
         <p key={index} className="whitespace-pre-wrap">
           {line}
         </p>
       ))}
 
-      <p className="mt-5 mb-2 text-center text-[15px] font-bold tracking-[0.35em] text-gray-900">3. 관련 법리</p>
+      <PaperSectionTitle>3. 관련 법리</PaperSectionTitle>
       {doc.relatedLaw.map((line, index) => (
         <p key={index}>{line}</p>
       ))}
 
-      <p className="mt-5 mb-2 text-center text-[15px] font-bold tracking-[0.35em] text-gray-900">4. 결 론</p>
+      <PaperSectionTitle>4. 결 론</PaperSectionTitle>
       {doc.conclusion.map((line, index) => (
         <p key={index} className="whitespace-pre-wrap">
           {line}
         </p>
       ))}
 
-      <p className="mt-5 mb-2 text-center text-[15px] font-bold tracking-[0.35em] text-gray-900">입 증 방 법</p>
+      <PaperSectionTitle>입 증 방 법</PaperSectionTitle>
       {doc.evidence.length === 0 ? (
         <p className="text-gray-400">[ 함께 낼 증거를 추가하면 이 자리에 나열됩니다 ]</p>
       ) : (
         doc.evidence.map((line, index) => <p key={index}>{line}</p>)
       )}
 
-      <p className="mt-5 mb-2 text-center text-[15px] font-bold tracking-[0.35em] text-gray-900">첨 부 서 류</p>
+      <PaperSectionTitle>첨 부 서 류</PaperSectionTitle>
       {doc.attachments.map((line, index) => (
         <p key={index}>1. {line}</p>
       ))}
@@ -64,6 +66,6 @@ export default function BriefPaper({ doc }: BriefPaperProps) {
       <p className="mt-5 text-center font-semibold tracking-[0.15em]">
         <b className="text-blue-500">{doc.court}</b>
       </p>
-    </div>
+    </PaperContainer>
   );
 }

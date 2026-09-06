@@ -16,8 +16,10 @@ import SearchLoading from "./ui/shared/SearchLoading";
 import { useCaseSearchStore } from "./store/useCaseSearchStore";
 import { useModal } from "@/shared/hooks/useModal";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function CaseSearchPage() {
+  const navigate = useNavigate();
   const activeTab = useCaseSearchStore((state) => state.activeTab);
   const myCases = useCaseSearchStore((state) => state.myCases);
   const casesLoading = useCaseSearchStore((state) => state.casesLoading);
@@ -64,7 +66,14 @@ export default function CaseSearchPage() {
       />
 
       {citationModal.isOpen && (
-        <CitationListModal items={citedItems} onClose={citationModal.close} />
+        <CitationListModal
+          items={citedItems}
+          onClose={citationModal.close}
+          onSendToDocument={() => {
+            citationModal.close();
+            navigate("/document");
+          }}
+        />
       )}
 
       <div className="flex flex-col">

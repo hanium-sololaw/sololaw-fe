@@ -89,13 +89,10 @@ export async function generateComplaint(
     cited_precedents: [],
   };
 
-  const documentId = await createDraftIfNeeded({ caseId, docType: "COMPLAINT", title: type.title, content: form });
-  const { sections, raw_text } = await postSSE<GenerateResponse>(
-    "/api/v1/documents/complaint/generate",
-    body,
-    undefined,
-    signal,
-  );
+  const [documentId, { sections, raw_text }] = await Promise.all([
+    createDraftIfNeeded({ caseId, docType: "COMPLAINT", title: type.title, content: form }),
+    postSSE<GenerateResponse>("/api/v1/documents/complaint/generate", body, undefined, signal),
+  ]);
   await saveResultIfNeeded(documentId, raw_text, sections);
 
   return {
