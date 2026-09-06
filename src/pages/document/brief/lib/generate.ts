@@ -95,18 +95,15 @@ export async function generateBrief(form: BriefForm, caseId: number | null, sign
     my_argument: form.myArgument || undefined,
   };
 
-  const documentId = await createDraftIfNeeded({
-    caseId,
-    docType: "BRIEF",
-    title: form.caseName || `${form.plaintiff} v ${form.defendant} 준비서면`,
-    content: form,
-  });
-  const { sections, raw_text } = await postSSE<GenerateResponse>(
-    "/api/v1/documents/brief/generate",
-    body,
-    undefined,
-    signal,
-  );
+  const [documentId, { sections, raw_text }] = await Promise.all([
+    createDraftIfNeeded({
+      caseId,
+      docType: "BRIEF",
+      title: form.caseName || `${form.plaintiff} v ${form.defendant} 준비서면`,
+      content: form,
+    }),
+    postSSE<GenerateResponse>("/api/v1/documents/brief/generate", body, undefined, signal),
+  ]);
   await saveResultIfNeeded(documentId, raw_text, sections);
 
   return {

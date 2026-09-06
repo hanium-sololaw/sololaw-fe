@@ -39,8 +39,7 @@ export default function CaseSearchTabs() {
     if (tabs.some((tab) => tab.id === tabParam) && tabParam !== activeTab) {
       setActiveTab(tabParam as (typeof tabs)[number]["id"]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchParams, activeTab, setActiveTab]);
 
   const handleTabClick = (tabId: (typeof tabs)[number]["id"]) => {
     setActiveTab(tabId);

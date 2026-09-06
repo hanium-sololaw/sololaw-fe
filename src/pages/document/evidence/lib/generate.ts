@@ -80,18 +80,15 @@ export async function generateEvidenceList(
     evidence_items: form.items.filter((item) => item.name.trim()).map(toApiEvidenceItem),
   };
 
-  const documentId = await createDraftIfNeeded({
-    caseId,
-    docType: "EVIDENCE_LIST",
-    title: form.caseNo ? `${form.caseNo} 증거목록` : "증거목록",
-    content: form,
-  });
-  const { sections, raw_text } = await postSSE<GenerateResponse>(
-    "/api/v1/documents/evidence-list/generate",
-    body,
-    undefined,
-    signal,
-  );
+  const [documentId, { sections, raw_text }] = await Promise.all([
+    createDraftIfNeeded({
+      caseId,
+      docType: "EVIDENCE_LIST",
+      title: form.caseNo ? `${form.caseNo} 증거목록` : "증거목록",
+      content: form,
+    }),
+    postSSE<GenerateResponse>("/api/v1/documents/evidence-list/generate", body, undefined, signal),
+  ]);
   await saveResultIfNeeded(documentId, raw_text, sections);
 
   return {
