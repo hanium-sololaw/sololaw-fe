@@ -20,3 +20,9 @@ export function formatDDay(value: number): string {
   if (value === 0) return "D-DAY";
   return `D+${Math.abs(value)}`;
 }
+
+export function formatMonthDay(dateStr: string): string {
+  const date = new Date(dateStr);
+  if (Number.isNaN(date.getTime())) return "-";
+  return `${date.getMonth() + 1}월 ${date.getDate()}일`;
+}
