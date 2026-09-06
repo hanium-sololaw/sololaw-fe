@@ -28,7 +28,7 @@ export type ActivityLogItem = {
 export type ChecklistItem = {
   id: string;
   label: string;
-  done: boolean;
+  done: boolean | null;
   pendingCount?: number;
 };
 
