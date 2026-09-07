@@ -59,7 +59,7 @@ export const complaintTypes: ComplaintType[] = [
     factFields: [
       { key: "빌려주기로 약속한 날", kind: "date" },
       { key: "처음 빌려준 총액", kind: "money" },
-      { key: "실제로 돈을 건넨 날", kind: "text", placeholder: "예) 약속한 날 바로 · 2026-02-03" },
+      { key: "실제로 돈을 건넨 날", kind: "date" },
       { key: "교부 방법", kind: "select", options: ["계좌이체", "현금 교부", "수표 교부", "그 밖의 방법"] },
       { key: "횟수", kind: "select", options: ["한 번에 전부", "여러 번 나눠서"] },
       { key: "변제기", kind: "text", placeholder: "예) 2026-05-01 · 정하지 않았다면 '정하지 않음'" },
