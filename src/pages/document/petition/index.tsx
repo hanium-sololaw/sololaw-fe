@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { loadDraft, saveDraft } from "./lib/draft";
 import { generatePetition } from "./lib/generate";
@@ -6,7 +6,6 @@ import { findPetitionType } from "./lib/petitionTypes";
 import { emptyPetitionForm } from "./lib/types";
 import type { PetitionForm, PetitionTypeId } from "./lib/types";
 import AttachmentsStep from "./ui/AttachmentsStep";
-import DoneView from "./ui/DoneView";
 import FactsStep from "./ui/FactsStep";
 import NarrativeStep from "./ui/NarrativeStep";
 import PartyStep from "./ui/PartyStep";
@@ -22,11 +21,9 @@ export default function PetitionWizardPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const caseId = searchParams.get("caseId") ? Number(searchParams.get("caseId")) : null;
-  const [draft] = useState(() => loadDraft());
-
-  const [phase, setPhase] = useState<Phase>(draft ? "writing" : "type");
-  const [typeId, setTypeId] = useState<PetitionTypeId>(draft?.typeId ?? "payment");
-  const [form, setForm] = useState<PetitionForm>(draft?.form ?? emptyPetitionForm);
+  const [phase, setPhase] = useState<Phase>("type");
+  const [typeId, setTypeId] = useState<PetitionTypeId>("payment");
+  const [form, setForm] = useState<PetitionForm>(emptyPetitionForm);
   const [stepIndex, setStepIndex] = useState(0);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -48,12 +45,20 @@ export default function PetitionWizardPage() {
     }, 600);
   };
 
+  useEffect(() => {
+    if (phase === "done" && doc) {
+      navigate("/document/petition/done", { state: { doc } });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, doc]);
+
   if (phase === "type") {
     return (
       <TypeStep
         onPick={(id) => {
           setTypeId(id);
-          setForm(emptyPetitionForm);
+          const typeDraft = loadDraft(id);
+          setForm(typeDraft?.form ?? emptyPetitionForm);
           setStepIndex(0);
           setPhase("writing");
         }}
@@ -62,9 +67,7 @@ export default function PetitionWizardPage() {
     );
   }
 
-  if (phase === "done" && doc) {
-    return <DoneView doc={doc} onEdit={() => setPhase("writing")} onExit={() => navigate("/document")} />;
-  }
+  if (phase === "done") return null;
 
   const steps = type.steps.map((step, index) => ({ title: step.title, done: index < stepIndex }));
   const isLastStep = stepIndex === steps.length - 1;
@@ -79,10 +82,10 @@ export default function PetitionWizardPage() {
       <div>
         <button
           type="button"
-          onClick={() => navigate("/document")}
+          onClick={() => setPhase("type")}
           className="mb-3 flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-700"
         >
-          ← 문서 유형 선택으로
+          ← 신청서 유형 선택으로
         </button>
         <div className="flex flex-wrap items-center gap-2.5">
           <h1 className="text-2xl font-bold text-gray-900">신청서 작성</h1>

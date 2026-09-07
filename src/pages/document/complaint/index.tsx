@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { findComplaintType } from "./lib/complaintTypes";
 import { loadDraft, saveDraft } from "./lib/draft";
@@ -8,8 +8,6 @@ import type { ComplaintForm, ComplaintTypeId } from "./lib/types";
 import AttachmentsStep from "./ui/AttachmentsStep";
 import CourtClaimStep from "./ui/CourtClaimStep";
 import DemandStep from "./ui/DemandStep";
-import DoneView from "./ui/DoneView";
-import EFilingGuideView from "./ui/EFilingGuideView";
 import FactsStep from "./ui/FactsStep";
 import GenerateNotice from "../shared/GenerateNotice";
 import PartyStep from "./ui/PartyStep";
@@ -17,7 +15,7 @@ import TypeStep from "./ui/TypeStep";
 import { useDocGeneration } from "../shared/useDocGeneration";
 import WizardLayout from "../shared/WizardLayout";
 
-type Phase = "type" | "writing" | "generating" | "ready" | "done" | "efiling";
+type Phase = "type" | "writing" | "generating" | "ready" | "done";
 
 const STEP_TITLES = ["법원·청구금액", "당사자 정보", "사실관계", "독촉 내역", "증빙 자료"];
 
@@ -25,11 +23,9 @@ export default function ComplaintWizardPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const caseId = searchParams.get("caseId") ? Number(searchParams.get("caseId")) : null;
-  const [draft] = useState(() => loadDraft());
-
-  const [phase, setPhase] = useState<Phase>(draft ? "writing" : "type");
-  const [typeId, setTypeId] = useState<ComplaintTypeId>(draft?.typeId ?? "loan");
-  const [form, setForm] = useState<ComplaintForm>(draft?.form ?? emptyComplaintForm);
+  const [phase, setPhase] = useState<Phase>("type");
+  const [typeId, setTypeId] = useState<ComplaintTypeId>("loan");
+  const [form, setForm] = useState<ComplaintForm>(emptyComplaintForm);
   const [stepIndex, setStepIndex] = useState(0);
 
   const type = findComplaintType(typeId);
@@ -51,12 +47,20 @@ export default function ComplaintWizardPage() {
     }, 600);
   };
 
+  useEffect(() => {
+    if (phase === "done" && doc) {
+      navigate("/document/complaint/done", { state: { doc, form, typeTitle: type.title } });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, doc]);
+
   if (phase === "type") {
     return (
       <TypeStep
         onPick={(id, situation) => {
           setTypeId(id);
-          setForm({ ...emptyComplaintForm, situation });
+          const typeDraft = loadDraft(id);
+          setForm({ ...(typeDraft?.form ?? emptyComplaintForm), situation });
           setPhase("writing");
         }}
         onBack={() => navigate("/document")}
@@ -64,28 +68,7 @@ export default function ComplaintWizardPage() {
     );
   }
 
-  if (phase === "efiling" && doc) {
-    return (
-      <EFilingGuideView
-        doc={doc}
-        form={form}
-        typeTitle={type.title}
-        onEdit={() => setPhase("writing")}
-        onBack={() => setPhase("done")}
-      />
-    );
-  }
-
-  if (phase === "done" && doc) {
-    return (
-      <DoneView
-        doc={doc}
-        onEdit={() => setPhase("writing")}
-        onExit={() => navigate("/document")}
-        onSubmitGuide={() => setPhase("efiling")}
-      />
-    );
-  }
+  if (phase === "done") return null;
 
   const steps = STEP_TITLES.map((title, index) => ({ title, done: index < stepIndex }));
   const isLastStep = stepIndex === steps.length - 1;
@@ -95,10 +78,10 @@ export default function ComplaintWizardPage() {
       <div>
         <button
           type="button"
-          onClick={() => navigate("/document")}
+          onClick={() => setPhase("type")}
           className="mb-3 flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-gray-700"
         >
-          ← 문서 유형 선택으로
+          ← 소장 유형 선택으로
         </button>
         <div className="flex flex-wrap items-center gap-2.5">
           <h1 className="text-2xl font-bold text-gray-900">소장 작성</h1>

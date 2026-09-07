@@ -1,11 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { loadDraft, saveDraft } from "./lib/draft";
 import { generateEvidenceList } from "./lib/generate";
 import { emptyEvidenceListForm } from "./lib/types";
 import type { EvidenceListForm } from "./lib/types";
 import CaseInfoStep from "./ui/CaseInfoStep";
-import DoneView from "./ui/DoneView";
 import EvidenceItemsStep from "./ui/EvidenceItemsStep";
 import ReviewStep from "./ui/ReviewStep";
 import GenerateNotice from "../shared/GenerateNotice";
@@ -43,9 +42,14 @@ export default function EvidenceListWizardPage() {
     }, 600);
   };
 
-  if (phase === "done" && doc) {
-    return <DoneView doc={doc} onEdit={() => setPhase("writing")} onExit={() => navigate("/document")} />;
-  }
+  useEffect(() => {
+    if (phase === "done" && doc) {
+      navigate("/document/evidence/done", { state: { doc } });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, doc]);
+
+  if (phase === "done") return null;
 
   const steps = STEP_TITLES.map((title, index) => ({ title, done: index < stepIndex }));
   const isLastStep = stepIndex === steps.length - 1;

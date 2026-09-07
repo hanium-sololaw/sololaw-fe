@@ -1,11 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { loadDraft, saveDraft } from "./lib/draft";
 import { generateBrief } from "./lib/generate";
 import { emptyBriefForm } from "./lib/types";
 import type { BriefForm } from "./lib/types";
 import CaseInfoStep from "./ui/CaseInfoStep";
-import DoneView from "./ui/DoneView";
 import EvidenceStep from "./ui/EvidenceStep";
 import OpponentStep from "./ui/OpponentStep";
 import RebuttalStep from "./ui/RebuttalStep";
@@ -44,9 +43,14 @@ export default function BriefWizardPage() {
     }, 600);
   };
 
-  if (phase === "done" && doc) {
-    return <DoneView doc={doc} onEdit={() => setPhase("writing")} onExit={() => navigate("/document")} />;
-  }
+  useEffect(() => {
+    if (phase === "done" && doc) {
+      navigate("/document/brief/done", { state: { doc } });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, doc]);
+
+  if (phase === "done") return null;
 
   const steps = STEP_TITLES.map((title, index) => ({ title, done: index < stepIndex }));
   const isLastStep = stepIndex === steps.length - 1;
