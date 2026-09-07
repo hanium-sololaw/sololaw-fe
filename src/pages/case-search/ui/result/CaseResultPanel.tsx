@@ -4,6 +4,7 @@ import ShineIcon from "@/assets/icons/case-search/shine-line-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
 import { useCaseSearchStore } from "../../store/useCaseSearchStore";
 import CaseResultCard from "../shared/CaseResultCard";
+import PremiumUpsellBanner from "../shared/PremiumUpsellBanner";
 
 type ResultTab = "search" | "saved";
 
@@ -21,6 +22,7 @@ export default function CaseResultPanel() {
   const [resultTab, setResultTab] = useState<ResultTab>("search");
   const savedCases = cases.filter((item) => savedCaseIds.has(item.id));
   const visibleCases = cases.slice(0, VISIBLE_LIMIT);
+  const remainingCount = casesTotal - visibleCases.length;
 
   if (!hasAnalyzed) {
     return (
@@ -55,7 +57,7 @@ export default function CaseResultPanel() {
           <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">
             {resultTab === "saved" ? "저장한 판례" : "내 사건과 유사한 판례"}{" "}
             <span className="text-blue-500">
-              {resultTab === "saved" ? savedCases.length : casesTotal}건
+              {resultTab === "saved" ? savedCases.length : visibleCases.length}건
             </span>
           </h2>
         </div>
@@ -135,13 +137,10 @@ export default function CaseResultPanel() {
               onToggleSave={() => toggleSavedCase(item.id)}
             />
           ))}
-          {casesTotal > visibleCases.length && (
-            <p className="rounded-xl bg-gray-50 px-5 py-4 text-center text-sm text-gray-500">
-              유사 판례 {casesTotal}건이 더 있어요
-            </p>
-          )}
         </>
       )}
+
+      {resultTab === "search" && remainingCount > 0 && <PremiumUpsellBanner remainingCount={remainingCount} />}
     </section>
   );
 }
