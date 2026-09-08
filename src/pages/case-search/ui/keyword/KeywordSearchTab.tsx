@@ -8,13 +8,11 @@ import {
 } from "../../data/keywordSearch";
 import CaseResultCard from "../shared/CaseResultCard";
 import SearchLoading from "../shared/SearchLoading";
-import PremiumUpsellBanner from "../shared/PremiumUpsellBanner";
 import { useCaseSearchStore } from "../../store/useCaseSearchStore";
 
 type ResultTab = "search" | "saved";
 
 const QUICK_KEYWORDS = ["민사", "대여금", "임대차", "보증금", "임금 체불"];
-const VISIBLE_LIMIT = 5;
 
 export default function KeywordSearchTab() {
   const savedKeywordCaseIds = useCaseSearchStore(
@@ -41,8 +39,6 @@ export default function KeywordSearchTab() {
   const savedResults = keywordCases.filter((item) =>
     savedKeywordCaseIds.has(item.id),
   );
-  const visibleKeywordCases = keywordCases.slice(0, VISIBLE_LIMIT);
-  const remainingCount = keywordCasesTotal - visibleKeywordCases.length;
   const [searchParams, setSearchParams] = useSearchParams();
   const initialQuery = searchParams.get("q") ?? "";
   const [query, setQuery] = useState(initialQuery);
@@ -171,7 +167,7 @@ export default function KeywordSearchTab() {
       );
     }
 
-    return visibleKeywordCases.map((item) => (
+    return keywordCases.map((item) => (
       <CaseResultCard
         key={item.id}
         title={item.title}
@@ -263,7 +259,7 @@ export default function KeywordSearchTab() {
             <h2 className="text-xl font-bold text-gray-900 sm:text-2xl">
               관련 판례{" "}
               <span className="text-blue-500">
-                {hasSearched && !isSearching ? visibleKeywordCases.length : 0}건
+                {hasSearched && !isSearching ? keywordCasesTotal : 0}건
               </span>
             </h2>
           </div>
@@ -294,10 +290,6 @@ export default function KeywordSearchTab() {
         </div>
 
         {resultsContent}
-
-        {resultTab === "search" && remainingCount > 0 && (
-          <PremiumUpsellBanner remainingCount={remainingCount} />
-        )}
       </section>
     </div>
   );
