@@ -1,7 +1,5 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import CheckIcon from "@/assets/icons/case-search/check-icon.svg?react";
-import WriteIcon from "@/assets/icons/case-search/write-icon.svg?react";
-import UploadIcon from "@/assets/icons/case-search/upload-icon.svg?react";
 import Icon from "@/shared/ui/Icon";
 import {
   accuracyStyles,
@@ -20,23 +18,7 @@ export default function AnalysisInfoCard({
 }: AnalysisInfoCardProps) {
   const [context, setContext] = useState("");
   const checkedItems = useCaseSearchStore((state) => state.checkedItems);
-  const setChecklistItem = useCaseSearchStore((state) => state.setChecklistItem);
   const onAnalyze = useCaseSearchStore((state) => state.analyze);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [pendingId, setPendingId] = useState<ChecklistId | null>(null);
-
-  const handleRegisterClick = (id: ChecklistId) => {
-    setPendingId(id);
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    e.target.value = "";
-    if (file && pendingId) setChecklistItem(pendingId, true);
-    setPendingId(null);
-  };
-
   const checkedCount = Object.values(checkedItems).filter(Boolean).length;
   const accuracy = getAccuracyLevel(checkedCount);
   const style = accuracyStyles[accuracy];
@@ -44,12 +26,6 @@ export default function AnalysisInfoCard({
 
   return (
     <section className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5 sm:p-8">
-      <input
-        ref={fileInputRef}
-        type="file"
-        className="hidden"
-        onChange={handleFileChange}
-      />
       <div className="flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-300 text-xs font-semibold text-white">
@@ -96,25 +72,11 @@ export default function AnalysisInfoCard({
                   <p className="font-semibold text-gray-900">{meta.title}</p>
                   <p className="text-sm text-gray-500">
                     {checked
-                      ? meta.doneDescription(caseTitle)
+                      ? meta.doneDescription()
                       : meta.pendingDescription}
                   </p>
                 </div>
               </div>
-
-              <button
-                type="button"
-                onClick={() =>
-                  checked ? setChecklistItem(id, false) : handleRegisterClick(id)
-                }
-                className={`shrink-0 rounded-xl px-3 py-1.5 text-xs font-semibold ${
-                  checked
-                    ? "bg-gray-100 text-gray-500"
-                    : "bg-blue-50 text-blue-500"
-                }`}
-              >
-                {checked ? "해제하기" : "등록하기"}
-              </button>
             </div>
           );
         })}
@@ -133,24 +95,7 @@ export default function AnalysisInfoCard({
         />
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700"
-          >
-            <Icon icon={WriteIcon} size={14} />
-            소장 작성
-          </button>
-          <button
-            type="button"
-            className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-700"
-          >
-            <Icon icon={UploadIcon} size={14} />
-            소장 업로드
-          </button>
-        </div>
-
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
         <button
           type="button"
           onClick={() => onAnalyze(context.trim() || caseTitle)}

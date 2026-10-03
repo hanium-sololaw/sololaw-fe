@@ -68,10 +68,9 @@ export default function CostCalculatorModal({ onClose }: CostCalculatorModalProp
         <p className="text-sm text-gray-700">청구 금액 (소송목적의 값)</p>
         <div className="flex items-center rounded-xl border border-gray-200 px-4 py-3">
           <input
-            type="number"
-            min={0}
-            value={claimAmount || ""}
-            onChange={(e) => setClaimAmount(Number(e.target.value) || 0)}
+            inputMode="numeric"
+            value={claimAmount ? claimAmount.toLocaleString("ko-KR") : ""}
+            onChange={(e) => setClaimAmount(Number(e.target.value.replace(/[^0-9]/g, "")) || 0)}
             placeholder="0"
             className="w-full outline-none placeholder:text-gray-300"
           />

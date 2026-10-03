@@ -1,7 +1,9 @@
 import { create } from "zustand";
 import type { CaseSearchTab } from "../data/tabs";
 import type { ChecklistId } from "../data/checklistMeta";
-import { deleteCase as deleteCaseApi, listMyCases, type Case } from "@/shared/api/cases";
+import { listMyCases, type Case } from "@/shared/api/cases";
+import { listDocuments } from "@/pages/document/shared/listDocuments";
+import { listEvidence } from "@/pages/evidence/api";
 import { createCitation, deleteCitation, listMyCitations } from "@/shared/api/citations";
 import { searchCases } from "../lib/search";
 import type { CaseCard, RelatedStatute, SearchCategory, SearchStatistics } from "../lib/search";
@@ -47,13 +49,12 @@ type CaseSearchState = {
   setActiveTab: (tab: CaseSearchTab) => void;
   loadMyCases: () => Promise<void>;
   loadCitations: (caseId: number) => Promise<void>;
+  loadRegisteredInfo: (caseId: number) => Promise<void>;
   analyze: (caseContext: string) => Promise<void>;
   search: (query: string, category: SearchCategory | null) => Promise<void>;
   selectCase: (id: number) => void;
   confirmCase: () => void;
   editCase: () => void;
-  deleteSelectedCase: () => Promise<void>;
-  setChecklistItem: (id: ChecklistId, checked: boolean) => void;
   toggleSavedCase: (id: string) => void;
   toggleSavedKeywordCase: (id: string) => void;
   toggleCitedCase: (item: CaseCard) => Promise<void>;
@@ -109,7 +110,10 @@ export const useCaseSearchStore = create<CaseSearchState>((set, get) => ({
       const result = await listMyCases();
       const selectedCaseId = get().selectedCaseId ?? result.content[0]?.id ?? null;
       set({ casesLoading: false, myCases: result.content, selectedCaseId });
-      if (selectedCaseId !== null) void get().loadCitations(selectedCaseId);
+      if (selectedCaseId !== null) {
+        void get().loadCitations(selectedCaseId);
+        void get().loadRegisteredInfo(selectedCaseId);
+      }
     } catch {
       set({ casesLoading: false, myCases: [] });
     }
@@ -123,6 +127,27 @@ export const useCaseSearchStore = create<CaseSearchState>((set, get) => ({
       set({ citedCaseIds, citationIdByCase });
     } catch {
       // 목록을 못 불러와도 검색 자체는 계속 쓸 수 있어야 하므로 조용히 무시
+    }
+  },
+
+  // 사건에 이미 등록된 소장·증거·준비서면을 분석 정보로 자동 반영한다.
+  loadRegisteredInfo: async (caseId) => {
+    set({ checkedItems: { basic: true, complaint: false, evidence: false } });
+    try {
+      const [docs, evidence] = await Promise.all([
+        listDocuments({ caseId, size: 100 }),
+        listEvidence({ caseId, size: 1 }),
+      ]);
+      if (get().selectedCaseId !== caseId) return;
+      set({
+        checkedItems: {
+          basic: true,
+          complaint: docs.content.some((d) => d.docType === "COMPLAINT"),
+          evidence: evidence.totalElements > 0 || docs.content.some((d) => d.docType === "BRIEF"),
+        },
+      });
+    } catch {
+      // 조회 실패 시 기본 정보만 반영된 상태로 둔다.
     }
   },
 
@@ -160,22 +185,15 @@ export const useCaseSearchStore = create<CaseSearchState>((set, get) => ({
   },
 
   selectCase: (id) => {
+    if (id !== get().selectedCaseId) {
+      set({ hasAnalyzed: false, analyzeError: null, cases: [], casesTotal: 0, statutes: [], statistics: null });
+    }
     set({ selectedCaseId: id });
     void get().loadCitations(id);
+    void get().loadRegisteredInfo(id);
   },
-  confirmCase: () => set({ caseConfirmed: true, checkedItems: emptyChecklist }),
+  confirmCase: () => set({ caseConfirmed: true }),
   editCase: () => set({ caseConfirmed: false }),
-  deleteSelectedCase: async () => {
-    const caseId = get().selectedCaseId;
-    if (caseId === null) return;
-    await deleteCaseApi(caseId);
-    set({ selectedCaseId: null, caseConfirmed: false, hasAnalyzed: false, cases: [], statistics: null });
-    await get().loadMyCases();
-  },
-  setChecklistItem: (id, checked) =>
-    set((state) => ({
-      checkedItems: { ...state.checkedItems, [id]: checked },
-    })),
   toggleSavedCase: (id) =>
     set((state) => ({ savedCaseIds: toggleId(state.savedCaseIds, id) })),
   toggleSavedKeywordCase: (id) =>

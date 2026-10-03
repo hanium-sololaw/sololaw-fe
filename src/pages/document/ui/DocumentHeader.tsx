@@ -3,12 +3,16 @@ export type DocumentSource = "case" | "none";
 type DocumentHeaderProps = {
   activeSource: DocumentSource;
   onChangeSource: (source: DocumentSource) => void;
+  selectedCase?: { title: string; caseNumber: string };
 };
 
 export default function DocumentHeader({
   activeSource,
   onChangeSource,
+  selectedCase,
 }: DocumentHeaderProps) {
+  const showCase = activeSource === "case" && !!selectedCase;
+
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex flex-col gap-1">
@@ -21,6 +25,13 @@ export default function DocumentHeader({
       </div>
 
       <div className="flex items-center gap-4 self-start rounded-[10px] border border-gray-200 bg-white px-6 py-3 text-sm sm:text-base">
+        {showCase && (
+          <div className="flex min-w-0 flex-col gap-0.5">
+            <p className="truncate font-semibold text-gray-800">{selectedCase.title}</p>
+            <p className="text-xs text-gray-400 sm:text-sm">{selectedCase.caseNumber}</p>
+          </div>
+        )}
+
         <button
           type="button"
           onClick={() => onChangeSource("case")}
@@ -30,7 +41,7 @@ export default function DocumentHeader({
               : "text-gray-300"
           }
         >
-          사건 선택하기
+          {showCase ? "사건 바꾸기" : "사건 선택하기"}
         </button>
 
         <span className="h-4 w-px bg-gray-200" />
