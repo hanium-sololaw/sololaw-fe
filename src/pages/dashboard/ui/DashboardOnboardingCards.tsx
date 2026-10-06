@@ -21,11 +21,11 @@ const cards = [
   },
   {
     id: "evidence",
-    title: "증거·일정 관리",
+    title: "일정 관리",
     description: "증거를 정리하고 변론기일·제출기한 알림을 받아요.",
     image: evidenceImage,
     imageClassName: "w-[208px]",
-    to: "/evidence",
+    to: "/schedule",
   },
 ];
 
@@ -50,7 +50,10 @@ export default function DashboardOnboardingCards({
           <h3 className="text-xl font-bold text-gray-600">{title}</h3>
           <p className="mt-2 text-sm leading-5 text-gray-500">{description}</p>
 
-          <div className="mt-5 flex min-h-0 w-full flex-1 justify-center" aria-hidden="true">
+          <div
+            className="mt-5 flex min-h-0 w-full flex-1 justify-center"
+            aria-hidden="true"
+          >
             <img
               src={image}
               alt=""
