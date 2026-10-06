@@ -43,7 +43,7 @@ export default function DashboardPage() {
             <DashboardEmptyBanner onCreateCase={newCaseModal.open} />
           </div>
 
-          <DashboardOnboardingCards />
+          <DashboardOnboardingCards onCreateCase={newCaseModal.open} />
         </main>
 
         {newCaseModal.isOpen && (
