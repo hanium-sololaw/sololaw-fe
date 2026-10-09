@@ -15,9 +15,9 @@ export default function PremiumUpsellBanner({ remainingCount }: PremiumUpsellBan
     <>
       <div className="flex flex-col gap-3 rounded-2xl border border-blue-200 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-6">
         <div className="flex items-center gap-4">
-          <Icon icon={LockIcon} size={22} className="text-blue-300" />
+          <Icon icon={LockIcon} size={22} className="text-blue-400" />
           <div>
-            <p className="font-semibold text-blue-300">유사 판례 {remainingCount}건이 더 있어요</p>
+            <p className="font-semibold text-blue-400">유사 판례 {remainingCount}건이 더 있어요</p>
             <p className="text-sm text-gray-400">관련성 보통</p>
           </div>
         </div>
@@ -25,7 +25,7 @@ export default function PremiumUpsellBanner({ remainingCount }: PremiumUpsellBan
           <button
             type="button"
             onClick={premiumModal.open}
-            className="flex items-center gap-1.5 rounded-xl border border-[#C9E2FF] bg-[rgba(232,243,255,0.34)] px-[18px] py-3 text-sm font-semibold text-blue-300"
+            className="flex items-center gap-1.5 rounded-xl border border-[#C9E2FF] bg-[rgba(232,243,255,0.34)] px-[18px] py-3 text-sm font-semibold text-blue-400"
           >
             <Icon icon={CrownIcon} size={15} />
             프리미엄으로 전체 보기 →

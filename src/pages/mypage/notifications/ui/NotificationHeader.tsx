@@ -16,7 +16,7 @@ export default function NotificationHeader() {
         </p>
       </div>
 
-      <button type="button" className="text-sm font-semibold text-blue-300">
+      <button type="button" className="text-sm font-semibold text-blue-400">
         모두 읽음
       </button>
     </div>

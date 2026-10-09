@@ -76,7 +76,7 @@ export default function ScheduleCalendar({
               index === 0
                 ? "text-red-400"
                 : index === 6
-                  ? "text-blue-300"
+                  ? "text-blue-400"
                   : "text-gray-900"
             }`}
           >
@@ -114,7 +114,7 @@ export default function ScheduleCalendar({
                         : weekday === 0
                           ? "text-red-400"
                           : weekday === 6
-                            ? "text-blue-300"
+                            ? "text-blue-400"
                             : "text-gray-700"
                     }`}
                   >

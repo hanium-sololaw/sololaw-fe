@@ -54,7 +54,7 @@ export default function LoginForm() {
           />
           로그인 상태 유지
         </label>
-        {/* <Link to="#" className="text-sm text-blue-300">
+        {/* <Link to="#" className="text-sm text-blue-400">
           비밀번호 찾기
         </Link> */}
       </div>
@@ -65,7 +65,7 @@ export default function LoginForm() {
 
       <p className="text-center text-sm text-gray-500">
         <span className="mr-[10px]">계정이 없으신가요?</span>
-        <Link to="/signup" className="text-blue-300">
+        <Link to="/signup" className="text-blue-400">
           회원가입
         </Link>
       </p>

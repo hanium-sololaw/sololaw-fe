@@ -35,7 +35,7 @@ export default function SubscriptionManagement() {
                 <span className="text-sm font-semibold text-gray-900">
                   {item.title}
                 </span>
-                <span className="text-xs font-semibold text-blue-300">
+                <span className="text-xs font-semibold text-blue-400">
                   {item.badge}
                 </span>
               </div>

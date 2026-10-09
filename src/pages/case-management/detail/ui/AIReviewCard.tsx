@@ -10,7 +10,7 @@ export default function AIReviewCard({ notes }: AIReviewCardProps) {
     <section className="flex flex-col gap-4 rounded-[20px] border border-gray-200 bg-white p-5">
       <div className="flex items-center justify-between">
         <h2 className="flex items-center gap-1.5 text-base font-bold text-gray-900">
-          <ShineIcon className="h-4 w-4 text-blue-300" />
+          <ShineIcon className="h-4 w-4 text-blue-400" />
           AI 검토
         </h2>
         {notes.length > 0 && (

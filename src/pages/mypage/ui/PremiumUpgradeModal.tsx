@@ -34,7 +34,7 @@ export default function PremiumUpgradeModal({
                 <span className="text-sm font-bold text-gray-600">
                   기본 검색
                 </span>
-                <span className="text-xs font-semibold text-blue-300">
+                <span className="text-xs font-semibold text-blue-400">
                   현재 이용권
                 </span>
               </div>
@@ -68,7 +68,7 @@ export default function PremiumUpgradeModal({
           <div className="flex flex-col gap-4 rounded-[20px] bg-white p-6 shadow-[inset_0_6px_6px_-2px_rgba(35,101,255,0.15),inset_0_-20px_20px_-6px_rgba(255,255,255,0.40),inset_0_-40px_10px_-8px_rgba(0,77,255,0.50),inset_0_-80px_60px_-25px_#144CCD]">
             <div className="flex flex-col gap-1">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-bold text-blue-300">
+                <span className="text-sm font-bold text-blue-400">
                   판례검색 프리미엄
                 </span>
                 <span className="rounded-sm bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-300 backdrop-blur-sm">
@@ -77,7 +77,7 @@ export default function PremiumUpgradeModal({
               </div>
 
               <div className="border-b border-blue-100 pb-3">
-                <span className="text-[28px] font-bold text-blue-300">
+                <span className="text-[28px] font-bold text-blue-400">
                   14,900원
                 </span>
                 <span className="pb-1 text-sm text-blue-300"> / 월</span>

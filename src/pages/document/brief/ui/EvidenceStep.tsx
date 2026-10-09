@@ -77,7 +77,7 @@ export default function EvidenceStep({ form, onChange }: EvidenceStepProps) {
           <div className="mt-3 flex flex-col gap-2">
             {form.newEvidence.map((name, index) => (
               <div key={`${name}-${index}`} className="flex items-center gap-2.5 rounded-xl border border-gray-200 bg-white p-2.5">
-                <span className="shrink-0 rounded-md bg-blue-50 px-2 py-1 text-xs font-bold text-blue-300">
+                <span className="shrink-0 rounded-md bg-blue-50 px-2 py-1 text-xs font-bold text-blue-400">
                   {prefix} 제{startNo + index}호증
                 </span>
                 <span className="min-w-0 flex-1 text-sm text-gray-800">{name}</span>

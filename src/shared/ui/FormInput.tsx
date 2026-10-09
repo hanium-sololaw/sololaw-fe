@@ -53,7 +53,7 @@ export function FormInput({
       </div>
       {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
       {!error && success && (
-        <p className="mt-1 text-xs text-blue-300">{success}</p>
+        <p className="mt-1 text-xs text-blue-400">{success}</p>
       )}
     </div>
   );

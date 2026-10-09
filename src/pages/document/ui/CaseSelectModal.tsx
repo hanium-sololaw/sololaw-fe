@@ -37,7 +37,7 @@ export default function CaseSelectModal({ cases, selectedId, onConfirm, onCreate
                 }`}
               >
                 <div className="flex min-w-0 flex-col gap-1">
-                  <p className={`font-semibold ${active ? "text-blue-300" : "text-gray-700"}`}>{item.title}</p>
+                  <p className={`font-semibold ${active ? "text-blue-400" : "text-gray-700"}`}>{item.title}</p>
                   <p className={`text-sm ${active ? "text-blue-300" : "text-gray-400"}`}>
                     {item.caseNumber} · {item.court}
                   </p>

@@ -42,7 +42,7 @@ export default function UpcomingSchedules({ events }: UpcomingSchedulesProps) {
                     className={`shrink-0 rounded-full px-1.5 py-0.5 text-xs font-semibold ${
                       event.urgent
                         ? "bg-red-50 text-red-400"
-                        : "bg-blue-50 text-blue-300"
+                        : "bg-blue-50 text-blue-400"
                     }`}
                   >
                     {event.dDay}

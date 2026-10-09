@@ -46,7 +46,7 @@ export default function DashboardBanner() {
 
           <div className="col-start-1 row-start-1 flex h-full flex-col px-10 py-6 pointer-events-none">
             <div className="flex flex-1 flex-col justify-center gap-2.25">
-              <p className="text-3xl leading-tight font-semibold text-blue-300">
+              <p className="text-3xl leading-tight font-semibold text-blue-400">
                 준비서면 제출 D-3
                 <br />
                 지금 바로 작성하세요!
@@ -65,7 +65,7 @@ export default function DashboardBanner() {
         <div className="flex items-center gap-3">
           <DiamondIcon />
 
-          <p className="text-xl font-semibold text-blue-300">
+          <p className="text-xl font-semibold text-blue-400">
             AI가 제안 주요 작업
           </p>
         </div>
@@ -74,7 +74,7 @@ export default function DashboardBanner() {
           {aiTasks.map((task) => (
             <button
               key={task.label}
-              className="flex h-9.25 items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-1.75 text-sm text-blue-300"
+              className="flex h-9.25 items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-1.75 text-sm text-blue-400"
             >
               {task.label}
 

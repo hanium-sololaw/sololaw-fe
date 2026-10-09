@@ -17,8 +17,8 @@ function DocumentTypeCard({
       onClick={onPick}
       className="group relative flex flex-col items-start gap-1 overflow-hidden rounded-2xl border border-gray-200 bg-[#F2F4F6] p-6 text-left transition-colors duration-300 hover:border-[#90c2ff] hover:bg-[#e8f3ff]"
     >
-      <h3 className="text-lg font-bold text-gray-900 transition-colors duration-300 group-hover:text-[#64A8FF]">{title}</h3>
-      <p className="text-sm text-gray-500 transition-colors duration-300 group-hover:text-[#64a8ff]">{description}</p>
+      <h3 className="text-lg font-bold text-gray-900 transition-colors duration-300 group-hover:text-blue-400">{title}</h3>
+      <p className="text-sm text-gray-500 transition-colors duration-300 group-hover:text-blue-400">{description}</p>
 
       <div className="relative mt-4 aspect-[248/210] w-full">
         <div className="absolute top-[54%] left-[55%] h-[92%] w-[66%] -translate-x-1/2 -translate-y-1/2 rotate-[5.54deg] rounded-[14px] bg-[#c0cad7] transition-transform duration-300 ease-out group-hover:top-[55%] group-hover:rotate-[14.22deg]" />
