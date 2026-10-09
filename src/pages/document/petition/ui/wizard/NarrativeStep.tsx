@@ -1,0 +1,26 @@
+import { fieldTextareaCls } from "../../../ui/shared/formStyles";
+
+type NarrativeStepProps = {
+  question: string;
+  placeholder: string;
+  value: string;
+  onChange: (value: string) => void;
+};
+
+export default function NarrativeStep({ question, placeholder, value, onChange }: NarrativeStepProps) {
+  return (
+    <label className="block">
+      <span className="mb-1.5 block text-sm font-medium text-gray-700">{question}</span>
+      <textarea
+        rows={7}
+        className={fieldTextareaCls}
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+      <span className="mt-1.5 block text-xs text-gray-400">
+        문장을 다듬지 않아도 괜찮아요. AI가 신청서 문체로 정리해드립니다.
+      </span>
+    </label>
+  );
+}

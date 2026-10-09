@@ -1,7 +1,6 @@
 import { apiClient } from "@/shared/api/client";
 import type { ApiEnvelope, Document } from "./document";
 
-/** Persists the RAG SSE `done` result (raw_text + sections) via POST /api/documents/{documentId}/result. */
 export async function saveDocumentResult(
   documentId: number,
   generatedText: string,

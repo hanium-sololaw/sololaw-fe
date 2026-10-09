@@ -1,5 +1,4 @@
 import { ragApiClient } from "@/shared/api/client";
-import type { CaseType } from "@/shared/api/cases";
 
 export type SearchOutcome = "win" | "partial" | "lose" | "unknown";
 export type SearchCategory = "civil" | "loan" | "lease";
@@ -96,26 +95,6 @@ const OUTCOME_LABEL: Record<SearchOutcome, CaseOutcome> = {
   lose: "원고 패소",
   unknown: null,
 };
-
-/**
- * "내 사건" 탭에서 등록된 사건의 유형(CaseType)으로 검색 category를 자동 지정한다. 매칭되는 값이
- * 없으면 전체 검색으로 둔다. WAGE/TORT → civil, DEPOSIT/EVICTION → lease 매핑은 확정된 스펙이
- * 아닌 최선의 추정치 — 실제 분류 기준이 다르면 조정 필요.
- */
-export function categoryFromCaseType(type: CaseType | undefined): SearchCategory | undefined {
-  switch (type) {
-    case "LOAN":
-      return "loan";
-    case "DEPOSIT":
-    case "EVICTION":
-      return "lease";
-    case "WAGE":
-    case "TORT":
-      return "civil";
-    default:
-      return undefined;
-  }
-}
 
 function toCaseCard(item: ApiCaseCard): CaseCard {
   return {

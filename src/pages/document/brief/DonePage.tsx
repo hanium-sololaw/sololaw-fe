@@ -1,21 +1,11 @@
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import DocumentDonePage from "../ui/shared/DocumentDonePage";
 import type { BriefDoc } from "./lib/buildDoc";
-import DoneView from "./ui/DoneView";
-
-type DoneLocationState = { doc: BriefDoc };
+import DoneView from "./ui/done/DoneView";
 
 export default function BriefDonePage() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const state = location.state as DoneLocationState | null;
-
-  if (!state?.doc) return <Navigate to="/document/brief" replace />;
-
   return (
-    <DoneView
-      doc={state.doc}
-      onEdit={() => navigate("/document/brief")}
-      onExit={() => navigate("/document")}
-    />
+    <DocumentDonePage<{ doc: BriefDoc }> wizardPath="/document/brief">
+      {({ doc }, { onEdit, onExit }) => <DoneView doc={doc} onEdit={onEdit} onExit={onExit} />}
+    </DocumentDonePage>
   );
 }

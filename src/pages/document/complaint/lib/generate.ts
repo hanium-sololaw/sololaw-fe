@@ -1,7 +1,6 @@
-import { postSSE } from "@/shared/api/sse";
 import { formatDate } from "@/shared/utils/formatDate";
 import { toLines, toParagraphs } from "../../shared/text";
-import { createDraftIfNeeded, saveResultIfNeeded } from "../../shared/persistGeneration";
+import { runGeneration } from "../../shared/persistGeneration";
 import type { ComplaintDoc } from "./buildDoc";
 import type { ComplaintType } from "./complaintTypes";
 import type { ClaimType, ComplaintForm, DemandMethod, LawsuitType, Party, ValuationType } from "./types";
@@ -46,11 +45,6 @@ type GenerateSections = {
   annex: string;
 };
 
-type GenerateResponse = {
-  sections: GenerateSections;
-  raw_text: string;
-};
-
 function toApiParty(party: Party): ApiParty {
   const result: ApiParty = { name: party.name, address: party.address };
   if (party.residentId) result.resident_id = party.residentId;
@@ -60,7 +54,6 @@ function toApiParty(party: Party): ApiParty {
   return result;
 }
 
-/** Calls the 소장 generation API and maps the response into the shape ComplaintPaper renders. */
 export async function generateComplaint(
   type: ComplaintType,
   form: ComplaintForm,
@@ -89,11 +82,15 @@ export async function generateComplaint(
     cited_precedents: [],
   };
 
-  const [documentId, { sections, raw_text }] = await Promise.all([
-    createDraftIfNeeded({ caseId, docType: "COMPLAINT", title: type.title, content: form }),
-    postSSE<GenerateResponse>("/api/v1/documents/complaint/generate", body, undefined, signal),
-  ]);
-  await saveResultIfNeeded(documentId, raw_text, sections);
+  const sections = await runGeneration<GenerateSections, GenerateRequest>({
+    endpoint: "/api/v1/documents/complaint/generate",
+    body,
+    signal,
+    caseId,
+    docType: "COMPLAINT",
+    title: type.title,
+    content: form,
+  });
 
   return {
     caseName: sections.case_name,

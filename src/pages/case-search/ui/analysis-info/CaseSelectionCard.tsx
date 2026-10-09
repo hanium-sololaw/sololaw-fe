@@ -1,14 +1,7 @@
 import Dropdown from "@/shared/ui/Dropdown";
-import type { Case, CaseType } from "@/shared/api/cases";
+import type { Case } from "@/shared/api/cases";
+import { CASE_TYPE_LABEL } from "../../data/caseTypes";
 import { useCaseSearchStore } from "../../store/useCaseSearchStore";
-
-const CASE_TYPE_LABEL: Record<CaseType, string> = {
-  LOAN: "대여금",
-  DEPOSIT: "임대차보증금",
-  WAGE: "임금",
-  TORT: "손해배상",
-  EVICTION: "명도",
-};
 
 function CaseOption({ item }: { item: Case }) {
   return (

@@ -1,6 +1,5 @@
 type Draft<T> = { form: T; savedAt: number };
 
-/** localStorage-backed draft for a single-form document type (no type variants), e.g. 준비서면·증거목록. */
 export function createDraftStore<T>(key: string) {
   return {
     saveDraft(form: T): boolean {
@@ -23,11 +22,6 @@ export function createDraftStore<T>(key: string) {
   };
 }
 
-/**
- * localStorage-backed draft for a document type with multiple type variants, e.g. 소장·신청서.
- * Keeps one draft slot per variant, keyed by typeId, so switching variants never leaks another
- * variant's data into the form — each variant remembers only its own last-edited content.
- */
 export function createTypedDraftStore<TypeId extends string, T>(key: string) {
   function readMap(): Record<string, Draft<T>> {
     try {

@@ -9,13 +9,6 @@ type CreateDraftRequest = {
   writingRate?: number;
 };
 
-/**
- * Creates a document draft for a case (POST /api/cases/{caseId}/documents). The backend demotes
- * any existing latest draft of the same caseId+docType to isLatest=false.
- *
- * Not wired into any wizard yet: no wizard currently has a real caseId (case-selection UI is
- * unbuilt), and docType/applicationSubtype enum values beyond COMPLAINT/PAYMENT_ORDER are unverified.
- */
 export async function createDocumentDraft(caseId: number, request: CreateDraftRequest): Promise<Document> {
   const response = await apiClient<ApiEnvelope<Document>>(`/api/cases/${caseId}/documents`, {
     method: "POST",
