@@ -55,7 +55,7 @@ function SummaryCardItem({ title, value, badge }: Omit<SummaryCard, "id">) {
             px-4 py-1
             text-xl
             font-normal
-            text-blue-400
+            text-blue-300
           "
         >
           {badge}

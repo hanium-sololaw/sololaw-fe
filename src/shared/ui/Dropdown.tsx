@@ -7,6 +7,7 @@ type DropdownProps<T extends string | number> = {
   renderValue: (value: T) => ReactNode;
   renderOption: (option: T) => ReactNode;
   placeholder?: ReactNode;
+  triggerClassName?: string;
 };
 
 export default function Dropdown<T extends string | number>({
@@ -16,6 +17,7 @@ export default function Dropdown<T extends string | number>({
   renderValue,
   renderOption,
   placeholder,
+  triggerClassName = "rounded-xl p-4",
 }: DropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -36,7 +38,7 @@ export default function Dropdown<T extends string | number>({
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between rounded-xl border border-gray-200 p-4 text-left"
+        className={`flex w-full items-center justify-between border border-gray-200 text-left ${triggerClassName}`}
       >
         {value ? renderValue(value) : <p className="text-gray-500">{placeholder}</p>}
         <svg

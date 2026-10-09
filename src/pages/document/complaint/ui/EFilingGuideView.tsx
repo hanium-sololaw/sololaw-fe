@@ -136,7 +136,7 @@ export default function EFilingGuideView({
             <button
               type="button"
               onClick={() => window.print()}
-              className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-blue-400 py-3 text-sm font-semibold text-white hover:bg-blue-500"
+              className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-blue-300 py-3 text-sm font-semibold text-white hover:bg-blue-500"
             >
               소장 PDF 저장 · 인쇄
             </button>

@@ -37,7 +37,7 @@ export default function StorageUpgradeModal({
               >
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-blue-400">
+                    <span className="text-sm font-bold text-blue-300">
                       {plan.title}
                     </span>
                     {plan.badge && (
@@ -48,7 +48,7 @@ export default function StorageUpgradeModal({
                   </div>
 
                   <div className="border-b border-blue-100 pb-3">
-                    <span className="text-[28px] font-bold text-blue-400">
+                    <span className="text-[28px] font-bold text-blue-300">
                       {plan.capacity}
                     </span>
                   </div>

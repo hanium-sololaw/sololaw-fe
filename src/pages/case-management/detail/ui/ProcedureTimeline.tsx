@@ -24,7 +24,7 @@ export default function ProcedureTimeline({
       <div className="relative mx-8 h-20">
         <div className="absolute top-3 right-0 left-0 h-0.5 bg-gray-200" />
         <div
-          className="absolute top-3 left-0 h-0.5 bg-blue-400 transition-all"
+          className="absolute top-3 left-0 h-0.5 bg-blue-300 transition-all"
           style={{ width: `${(Math.max(0, currentIndex) / Math.max(1, stages.length - 1)) * 100}%` }}
         />
 
@@ -44,7 +44,7 @@ export default function ProcedureTimeline({
             >
               <span
                 className={`h-2.5 w-2.5 shrink-0 rounded-full ring-4 ring-white ${
-                  isDone || isCurrent ? "bg-blue-400" : "bg-gray-300"
+                  isDone || isCurrent ? "bg-blue-300" : "bg-gray-300"
                 } ${isCurrent ? "scale-125" : ""}`}
               />
               <span

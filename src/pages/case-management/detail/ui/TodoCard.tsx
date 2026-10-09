@@ -61,7 +61,7 @@ export default function TodoCard({
               <span
                 className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border ${
                   todo.done
-                    ? "border-blue-400 bg-blue-400"
+                    ? "border-blue-300 bg-blue-300"
                     : "border-gray-300 bg-white"
                 }`}
               >
@@ -88,13 +88,13 @@ export default function TodoCard({
           onChange={(event) => setTitle(event.target.value)}
           onKeyDown={(event) => event.key === "Enter" && handleAdd()}
           placeholder="할 일 추가"
-          className="min-w-0 flex-1 rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-blue-400"
+          className="min-w-0 flex-1 rounded-xl border border-gray-200 px-3.5 py-2.5 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-blue-300"
         />
         <input
           type="date"
           value={dueDate}
           onChange={(event) => setDueDate(event.target.value)}
-          className="w-36 shrink-0 rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-800 outline-none focus:border-blue-400"
+          className="w-36 shrink-0 rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-800 outline-none focus:border-blue-300"
         />
         <button
           type="button"

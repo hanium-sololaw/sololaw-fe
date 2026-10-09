@@ -22,7 +22,7 @@ export default function RecentChangesCard({
         <ul className="flex flex-col gap-3">
           {activityLog.map((item) => (
             <li key={item.id} className="flex gap-3">
-              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400" />
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-300" />
 
               <div className="flex min-w-0 flex-col gap-0.5">
                 <p className="truncate text-sm font-semibold text-gray-800">

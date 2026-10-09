@@ -91,7 +91,7 @@ export default function AnalysisInfoCard({
           onChange={(e) => setContext(e.target.value)}
           rows={3}
           placeholder="예: 명도는 완료했는데 임대인이 원상회복 비용을 이유로 보증금 반환을 미루고 있어요."
-          className="w-full resize-none rounded-xl border border-gray-200 p-4 text-sm text-gray-700 outline-none placeholder:text-gray-500 focus:border-blue-400"
+          className="w-full resize-none rounded-xl border border-gray-200 p-4 text-sm text-gray-700 outline-none placeholder:text-gray-500 focus:border-blue-300"
         />
       </div>
 
@@ -99,7 +99,7 @@ export default function AnalysisInfoCard({
         <button
           type="button"
           onClick={() => onAnalyze(context.trim() || caseTitle)}
-          className="flex items-center justify-center gap-1.5 rounded-lg bg-blue-400 px-5 py-2.5 text-sm font-semibold text-white"
+          className="flex items-center justify-center gap-1.5 rounded-lg bg-blue-300 px-5 py-2.5 text-sm font-semibold text-white"
         >
           이 정보로 유사 판례 분석
         </button>

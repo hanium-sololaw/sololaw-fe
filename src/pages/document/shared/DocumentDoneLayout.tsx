@@ -54,7 +54,7 @@ export default function DocumentDoneLayout({
           <button
             type="button"
             onClick={() => window.print()}
-            className="rounded-xl bg-blue-400 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-500"
+            className="rounded-xl bg-blue-300 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-500"
           >
             PDF 저장 · 인쇄
           </button>

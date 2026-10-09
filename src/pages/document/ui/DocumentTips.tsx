@@ -13,7 +13,7 @@ export default function DocumentTips() {
       <ul className="flex flex-col gap-3">
         {tips.map((tip) => (
           <li key={tip} className="flex items-start gap-2 text-sm text-gray-700">
-            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400" />
+            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-300" />
             {tip}
           </li>
         ))}

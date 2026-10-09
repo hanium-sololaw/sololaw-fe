@@ -207,7 +207,7 @@ export default function KeywordSearchTab() {
           <button
             type="button"
             onClick={() => runSearch()}
-            className="shrink-0 rounded-xl bg-blue-400 px-6 text-sm font-semibold text-white"
+            className="shrink-0 rounded-xl bg-blue-300 px-6 text-sm font-semibold text-white"
           >
             검색
           </button>
@@ -243,7 +243,7 @@ export default function KeywordSearchTab() {
               onClick={() => runSearch(keyword)}
               className={`rounded-full px-4 py-2 text-sm font-semibold ${
                 query === keyword
-                  ? "bg-blue-400 text-white"
+                  ? "bg-blue-300 text-white"
                   : "bg-gray-100 text-gray-600"
               }`}
             >

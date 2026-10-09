@@ -73,7 +73,7 @@ export default function AddressSearchField({ value, onChange, placeholder }: Add
       <button
         type="button"
         onClick={openSearch}
-        className="flex w-full items-center justify-between gap-2 rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-left text-sm outline-none transition hover:border-blue-300 focus:border-blue-400"
+        className="flex w-full items-center justify-between gap-2 rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-left text-sm outline-none transition hover:border-blue-300 focus:border-blue-300"
       >
         <span className={`truncate ${value ? "text-gray-800" : "text-gray-400"}`}>
           {value || placeholder || "클릭해서 주소를 검색해주세요"}

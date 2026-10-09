@@ -4,7 +4,7 @@ import ChevronRightIcon from "@/assets/icons/document/chevron-right-icon.svg?rea
 import { COURT_GROUPS } from "./courts";
 
 const selectCls =
-  "w-full appearance-none rounded-xl border border-gray-200 bg-white py-2.5 pl-3.5 pr-9 text-sm text-gray-800 outline-none transition focus:border-blue-400";
+  "w-full appearance-none rounded-xl border border-gray-200 bg-white py-2.5 pl-3.5 pr-9 text-sm text-gray-800 outline-none transition focus:border-blue-300";
 
 const regionOf = (court: string) => COURT_GROUPS.find((group) => group.courts.includes(court))?.region ?? "";
 

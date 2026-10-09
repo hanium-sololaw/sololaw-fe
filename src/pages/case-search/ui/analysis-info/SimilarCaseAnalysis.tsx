@@ -38,7 +38,7 @@ export default function SimilarCaseAnalysis() {
         <button
           type="button"
           onClick={createCaseModal.open}
-          className="flex shrink-0 items-center gap-1.5 rounded-lg bg-blue-400 px-4 py-2.5 text-sm text-white"
+          className="flex shrink-0 items-center gap-1.5 rounded-lg bg-blue-300 px-4 py-2.5 text-sm text-white"
         >
           <DocumentIcon className="h-4 w-4" />새 사건 만들기
         </button>
@@ -65,14 +65,14 @@ export default function SimilarCaseAnalysis() {
           onChange={(e) => setSituation(e.target.value)}
           rows={3}
           placeholder="예: 임대차 계약이 끝나서 집을 비워줬는데, 집주인이 원상회복 비용을 이유로 보증금 1,000만 원을 돌려주지 않고 있어요."
-          className="w-full resize-none rounded-xl border border-gray-200 p-4 text-sm text-gray-700 outline-none placeholder:text-gray-400 focus:border-blue-400"
+          className="w-full resize-none rounded-xl border border-gray-200 p-4 text-sm text-gray-700 outline-none placeholder:text-gray-400 focus:border-blue-300"
         />
 
         <button
           type="button"
           disabled={situation.trim() === ""}
           onClick={() => analyze(situation)}
-          className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-blue-400 py-3.5 text-base text-white disabled:bg-blue-200"
+          className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-blue-300 py-3.5 text-base text-white disabled:bg-blue-200"
         >
           <Icon icon={PaperIcon} size={16} className="text-white" />이 내용으로
           유사 판례 분석

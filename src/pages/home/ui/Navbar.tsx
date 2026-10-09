@@ -65,13 +65,13 @@ export default function Navbar() {
                 onClick={() => scrollToSection(item.sectionId)}
                 className={`relative text-[15px] pb-1 transition-colors ${
                   isActive
-                    ? "text-blue-400"
+                    ? "text-blue-300"
                     : "text-gray-400 hover:text-gray-900"
                 }`}
               >
                 {item.label}
                 {isActive && (
-                  <span className="absolute -bottom-[5px] left-0 right-0 h-[1px] bg-blue-400 rounded-full" />
+                  <span className="absolute -bottom-[5px] left-0 right-0 h-[1px] bg-blue-300 rounded-full" />
                 )}
               </button>
             );
@@ -80,7 +80,7 @@ export default function Navbar() {
 
         <Link
           to="/login"
-          className="border-1 border-blue-400 text-blue-400 text-[15px] px-[16px] py-[8px] rounded-[10px] transition-colors"
+          className="border-1 border-blue-300 text-blue-300 text-[15px] px-[16px] py-[8px] rounded-[10px] transition-colors"
         >
           시작하기
         </Link>

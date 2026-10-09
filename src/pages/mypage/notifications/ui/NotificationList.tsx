@@ -30,7 +30,7 @@ export default function NotificationList() {
             >
               {item.title}
               {!item.read && (
-                <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
+                <span className="h-1.5 w-1.5 rounded-full bg-blue-300" />
               )}
             </p>
             <p className="text-sm text-gray-500">{item.meta}</p>

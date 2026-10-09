@@ -32,7 +32,7 @@ export default function DocumentsCard({ documents }: DocumentsCardProps) {
             </div>
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
               <div
-                className="h-full rounded-full bg-blue-400"
+                className="h-full rounded-full bg-blue-300"
                 style={{ width: `${doc.progress}%` }}
               />
             </div>

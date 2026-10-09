@@ -3,7 +3,7 @@ import Icon from "@/shared/ui/Icon";
 import ChevronRightIcon from "@/assets/icons/document/chevron-right-icon.svg?react";
 
 const selectCls =
-  "appearance-none rounded-xl border border-gray-200 bg-white py-2.5 pl-2 pr-6 text-sm text-gray-800 outline-none transition focus:border-blue-400";
+  "appearance-none rounded-xl border border-gray-200 bg-white py-2.5 pl-2 pr-6 text-sm text-gray-800 outline-none transition focus:border-blue-300";
 
 function Chevron() {
   return (
@@ -15,7 +15,7 @@ function Chevron() {
   );
 }
 const yearCls =
-  "w-20 rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-center text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-blue-400";
+  "w-20 rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-center text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-blue-300";
 
 const pad2 = (n: number) => String(n).padStart(2, "0");
 const MONTHS = Array.from({ length: 12 }, (_, i) => pad2(i + 1));

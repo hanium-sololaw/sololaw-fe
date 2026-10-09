@@ -131,7 +131,7 @@ export default function CaseResultCard({
           <button
             type="button"
             onClick={onToggleCite}
-            className="flex items-center gap-1.5 rounded-lg bg-blue-400 px-4 py-2.5 text-sm font-semibold text-white"
+            className="flex items-center gap-1.5 rounded-lg bg-blue-300 px-4 py-2.5 text-sm font-semibold text-white"
           >
             <Icon icon={PaperIcon} size={14} className="text-white" />내 문서에
             인용

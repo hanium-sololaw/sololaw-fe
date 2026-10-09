@@ -49,7 +49,7 @@ export default function WizardLayout({
                 >
                   <span
                     className={`grid h-5 w-5 shrink-0 place-items-center rounded-md text-[11px] font-bold ${
-                      active ? "bg-blue-400 text-white" : step.done ? "bg-blue-50 text-blue-400" : "bg-gray-100 text-gray-500"
+                      active ? "bg-blue-300 text-white" : step.done ? "bg-blue-50 text-blue-300" : "bg-gray-100 text-gray-500"
                     }`}
                   >
                     {index + 1}
@@ -78,7 +78,7 @@ export default function WizardLayout({
               type="button"
               onClick={onNext}
               disabled={nextDisabled}
-              className="rounded-xl bg-blue-400 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-xl bg-blue-300 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLastStep ? nextLabel : "다음 단계"}
             </button>

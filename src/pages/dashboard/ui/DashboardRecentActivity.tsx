@@ -58,7 +58,7 @@ export default function DashboardRecentActivity() {
             type="button"
             className="
       text-sm
-      text-blue-400"
+      text-blue-300"
           >
             전체보기 →
           </button>

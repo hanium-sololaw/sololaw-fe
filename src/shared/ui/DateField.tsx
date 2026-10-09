@@ -41,7 +41,7 @@ function getCalendarCells(viewDate: Date) {
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
 const defaultTriggerClassName =
-  "flex w-full items-center gap-2 rounded-xl border border-gray-200 px-4 py-3 text-left text-sm outline-none focus:border-blue-400";
+  "flex w-full items-center gap-2 rounded-xl border border-gray-200 px-4 py-3 text-left text-sm outline-none focus:border-blue-300";
 
 type DateFieldProps = {
   value: string;
@@ -149,7 +149,7 @@ export default function DateField({
                   }}
                   className={`mx-auto flex h-7 w-7 items-center justify-center rounded-full text-sm ${
                     isSelected
-                      ? "bg-blue-400 font-semibold text-white"
+                      ? "bg-blue-300 font-semibold text-white"
                       : inMonth
                         ? "text-gray-900"
                         : "text-gray-200"

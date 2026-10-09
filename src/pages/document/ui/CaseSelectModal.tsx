@@ -37,7 +37,7 @@ export default function CaseSelectModal({ cases, selectedId, onConfirm, onCreate
                 }`}
               >
                 <div className="flex min-w-0 flex-col gap-1">
-                  <p className={`font-semibold ${active ? "text-blue-400" : "text-gray-700"}`}>{item.title}</p>
+                  <p className={`font-semibold ${active ? "text-blue-300" : "text-gray-700"}`}>{item.title}</p>
                   <p className={`text-sm ${active ? "text-blue-300" : "text-gray-400"}`}>
                     {item.caseNumber} · {item.court}
                   </p>
@@ -67,7 +67,7 @@ export default function CaseSelectModal({ cases, selectedId, onConfirm, onCreate
           type="button"
           disabled={pickedId === null}
           onClick={() => pickedId !== null && onConfirm(pickedId)}
-          className="rounded-xl bg-blue-400 px-8 py-3 font-semibold text-white disabled:bg-blue-200"
+          className="rounded-xl bg-blue-300 px-8 py-3 font-semibold text-white disabled:bg-blue-200"
         >
           확인
         </button>

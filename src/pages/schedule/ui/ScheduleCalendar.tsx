@@ -76,7 +76,7 @@ export default function ScheduleCalendar({
               index === 0
                 ? "text-red-400"
                 : index === 6
-                  ? "text-blue-400"
+                  ? "text-blue-300"
                   : "text-gray-900"
             }`}
           >
@@ -114,7 +114,7 @@ export default function ScheduleCalendar({
                         : weekday === 0
                           ? "text-red-400"
                           : weekday === 6
-                            ? "text-blue-400"
+                            ? "text-blue-300"
                             : "text-gray-700"
                     }`}
                   >
@@ -134,7 +134,7 @@ export default function ScheduleCalendar({
                         >
                           <span
                             className={`h-1 w-1 shrink-0 rounded-full ${
-                              event.urgent ? "bg-red-400" : "bg-blue-400"
+                              event.urgent ? "bg-red-400" : "bg-blue-300"
                             }`}
                           />
                           <span className="truncate">{event.title}</span>

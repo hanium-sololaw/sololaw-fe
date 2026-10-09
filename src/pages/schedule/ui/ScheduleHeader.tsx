@@ -19,7 +19,7 @@ export default function ScheduleHeader() {
       <button
         type="button"
         onClick={uploadModal.open}
-        className="flex shrink-0 items-center gap-2 rounded-xl bg-blue-400 px-4 py-2.5 text-sm font-semibold whitespace-nowrap text-white hover:bg-blue-500"
+        className="flex shrink-0 items-center gap-2 rounded-xl bg-blue-300 px-4 py-2.5 text-sm font-semibold whitespace-nowrap text-white hover:bg-blue-500"
       >
         <UploadIcon />
         법원 통지서 업로드

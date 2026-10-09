@@ -26,7 +26,7 @@ export default function AttachmentsStep({ options, selected, onChange }: Attachm
             >
               <span
                 className={`grid h-5 w-5 shrink-0 place-items-center rounded-md border text-[11px] font-bold ${
-                  checked ? "border-blue-400 bg-blue-400 text-white" : "border-gray-300 text-transparent"
+                  checked ? "border-blue-300 bg-blue-300 text-white" : "border-gray-300 text-transparent"
                 }`}
               >
                 ✓

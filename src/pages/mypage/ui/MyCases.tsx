@@ -63,7 +63,7 @@ export default function MyCases() {
           <button
             type="button"
             onClick={() => navigate("/case-management")}
-            className="mt-1 rounded-xl bg-blue-400 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-500"
+            className="mt-1 rounded-xl bg-blue-300 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-500"
           >
             첫 사건 만들기
           </button>

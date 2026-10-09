@@ -76,7 +76,7 @@ export default function SignupForm() {
           type="checkbox"
           checked={agreed}
           onChange={(e) => setAgreed(e.target.checked)}
-          className="h-4 w-4 accent-blue-400"
+          className="h-4 w-4 accent-blue-300"
         />
         서비스 이용약관 및 개인정보처리방침에 동의합니다
       </label>
@@ -91,7 +91,7 @@ export default function SignupForm() {
 
       <p className="text-center text-sm text-gray-500">
         <span className="mr-[10px]">이미 계정이 있으신가요?</span>
-        <Link to="/login" className="text-blue-400">
+        <Link to="/login" className="text-blue-300">
           로그인
         </Link>
       </p>

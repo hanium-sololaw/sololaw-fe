@@ -68,7 +68,7 @@ export default function CourtNoticeUploadModal({
             <button
               type="button"
               onClick={() => setIsCaseOpen((prev) => !prev)}
-              className="flex w-full items-center justify-between rounded-xl border border-gray-200 px-4 py-3 text-left text-sm outline-none focus:border-blue-400"
+              className="flex w-full items-center justify-between rounded-xl border border-gray-200 px-4 py-3 text-left text-sm outline-none focus:border-blue-300"
             >
               <span
                 className={selectedCase ? "text-gray-800" : "text-gray-400"}
@@ -125,16 +125,16 @@ export default function CourtNoticeUploadModal({
         </div>
 
         <div className="flex flex-col gap-2 rounded-xl bg-blue-50 p-4">
-          <p className="text-sm font-bold text-blue-400">
+          <p className="text-sm font-bold text-blue-300">
             자동으로 추출하는 정보
           </p>
           <ul className="flex flex-col gap-1.5">
             {extractedInfo.map((item) => (
               <li
                 key={item}
-                className="flex items-start gap-2 text-sm text-blue-400"
+                className="flex items-start gap-2 text-sm text-blue-300"
               >
-                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-blue-400" />
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-blue-300" />
                 {item}
               </li>
             ))}
@@ -144,7 +144,7 @@ export default function CourtNoticeUploadModal({
         <button
           type="button"
           onClick={onClose}
-          className="flex w-full shrink-0 items-center justify-center gap-1 rounded-lg bg-blue-400 py-3 text-sm font-semibold text-white hover:bg-blue-500"
+          className="flex w-full shrink-0 items-center justify-center gap-1 rounded-lg bg-blue-300 py-3 text-sm font-semibold text-white hover:bg-blue-500"
         >
           <CheckButtonIcon />
           확인했어요

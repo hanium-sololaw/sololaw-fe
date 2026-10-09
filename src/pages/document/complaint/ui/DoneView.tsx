@@ -24,7 +24,7 @@ export default function DoneView({ doc, onEdit, onExit, onSubmitGuide }: DoneVie
         <button
           type="button"
           onClick={onSubmitGuide}
-          className="flex items-center gap-1 rounded-xl bg-blue-400 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-500"
+          className="flex items-center gap-1 rounded-xl bg-blue-300 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-500"
         >
           전자소송 제출 안내
           <Icon icon={ArrowRightIcon} size={16} className="[&_path]:stroke-white" />

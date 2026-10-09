@@ -58,7 +58,7 @@ export default function CreateCaseModal({ onClose, onCreated }: CreateCaseModalP
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="예: 대여금 반환 청구"
-            className="rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-400"
+            className="rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-300"
           />
         </div>
 
@@ -68,7 +68,7 @@ export default function CreateCaseModal({ onClose, onCreated }: CreateCaseModalP
             value={opponentName}
             onChange={(e) => setOpponentName(e.target.value)}
             placeholder="예: 김철수"
-            className="rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-400"
+            className="rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-300"
           />
         </div>
 
@@ -101,7 +101,7 @@ export default function CreateCaseModal({ onClose, onCreated }: CreateCaseModalP
               value={claimAmount}
               onChange={(e) => setClaimAmount(e.target.value)}
               placeholder="0"
-              className="rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-400"
+              className="rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-300"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -110,7 +110,7 @@ export default function CreateCaseModal({ onClose, onCreated }: CreateCaseModalP
               value={court}
               onChange={(e) => setCourt(e.target.value)}
               placeholder="예: 서울중앙지방법원"
-              className="rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-400"
+              className="rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-300"
             />
           </div>
         </div>
@@ -121,7 +121,7 @@ export default function CreateCaseModal({ onClose, onCreated }: CreateCaseModalP
             value={caseNumber}
             onChange={(e) => setCaseNumber(e.target.value)}
             placeholder="예: 2024가단12345"
-            className="rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-400"
+            className="rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-blue-300"
           />
         </div>
 
