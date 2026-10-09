@@ -1,6 +1,5 @@
-import { postSSE } from "@/shared/api/sse";
 import { toLines } from "../../shared/text";
-import { createDraftIfNeeded, saveResultIfNeeded } from "../../shared/persistGeneration";
+import { runGeneration } from "../../shared/persistGeneration";
 import type { EvidenceListDoc, EvidenceRow } from "./buildDoc";
 import type { EvidenceItem, EvidenceListForm, EvidenceSubmitterRole, OriginalType } from "./types";
 
@@ -33,11 +32,6 @@ type GenerateSections = {
   court: string;
 };
 
-type GenerateResponse = {
-  sections: GenerateSections;
-  raw_text: string;
-};
-
 function toApiEvidenceItem(item: EvidenceItem): ApiEvidenceItem {
   const result: ApiEvidenceItem = { name: item.name, original_type: item.originalType };
   if (item.author) result.author = item.author;
@@ -48,7 +42,6 @@ function toApiEvidenceItem(item: EvidenceItem): ApiEvidenceItem {
   return result;
 }
 
-/** Parses the `| a | b | ... |` markdown table the API returns into row objects for EvidenceListPaper. */
 function parseEvidenceTable(markdown: string): EvidenceRow[] {
   const lines = markdown
     .split("\n")
@@ -63,7 +56,6 @@ function parseEvidenceTable(markdown: string): EvidenceRow[] {
   });
 }
 
-/** Calls the 증거목록 generation API and maps the response into the shape EvidenceListPaper renders. */
 export async function generateEvidenceList(
   form: EvidenceListForm,
   caseId: number | null,
@@ -80,16 +72,15 @@ export async function generateEvidenceList(
     evidence_items: form.items.filter((item) => item.name.trim()).map(toApiEvidenceItem),
   };
 
-  const [documentId, { sections, raw_text }] = await Promise.all([
-    createDraftIfNeeded({
-      caseId,
-      docType: "EVIDENCE_LIST",
-      title: form.caseNo ? `${form.caseNo} 증거목록` : "증거목록",
-      content: form,
-    }),
-    postSSE<GenerateResponse>("/api/v1/documents/evidence-list/generate", body, undefined, signal),
-  ]);
-  await saveResultIfNeeded(documentId, raw_text, sections);
+  const sections = await runGeneration<GenerateSections, GenerateRequest>({
+    endpoint: "/api/v1/documents/evidence-list/generate",
+    body,
+    signal,
+    caseId,
+    docType: "EVIDENCE_LIST",
+    title: form.caseNo ? `${form.caseNo} 증거목록` : "증거목록",
+    content: form,
+  });
 
   return {
     title: sections.title,

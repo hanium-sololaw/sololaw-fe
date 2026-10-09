@@ -76,7 +76,7 @@ export default function SignupForm() {
           type="checkbox"
           checked={agreed}
           onChange={(e) => setAgreed(e.target.checked)}
-          className="h-4 w-4 accent-blue-400"
+          className="h-4 w-4 accent-blue-300"
         />
         서비스 이용약관 및 개인정보처리방침에 동의합니다
       </label>

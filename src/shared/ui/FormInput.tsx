@@ -33,8 +33,8 @@ export function FormInput({
             error
               ? "border-red-400"
               : success
-                ? "border-blue-400"
-                : "border-gray-200 focus:border-blue-400",
+                ? "border-blue-300"
+                : "border-gray-200 focus:border-blue-300",
             isPassword && "pr-8",
             className,
           )}

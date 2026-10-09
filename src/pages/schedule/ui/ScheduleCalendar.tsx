@@ -134,7 +134,7 @@ export default function ScheduleCalendar({
                         >
                           <span
                             className={`h-1 w-1 shrink-0 rounded-full ${
-                              event.urgent ? "bg-red-400" : "bg-blue-400"
+                              event.urgent ? "bg-red-400" : "bg-blue-300"
                             }`}
                           />
                           <span className="truncate">{event.title}</span>

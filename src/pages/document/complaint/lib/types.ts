@@ -74,4 +74,3 @@ export const emptyComplaintForm: ComplaintForm = {
   attachments: [],
 };
 
-export type WizardStepId = "type" | "claim" | "party" | "facts" | "demand" | "attachments";

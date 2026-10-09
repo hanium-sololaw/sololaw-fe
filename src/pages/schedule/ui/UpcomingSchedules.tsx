@@ -29,7 +29,7 @@ export default function UpcomingSchedules({ events }: UpcomingSchedulesProps) {
             <div key={event.id} className="flex items-start gap-2.5">
               <span
                 className={`mt-2 h-2.5 w-2.5 shrink-0 rounded-full ${
-                  event.urgent ? "bg-red-300" : "bg-blue-400"
+                  event.urgent ? "bg-red-300" : "bg-blue-300"
                 }`}
               />
 

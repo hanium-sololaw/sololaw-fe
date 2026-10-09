@@ -18,7 +18,7 @@ export default function FeeComparisonCard({ electronicCost, paperCost }: FeeComp
         <div className="rounded-xl border border-blue-200 bg-blue-50/40 p-4">
           <div className="flex items-center gap-2">
             <span className="font-semibold text-gray-900">전자소송</span>
-            <span className="rounded-full bg-blue-400 px-2 py-0.5 text-[11px] font-semibold text-white">추천</span>
+            <span className="rounded-full bg-blue-300 px-2 py-0.5 text-[11px] font-semibold text-white">추천</span>
           </div>
           <p className="mt-2 text-2xl font-bold text-gray-900">
             {electronicCost ? electronicCost.totalCost.toLocaleString("ko-KR") : "-"}

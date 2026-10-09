@@ -14,7 +14,7 @@ export function FormButton({
     <button
       className={cn(
         "rounded-[8px] px-4 py-2 transition-colors",
-        variant === "primary" && "bg-blue-400 text-white disabled:bg-blue-500",
+        variant === "primary" && "bg-blue-300 text-white disabled:bg-blue-500",
         variant === "secondary" && "border border-gray-300 hover:bg-gray-50",
         variant === "ghost" && "hover:bg-gray-100",
         className,

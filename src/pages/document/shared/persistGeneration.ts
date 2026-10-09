@@ -1,8 +1,12 @@
+import { postSSE } from "@/shared/api/sse";
 import { createDocumentDraft } from "./createDraft";
 import { saveDocumentResult } from "./saveResult";
 import type { DocType } from "./document";
 
-type CreateDraftOptions = {
+type GenerationOptions<TBody> = {
+  endpoint: string;
+  body: TBody;
+  signal?: AbortSignal;
   caseId: number | null;
   docType: DocType;
   applicationSubtype?: string;
@@ -10,24 +14,29 @@ type CreateDraftOptions = {
   content: unknown;
 };
 
-/**
- * Creates a document draft before generation when the wizard was entered with a real case
- * (caseId != null via "사건 선택하기"). Returns null when there's no case (case 없이 둘러보기),
- * meaning nothing gets persisted — generation still works, it just isn't saved to a case.
- */
-export async function createDraftIfNeeded(options: CreateDraftOptions): Promise<number | null> {
-  if (options.caseId === null) return null;
-  const draft = await createDocumentDraft(options.caseId, {
-    docType: options.docType,
-    applicationSubtype: options.applicationSubtype,
-    title: options.title,
-    content: options.content,
-  });
-  return draft.id;
-}
+type GenerationResponse<TSections> = {
+  sections: TSections;
+  raw_text: string;
+};
 
-/** Saves the AI-generated result to the draft created by createDraftIfNeeded, if any. */
-export async function saveResultIfNeeded(documentId: number | null, rawText: string, sections: unknown): Promise<void> {
-  if (documentId === null) return;
-  await saveDocumentResult(documentId, rawText, sections);
+/**
+ * Generates a document through the RAG API. When the wizard was entered with a case, a draft is
+ * created alongside and the result is saved to it; without a case nothing is persisted.
+ */
+export async function runGeneration<TSections, TBody>({
+  endpoint,
+  body,
+  signal,
+  caseId,
+  docType,
+  applicationSubtype,
+  title,
+  content,
+}: GenerationOptions<TBody>): Promise<TSections> {
+  const [draftId, { sections, raw_text }] = await Promise.all([
+    caseId === null ? null : createDocumentDraft(caseId, { docType, applicationSubtype, title, content }).then((d) => d.id),
+    postSSE<GenerationResponse<TSections>>(endpoint, body, undefined, signal),
+  ]);
+  if (draftId !== null) await saveDocumentResult(draftId, raw_text, sections);
+  return sections;
 }

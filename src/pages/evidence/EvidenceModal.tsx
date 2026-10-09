@@ -10,7 +10,7 @@ type Props = {
   onClose: () => void;
   onSaved: (evidence: Evidence) => void;
 };
-const inputClass = "mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400 disabled:bg-gray-50";
+const inputClass = "mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm focus:border-blue-300 focus:ring-1 focus:ring-blue-300 disabled:bg-gray-50";
 export default function EvidenceModal({ mode, item, cases, initialCaseId, onClose, onSaved }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [caseId, setCaseId] = useState(item?.caseId ?? initialCaseId ?? "");

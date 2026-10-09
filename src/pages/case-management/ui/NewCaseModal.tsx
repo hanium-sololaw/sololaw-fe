@@ -89,7 +89,7 @@ function SelectField({
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between rounded-xl border border-gray-200 px-4 py-3 text-left text-sm outline-none focus:border-blue-400"
+        className="flex w-full items-center justify-between rounded-xl border border-gray-200 px-4 py-3 text-left text-sm outline-none focus:border-blue-300"
       >
         <span className={value ? "text-gray-800" : "text-gray-400"}>
           {value || placeholder}
@@ -189,7 +189,7 @@ export default function NewCaseModal({ onClose, onCreated }: NewCaseModalProps) 
             value={caseTitle}
             onChange={(event) => setCaseTitle(event.target.value)}
             placeholder="예: 임대차 보증금 반환 청구"
-            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-blue-400"
+            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-blue-300"
           />
         </div>
 
@@ -214,7 +214,7 @@ export default function NewCaseModal({ onClose, onCreated }: NewCaseModalProps) 
               value={defendant}
               onChange={(event) => setDefendant(event.target.value)}
               placeholder="예: 김철수"
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-blue-400"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-blue-300"
             />
           </div>
         </div>
@@ -230,7 +230,7 @@ export default function NewCaseModal({ onClose, onCreated }: NewCaseModalProps) 
                 value={claimAmount}
                 onChange={(event) => setClaimAmount(event.target.value)}
                 placeholder="0"
-                className="w-full rounded-xl border border-gray-200 py-3 pr-9 pl-4 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-blue-400"
+                className="w-full rounded-xl border border-gray-200 py-3 pr-9 pl-4 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-blue-300"
               />
               <span className="pointer-events-none absolute right-4 text-sm text-gray-400">
                 원
@@ -257,7 +257,7 @@ export default function NewCaseModal({ onClose, onCreated }: NewCaseModalProps) 
             value={caseNumber}
             onChange={(event) => setCaseNumber(event.target.value)}
             placeholder="접수 후 부여됩니다 · 신규 사건이라면 비워두세요!"
-            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-blue-400"
+            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-blue-300"
           />
           <p className="text-xs text-gray-400">
             사건번호는 법원에 소장을 접수하면 부여됩니다.
@@ -317,11 +317,11 @@ export default function NewCaseModal({ onClose, onCreated }: NewCaseModalProps) 
                 >
                   <span
                     className={`mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full border-2 ${
-                      selected ? "border-blue-400" : "border-gray-300"
+                      selected ? "border-blue-300" : "border-gray-300"
                     }`}
                   >
                     {selected && (
-                      <span className="h-2 w-2 rounded-full bg-blue-400" />
+                      <span className="h-2 w-2 rounded-full bg-blue-300" />
                     )}
                   </span>
 
@@ -368,7 +368,7 @@ export default function NewCaseModal({ onClose, onCreated }: NewCaseModalProps) 
             type="button"
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="rounded-[10px] bg-blue-400 px-4.5 py-2.5 text-sm font-semibold text-white hover:bg-blue-500 disabled:opacity-60"
+            className="rounded-[10px] bg-blue-300 px-4.5 py-2.5 text-sm font-semibold text-white hover:bg-blue-500 disabled:opacity-60"
           >
             {isSubmitting ? "만드는 중..." : "사건 만들기"}
           </button>

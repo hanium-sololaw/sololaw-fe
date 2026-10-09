@@ -20,7 +20,6 @@ type DocumentPage = {
   hasNext: boolean;
 };
 
-/** Lists the current user's documents, optionally filtered. GET /api/documents. */
 export async function listDocuments(params: ListDocumentsParams = {}): Promise<DocumentPage> {
   const query = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {

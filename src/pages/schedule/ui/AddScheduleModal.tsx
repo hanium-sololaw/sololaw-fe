@@ -61,7 +61,7 @@ function SelectField({
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between rounded-xl border border-gray-200 px-4 py-3 text-left text-sm outline-none focus:border-blue-400"
+        className="flex w-full items-center justify-between rounded-xl border border-gray-200 px-4 py-3 text-left text-sm outline-none focus:border-blue-300"
       >
         <span className={value ? "text-gray-800" : "text-gray-400"}>
           {value || placeholder}
@@ -193,7 +193,7 @@ export default function AddScheduleModal({
             value={title}
             onChange={(event) => setTitle(event.target.value)}
             placeholder="일정 제목을 입력하세요"
-            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-blue-400"
+            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-blue-300"
           />
         </div>
 
@@ -223,7 +223,7 @@ export default function AddScheduleModal({
                 type="time"
                 value={time}
                 onChange={(event) => setTime(event.target.value)}
-                className="w-full rounded-xl border border-gray-200 py-3 pr-4 pl-10 text-sm text-gray-800 outline-none focus:border-blue-400 [&::-webkit-calendar-picker-indicator]:opacity-0"
+                className="w-full rounded-xl border border-gray-200 py-3 pr-4 pl-10 text-sm text-gray-800 outline-none focus:border-blue-300 [&::-webkit-calendar-picker-indicator]:opacity-0"
               />
             </div>
           </div>
@@ -238,7 +238,7 @@ export default function AddScheduleModal({
             <span
               className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border ${
                 notifyEnabled
-                  ? "border-blue-400 bg-blue-400"
+                  ? "border-blue-300 bg-blue-300"
                   : "border-blue-50 bg-blue-50"
               }`}
             >
@@ -280,7 +280,7 @@ export default function AddScheduleModal({
             type="button"
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="rounded-[10px] bg-blue-400 px-4.5 py-2.5 text-sm font-semibold text-white hover:bg-blue-500 disabled:opacity-60"
+            className="rounded-[10px] bg-blue-300 px-4.5 py-2.5 text-sm font-semibold text-white hover:bg-blue-500 disabled:opacity-60"
           >
             {isSubmitting ? "추가하는 중..." : "일정 추가하기"}
           </button>

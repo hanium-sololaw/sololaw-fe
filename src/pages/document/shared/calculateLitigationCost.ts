@@ -27,10 +27,6 @@ export type LitigationCostResult = {
 };
 
 
-/**
- * Calculates 인지대·송달료 (standalone — not tied to any saved case). POST
- * /api/litigation-costs/calculate.
- */
 export async function calculateLitigationCost(request: CalculateCostRequest): Promise<LitigationCostResult> {
   const response = await apiClient<ApiEnvelope<LitigationCostResult>>("/api/litigation-costs/calculate", {
     method: "POST",

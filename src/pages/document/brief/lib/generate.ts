@@ -1,7 +1,6 @@
-import { postSSE } from "@/shared/api/sse";
 import { formatDate } from "@/shared/utils/formatDate";
 import { toLines, toParagraphs } from "../../shared/text";
-import { createDraftIfNeeded, saveResultIfNeeded } from "../../shared/persistGeneration";
+import { runGeneration } from "../../shared/persistGeneration";
 import type { BriefDoc } from "./buildDoc";
 import type { BriefForm, SubmitterRole } from "./types";
 
@@ -53,11 +52,6 @@ type GenerateSections = {
   court: string;
 };
 
-type GenerateResponse = {
-  sections: GenerateSections;
-  raw_text: string;
-};
-
 function toApiRebuttalPoint(point: BriefForm["rebuttalPoints"][number]): ApiRebuttalPoint {
   const result: ApiRebuttalPoint = { claim: point.claim, rebuttal: point.rebuttal };
   if (point.evidenceRef) result.evidence_ref = point.evidenceRef;
@@ -65,7 +59,6 @@ function toApiRebuttalPoint(point: BriefForm["rebuttalPoints"][number]): ApiRebu
   return result;
 }
 
-/** Calls the 준비서면 generation API and maps the response into the shape BriefPaper renders. */
 export async function generateBrief(form: BriefForm, caseId: number | null, signal?: AbortSignal): Promise<BriefDoc> {
   const body: GenerateRequest = {
     court: form.court,
@@ -95,16 +88,15 @@ export async function generateBrief(form: BriefForm, caseId: number | null, sign
     my_argument: form.myArgument || undefined,
   };
 
-  const [documentId, { sections, raw_text }] = await Promise.all([
-    createDraftIfNeeded({
-      caseId,
-      docType: "BRIEF",
-      title: form.caseName || `${form.plaintiff} v ${form.defendant} 준비서면`,
-      content: form,
-    }),
-    postSSE<GenerateResponse>("/api/v1/documents/brief/generate", body, undefined, signal),
-  ]);
-  await saveResultIfNeeded(documentId, raw_text, sections);
+  const sections = await runGeneration<GenerateSections, GenerateRequest>({
+    endpoint: "/api/v1/documents/brief/generate",
+    body,
+    signal,
+    caseId,
+    docType: "BRIEF",
+    title: form.caseName || `${form.plaintiff} v ${form.defendant} 준비서면`,
+    content: form,
+  });
 
   return {
     title: sections.title,

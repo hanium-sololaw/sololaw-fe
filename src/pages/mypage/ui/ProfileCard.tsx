@@ -109,12 +109,12 @@ export default function ProfileCard() {
             <input
               value={draftName}
               onChange={(event) => setDraftName(event.target.value)}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm font-bold text-gray-700 outline-none placeholder:text-gray-400 focus:border-blue-400"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm font-bold text-gray-700 outline-none placeholder:text-gray-400 focus:border-blue-300"
             />
             <input
               value={draftEmail}
               onChange={(event) => setDraftEmail(event.target.value)}
-              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm font-bold text-gray-700 outline-none placeholder:text-gray-400 focus:border-blue-400"
+              className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm font-bold text-gray-700 outline-none placeholder:text-gray-400 focus:border-blue-300"
             />
 
             <div className="flex items-center gap-4">

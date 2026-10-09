@@ -1,7 +1,6 @@
-import { postSSE } from "@/shared/api/sse";
 import { formatDate } from "@/shared/utils/formatDate";
 import { toLines } from "../../shared/text";
-import { createDraftIfNeeded, saveResultIfNeeded } from "../../shared/persistGeneration";
+import { runGeneration } from "../../shared/persistGeneration";
 import type { PetitionDoc, PetitionSection } from "./buildDoc";
 import type { PetitionType } from "./petitionTypes";
 import type { ApplicationType, Party, PetitionForm } from "./types";
@@ -34,11 +33,6 @@ type GenerateRequest = {
   cited_precedents: { case_no: string; summary: string }[];
 };
 
-type GenerateResponse = {
-  sections: Record<string, string>;
-  raw_text: string;
-};
-
 function toApiParty(party: Party): ApiParty {
   const result: ApiParty = { name: party.name, address: party.address };
   if (party.phone) result.phone = party.phone;
@@ -62,7 +56,6 @@ function splitSections(apiSections: Record<string, string>): { sections: Petitio
   return { sections, extraDoc };
 }
 
-/** Calls the 신청서 generation API and maps the response into the shape PetitionPaper renders. */
 export async function generatePetition(
   type: PetitionType,
   form: PetitionForm,
@@ -85,17 +78,16 @@ export async function generatePetition(
       .map((precedent) => ({ case_no: precedent.caseNo, summary: precedent.summary })),
   };
 
-  const [documentId, { sections: apiSections, raw_text }] = await Promise.all([
-    createDraftIfNeeded({
-      caseId,
-      docType: "APPLICATION",
-      applicationSubtype: type.applicationType.toUpperCase(),
-      title: type.title,
-      content: form,
-    }),
-    postSSE<GenerateResponse>("/api/v1/documents/application/generate", body, undefined, signal),
-  ]);
-  await saveResultIfNeeded(documentId, raw_text, apiSections);
+  const apiSections = await runGeneration<Record<string, string>, GenerateRequest>({
+    endpoint: "/api/v1/documents/application/generate",
+    body,
+    signal,
+    caseId,
+    docType: "APPLICATION",
+    applicationSubtype: type.applicationType.toUpperCase(),
+    title: type.title,
+    content: form,
+  });
   const { sections, extraDoc } = splitSections(apiSections);
 
   return {

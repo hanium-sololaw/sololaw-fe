@@ -60,21 +60,21 @@ export default function ChangePasswordModal({
             value={currentPassword}
             onChange={(event) => setCurrentPassword(event.target.value)}
             placeholder="현재 비밀번호"
-            className="w-full rounded-[10px] border border-gray-200 px-4 py-2 text-sm text-gray-800 outline-none placeholder:text-gray-500 focus:border-blue-400"
+            className="w-full rounded-[10px] border border-gray-200 px-4 py-2 text-sm text-gray-800 outline-none placeholder:text-gray-500 focus:border-blue-300"
           />
           <input
             type="password"
             value={newPassword}
             onChange={(event) => setNewPassword(event.target.value)}
             placeholder="새 비밀번호 (8자 이상, 영문+숫자 조합)"
-            className="w-full rounded-[10px] border border-gray-200 px-4 py-2 text-sm text-gray-800 outline-none placeholder:text-gray-500 focus:border-blue-400"
+            className="w-full rounded-[10px] border border-gray-200 px-4 py-2 text-sm text-gray-800 outline-none placeholder:text-gray-500 focus:border-blue-300"
           />
           <input
             type="password"
             value={confirmPassword}
             onChange={(event) => setConfirmPassword(event.target.value)}
             placeholder="새 비밀번호 확인"
-            className="w-full rounded-[10px] border border-gray-200 px-4 py-2 text-sm text-gray-800 outline-none placeholder:text-gray-500 focus:border-blue-400"
+            className="w-full rounded-[10px] border border-gray-200 px-4 py-2 text-sm text-gray-800 outline-none placeholder:text-gray-500 focus:border-blue-300"
           />
         </div>
 

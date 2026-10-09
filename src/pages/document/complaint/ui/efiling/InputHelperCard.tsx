@@ -1,12 +1,10 @@
-import Icon from "@/shared/ui/Icon";
-import ChevronTopIcon from "@/assets/icons/document/chevron-top-icon.svg?react";
 import type { ComplaintDoc } from "../../lib/buildDoc";
 import type { ComplaintForm } from "../../lib/types";
 import AccordionSection from "./AccordionSection";
 import CopyRow from "./CopyRow";
 import CopyTextBlock from "./CopyTextBlock";
 import PartyFields from "./PartyFields";
-import { FIRST_TIME_STEPS, splitEvidenceLine } from "./helpers";
+import { splitEvidenceLine } from "./helpers";
 
 type InputHelperCardProps = {
   doc: ComplaintDoc;
@@ -153,26 +151,6 @@ export default function InputHelperCard({
           </p>
         </AccordionSection>
       </div>
-
-      <details className="group mt-4 rounded-xl border border-gray-100 p-4">
-        <summary className="flex cursor-pointer list-none items-center justify-between font-semibold text-gray-900">
-          전자소송, 처음이신가요?
-          <Icon icon={ChevronTopIcon} size={20} className="rotate-180 transition-transform group-open:rotate-0" />
-        </summary>
-        <ol className="mt-3 space-y-3 text-sm">
-          {FIRST_TIME_STEPS.map((step, index) => (
-            <li key={step.title} className="flex gap-3">
-              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-500">
-                {index + 1}
-              </span>
-              <div>
-                <p className="font-semibold text-gray-900">{step.title}</p>
-                <p className="text-gray-500">{step.desc}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </details>
     </div>
   );
 }

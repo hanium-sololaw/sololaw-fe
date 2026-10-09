@@ -68,7 +68,7 @@ export default function CaseCard({
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/70">
             <div
-              className="h-full rounded-full bg-blue-400"
+              className="h-full rounded-full bg-blue-300"
               style={{ width: `${progressRate}%` }}
             />
           </div>

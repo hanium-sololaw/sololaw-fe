@@ -50,7 +50,7 @@ export default function LoginForm() {
             type="checkbox"
             checked={keepLogin}
             onChange={(e) => setKeepLogin(e.target.checked)}
-            className="h-4 w-4 accent-blue-400"
+            className="h-4 w-4 accent-blue-300"
           />
           로그인 상태 유지
         </label>

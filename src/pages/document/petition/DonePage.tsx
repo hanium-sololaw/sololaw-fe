@@ -1,21 +1,11 @@
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import DocumentDonePage from "../ui/shared/DocumentDonePage";
 import type { PetitionDoc } from "./lib/buildDoc";
-import DoneView from "./ui/DoneView";
-
-type DoneLocationState = { doc: PetitionDoc };
+import DoneView from "./ui/done/DoneView";
 
 export default function PetitionDonePage() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const state = location.state as DoneLocationState | null;
-
-  if (!state?.doc) return <Navigate to="/document/petition" replace />;
-
   return (
-    <DoneView
-      doc={state.doc}
-      onEdit={() => navigate("/document/petition")}
-      onExit={() => navigate("/document")}
-    />
+    <DocumentDonePage<{ doc: PetitionDoc }> wizardPath="/document/petition">
+      {({ doc }, { onEdit, onExit }) => <DoneView doc={doc} onEdit={onEdit} onExit={onExit} />}
+    </DocumentDonePage>
   );
 }

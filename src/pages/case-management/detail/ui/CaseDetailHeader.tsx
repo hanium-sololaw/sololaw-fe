@@ -60,7 +60,7 @@ export default function CaseDetailHeader({
 
       <div className="flex flex-col gap-6 rounded-[20px] border border-gray-200 bg-white p-6 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-start gap-3">
-          <span className="mt-1 h-8 w-1 shrink-0 rounded-full bg-blue-400" />
+          <span className="mt-1 h-8 w-1 shrink-0 rounded-full bg-blue-300" />
           <div className="flex flex-col gap-1">
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="text-xl font-bold text-gray-900">{title}</h1>
@@ -93,7 +93,7 @@ export default function CaseDetailHeader({
             </div>
             <div className="h-1.5 w-24 overflow-hidden rounded-full bg-gray-100">
               <div
-                className="h-full rounded-full bg-blue-400"
+                className="h-full rounded-full bg-blue-300"
                 style={{ width: `${petitionProgress}%` }}
               />
             </div>
@@ -113,7 +113,7 @@ export default function CaseDetailHeader({
               onChange={(event) =>
                 onStatusChange(event.target.value as CaseStatus)
               }
-              className="rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm font-semibold text-gray-800 outline-none focus:border-blue-400"
+              className="rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm font-semibold text-gray-800 outline-none focus:border-blue-300"
             >
               {statusOptions.map((option) => (
                 <option key={option} value={option}>

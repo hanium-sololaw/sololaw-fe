@@ -12,7 +12,7 @@ type LoanDeadlineCardProps = {
 };
 
 const dateFieldTriggerClassName =
-  "flex w-fit items-center gap-8 rounded-[10px] border border-gray-200 bg-white px-4 py-3 text-left text-base leading-[normal] font-medium outline-none focus:border-blue-400";
+  "flex w-fit items-center gap-8 rounded-[10px] border border-gray-200 bg-white px-4 py-3 text-left text-base leading-[normal] font-medium outline-none focus:border-blue-300";
 
 function DeadlineItemBox({ item }: { item: LoanDeadlineItem }) {
   const [baseDate, setBaseDate] = useState("");
