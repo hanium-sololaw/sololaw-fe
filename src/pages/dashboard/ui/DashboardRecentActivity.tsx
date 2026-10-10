@@ -1,28 +1,43 @@
-type RecentActivity = {
-  id: string;
-  title: string;
-  description: string;
-};
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { listMyCases, type Case } from "@/shared/api/cases";
+import { caseStatusMeta } from "@/pages/case-management/lib/caseDisplay";
 
-const recentActivities: RecentActivity[] = [
-  {
-    id: "cost",
-    title: "소송비용 산출서 확인완료 (D-2)",
-    description: "인지대 등 비용 산출 완료",
-  },
-  {
-    id: "evidence",
-    title: "증거 목록서 작성 완료 (D-7)",
-    description: "주요증거 정리완료",
-  },
-  {
-    id: "brief",
-    title: "준비서면 제출 기한 안내 (D-7)",
-    description: "변론 전 필수 서류 안내",
-  },
-];
+const RECENT_CASE_COUNT = 2;
 
 export default function DashboardRecentActivity() {
+  const navigate = useNavigate();
+  const [cases, setCases] = useState<Case[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    listMyCases()
+      .then((result) => {
+        if (cancelled) return;
+        const recent = [...result.content]
+          .sort(
+            (a, b) =>
+              new Date(b.modifiedAt).getTime() -
+              new Date(a.modifiedAt).getTime(),
+          )
+          .slice(0, RECENT_CASE_COUNT);
+        setCases(recent);
+      })
+      .catch(() => {
+        if (!cancelled) setError("최근 사건을 불러오지 못했어요.");
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <section
       className="
@@ -51,11 +66,17 @@ export default function DashboardRecentActivity() {
       />
 
       <div className="relative z-10 flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">최근 활동</h2>
+        <div className="flex items-start justify-between">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-lg font-semibold text-gray-900">최근 사건</h2>
+            <p className="text-sm text-gray-500">
+              최근 수정한 사건에서 바로 이어서 하세요.
+            </p>
+          </div>
 
           <button
             type="button"
+            onClick={() => navigate("/case-management")}
             className="
       text-sm
       text-blue-400"
@@ -64,22 +85,43 @@ export default function DashboardRecentActivity() {
           </button>
         </div>
 
+        {isLoading && <p className="text-sm text-gray-400">불러오는 중...</p>}
+        {error && <p className="text-sm text-red-500">{error}</p>}
+
         <ul className="flex flex-col gap-3">
-          {recentActivities.map((activity) => (
-            <li key={activity.id} className="flex gap-3">
-              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-700" />
+          {cases.map((item) => {
+            const statusMeta = caseStatusMeta[item.status];
+            const meta = [item.caseNumber, item.court]
+              .filter(Boolean)
+              .join(" · ");
 
-              <div className="flex flex-col gap-0.75">
-                <p className="text-base text-gray-800">
-                  {activity.title}
-                </p>
+            return (
+              <li key={item.id}>
+                <button
+                  type="button"
+                  onClick={() => navigate(`/case-management/${item.id}`)}
+                  className="flex w-full items-center justify-between gap-3 rounded-[10px] border border-gray-200 bg-white px-4 py-3 text-left hover:border-blue-200"
+                >
+                  <div className="flex min-w-0 flex-col gap-0.75">
+                    <p className="truncate text-base text-gray-800">
+                      {item.title}
+                    </p>
+                    {meta && (
+                      <p className="truncate text-sm text-gray-400">{meta}</p>
+                    )}
+                  </div>
 
-                <p className="text-sm font-normal text-gray-400">
-                  {activity.description}
-                </p>
-              </div>
-            </li>
-          ))}
+                  {statusMeta && (
+                    <span
+                      className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold whitespace-nowrap ${statusMeta.style}`}
+                    >
+                      {statusMeta.label}
+                    </span>
+                  )}
+                </button>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>
