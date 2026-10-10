@@ -7,16 +7,20 @@ import { myProfile } from "../data/mockMyPage";
 import { getMyProfile } from "@/shared/api/users";
 import { updateMyProfile } from "../api/updateMyProfile";
 import { getSchedules } from "@/pages/schedule/api/getSchedules";
+import { listDocuments } from "@/pages/document/shared/listDocuments";
+import { listEvidence } from "@/pages/evidence/api";
 import PremiumUpgradeModal from "./PremiumUpgradeModal";
 
 export default function ProfileCard() {
   const [isEditing, setIsEditing] = useState(false);
-  const [profileName, setProfileName] = useState(myProfile.name);
-  const [profileEmail, setProfileEmail] = useState(myProfile.email);
-  const [draftName, setDraftName] = useState(myProfile.name);
-  const [draftEmail, setDraftEmail] = useState(myProfile.email);
+  const [profileName, setProfileName] = useState("");
+  const [profileEmail, setProfileEmail] = useState("");
+  const [draftName, setDraftName] = useState("");
+  const [draftEmail, setDraftEmail] = useState("");
   const [isSaving, setIsSaving] = useState(false);
-  const [scheduleCount, setScheduleCount] = useState(myProfile.stats.schedules);
+  const [documentCount, setDocumentCount] = useState<number | null>(null);
+  const [evidenceCount, setEvidenceCount] = useState<number | null>(null);
+  const [scheduleCount, setScheduleCount] = useState<number | null>(null);
   const premiumModal = useModal();
 
   useEffect(() => {
@@ -26,13 +30,25 @@ export default function ProfileCard() {
         setProfileEmail(profile.email);
       })
       .catch(() => {
-        // keep the placeholder profile when the API call fails
+        // leave the profile blank when the API call fails
+      });
+
+    listDocuments({ isLatest: true, size: 1 })
+      .then((page) => setDocumentCount(page.totalElements))
+      .catch(() => {
+        // show "-" when the API call fails
+      });
+
+    listEvidence({ isLatest: true, size: 1 })
+      .then((page) => setEvidenceCount(page.totalElements))
+      .catch(() => {
+        // show "-" when the API call fails
       });
 
     getSchedules()
       .then((schedules) => setScheduleCount(schedules.length))
       .catch(() => {
-        // keep the placeholder schedule count when the API call fails
+        // show "-" when the API call fails
       });
   }, []);
 
@@ -66,10 +82,10 @@ export default function ProfileCard() {
   const statItems = [
     {
       icon: DocumentIcon,
-      value: myProfile.stats.documents,
+      value: documentCount,
       label: "생성한 문서",
     },
-    { icon: DataIcon, value: myProfile.stats.evidence, label: "등록한 증거" },
+    { icon: DataIcon, value: evidenceCount, label: "등록한 증거" },
     {
       icon: CalendarIcon,
       value: scheduleCount,
@@ -150,7 +166,9 @@ export default function ProfileCard() {
         {statItems.map(({ icon: Icon, value, label }) => (
           <div key={label} className="flex flex-col items-center gap-1.5">
             <Icon />
-            <span className="text-lg font-bold text-gray-900">{value}건</span>
+            <span className="text-lg font-bold text-gray-900">
+              {value === null ? "-" : `${value}건`}
+            </span>
             <span className="text-xs text-gray-500">{label}</span>
           </div>
         ))}

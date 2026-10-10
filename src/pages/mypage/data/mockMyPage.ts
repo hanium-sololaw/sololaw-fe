@@ -8,15 +8,9 @@ export type MyCase = {
   court: string;
 };
 
+// no plan/subscription API yet — every account is shown as free
 export const myProfile = {
-  name: "김지민",
-  email: "example@gmail.com",
   plan: "free",
-  stats: {
-    documents: 7,
-    evidence: 14,
-    schedules: 9,
-  },
 };
 
 export const myCases: MyCase[] = [];
