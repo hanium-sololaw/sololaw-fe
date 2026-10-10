@@ -12,10 +12,13 @@ import DashboardHelpContent from "./ui/DashboardHelpContent";
 import DashboardFAQ from "./ui/DashboardFAQ";
 import DashboardEmptyBanner from "./ui/DashboardEmptyBanner";
 import DashboardOnboardingCards from "./ui/DashboardOnboardingCards";
+import DashboardNoticeModal from "./ui/DashboardNoticeModal";
+import { useFirstVisitNotice } from "./hook/useFirstVisitNotice";
 
 export default function DashboardPage() {
   const navigate = useNavigate();
   const newCaseModal = useModal();
+  const notice = useFirstVisitNotice();
   const [hasCases, setHasCases] = useState(true);
 
   useEffect(() => {
@@ -52,6 +55,8 @@ export default function DashboardPage() {
             onCreated={() => navigate("/case-management")}
           />
         )}
+
+        {notice.isOpen && <DashboardNoticeModal onAgree={notice.agree} />}
       </div>
     );
   }
@@ -79,6 +84,8 @@ export default function DashboardPage() {
           </div>
         </div>
       </main>
+
+      {notice.isOpen && <DashboardNoticeModal onAgree={notice.agree} />}
     </div>
   );
 }
