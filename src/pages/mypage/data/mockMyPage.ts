@@ -36,7 +36,7 @@ export const accountSettingItems: AccountSettingItem[] = [
   {
     id: "password",
     label: "비밀번호 및 보안",
-    description: "기일·제출 기한 알림을 관리해요",
+    description: "비밀번호를 변경해보세요",
   },
   {
     id: "terms",
