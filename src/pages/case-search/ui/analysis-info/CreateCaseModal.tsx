@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Modal from "@/pages/document/ui/shared/Modal";
 import Dropdown from "@/shared/ui/Dropdown";
 import type { CaseType } from "@/shared/api/cases";
+import { toDigits, withCommas } from "@/shared/utils/formatNumber";
 import { CASE_TYPES, CASE_TYPE_LABEL } from "../../data/caseTypes";
 import { useCreateCaseForm } from "../../hooks/useCreateCaseForm";
 
@@ -60,10 +61,10 @@ export default function CreateCaseModal({ onClose, onCreated }: CreateCaseModalP
         <div className="grid grid-cols-2 gap-4">
           <Field label="청구 금액 (선택)">
             <input
-              type="number"
-              min={0}
-              value={values.claimAmount}
-              onChange={(e) => setValue("claimAmount", e.target.value)}
+              type="text"
+              inputMode="numeric"
+              value={withCommas(values.claimAmount)}
+              onChange={(e) => setValue("claimAmount", toDigits(e.target.value))}
               placeholder="0"
               className={INPUT_CLS}
             />
