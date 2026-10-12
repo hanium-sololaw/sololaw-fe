@@ -1,6 +1,14 @@
 import { Link } from "react-router-dom";
 
-export default function NotificationHeader() {
+type NotificationHeaderProps = {
+  hasUnread: boolean;
+  onMarkAllRead: () => void;
+};
+
+export default function NotificationHeader({
+  hasUnread,
+  onMarkAllRead,
+}: NotificationHeaderProps) {
   return (
     <div className="flex items-start justify-between">
       <div className="flex flex-col gap-1">
@@ -16,7 +24,12 @@ export default function NotificationHeader() {
         </p>
       </div>
 
-      <button type="button" className="text-sm font-semibold text-blue-400">
+      <button
+        type="button"
+        onClick={onMarkAllRead}
+        disabled={!hasUnread}
+        className="text-sm font-semibold text-blue-400 disabled:text-gray-300"
+      >
         모두 읽음
       </button>
     </div>

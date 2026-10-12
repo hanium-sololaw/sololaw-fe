@@ -1,9 +1,23 @@
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import UploadIcon from "@/assets/icons/schedule/upload-icon.svg?react";
-import { useModal } from "@/shared/hooks/useModal";
 import CourtNoticeUploadModal from "./CourtNoticeUploadModal";
 
 export default function ScheduleHeader() {
-  const uploadModal = useModal();
+  const [searchParams, setSearchParams] = useSearchParams();
+  // ?upload=court-notice (e.g. from the notification settings notice) opens the upload modal on arrival
+  const [isUploadOpen, setIsUploadOpen] = useState(
+    searchParams.get("upload") === "court-notice",
+  );
+
+  const closeUpload = () => {
+    setIsUploadOpen(false);
+    if (searchParams.has("upload")) {
+      const next = new URLSearchParams(searchParams);
+      next.delete("upload");
+      setSearchParams(next, { replace: true });
+    }
+  };
 
   return (
     <div className="flex items-start justify-between gap-4">
@@ -18,16 +32,14 @@ export default function ScheduleHeader() {
 
       <button
         type="button"
-        onClick={uploadModal.open}
+        onClick={() => setIsUploadOpen(true)}
         className="flex shrink-0 items-center gap-2 rounded-xl bg-blue-300 px-4 py-2.5 text-sm font-semibold whitespace-nowrap text-white hover:bg-blue-500"
       >
         <UploadIcon />
         법원 통지서 업로드
       </button>
 
-      {uploadModal.isOpen && (
-        <CourtNoticeUploadModal onClose={uploadModal.close} />
-      )}
+      {isUploadOpen && <CourtNoticeUploadModal onClose={closeUpload} />}
     </div>
   );
 }
