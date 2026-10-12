@@ -44,6 +44,7 @@ export default function SchedulePage() {
                 : "",
               dDay: formatDDay(record.dDay),
               urgent: record.dDay >= 0 && record.dDay <= 3,
+              record,
             };
           }),
         );
@@ -63,7 +64,7 @@ export default function SchedulePage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <ScheduleHeader />
+      <ScheduleHeader onCreated={() => setRefreshKey((prev) => prev + 1)} />
       <ScheduleNoticeBanner />
 
       <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[1fr_360px]">
@@ -79,7 +80,10 @@ export default function SchedulePage() {
             events={selectedDayEvents}
             onCreated={() => setRefreshKey((prev) => prev + 1)}
           />
-          <UpcomingSchedules events={events} />
+          <UpcomingSchedules
+            events={events}
+            onChanged={() => setRefreshKey((prev) => prev + 1)}
+          />
         </div>
       </div>
     </div>

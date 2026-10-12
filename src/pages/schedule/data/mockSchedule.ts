@@ -1,3 +1,5 @@
+import type { ScheduleRecord } from "../api/types";
+
 export type ScheduleEvent = {
   id: string;
   date: string;
@@ -6,6 +8,8 @@ export type ScheduleEvent = {
   caseName: string;
   dDay: string;
   urgent?: boolean;
+  /** raw API record, needed to prefill the edit modal */
+  record?: ScheduleRecord;
 };
 
 export const scheduleEvents: ScheduleEvent[] = [

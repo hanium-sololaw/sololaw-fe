@@ -1,5 +1,5 @@
-import MoreIcon from "@/assets/icons/schedule/more-icon.svg?react";
 import type { ScheduleEvent } from "../data/mockSchedule";
+import ScheduleItemMenu from "./ScheduleItemMenu";
 
 const WEEKDAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -12,9 +12,13 @@ function formatEventDate(event: ScheduleEvent) {
 
 type UpcomingSchedulesProps = {
   events: ScheduleEvent[];
+  onChanged: () => void;
 };
 
-export default function UpcomingSchedules({ events }: UpcomingSchedulesProps) {
+export default function UpcomingSchedules({
+  events,
+  onChanged,
+}: UpcomingSchedulesProps) {
   return (
     <section className="flex flex-col gap-3 rounded-[20px] border border-gray-200 bg-white p-5">
       <h2 className="text-base font-bold text-gray-900">다가오는 일정</h2>
@@ -53,12 +57,7 @@ export default function UpcomingSchedules({ events }: UpcomingSchedulesProps) {
                 </p>
               </div>
 
-              <button
-                type="button"
-                className="shrink-0 text-gray-300 hover:text-gray-500"
-              >
-                <MoreIcon />
-              </button>
+              <ScheduleItemMenu event={event} onChanged={onChanged} />
             </div>
           ))}
         </div>

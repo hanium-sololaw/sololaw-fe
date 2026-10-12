@@ -23,12 +23,14 @@ function refreshSession(): Promise<boolean> {
 }
 
 async function request<T>(baseUrl: string, endpoint: string, options?: RequestInit, isRetry = false): Promise<T> {
+  // FormData needs the browser to set its own multipart boundary, so skip the JSON content type
+  const isFormData = options?.body instanceof FormData
   const response = await fetch(
     `${baseUrl}${endpoint}`,
     withAuth({
       ...options,
       headers: {
-        'Content-Type': 'application/json',
+        ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
         ...options?.headers,
       },
     }),
