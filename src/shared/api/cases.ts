@@ -49,6 +49,18 @@ export async function listMyCases(params: ListCasesParams = {}): Promise<CasePag
   return response.data;
 }
 
+/**
+ * Counts the user's ongoing cases (every status except CLOSED). The list API filters by a single
+ * status only, so this is total − closed.
+ */
+export async function countOngoingCases(): Promise<number> {
+  const [all, closed] = await Promise.all([
+    listMyCases({ size: 1 }),
+    listMyCases({ status: "CLOSED", size: 1 }),
+  ]);
+  return all.totalElements - closed.totalElements;
+}
+
 type CreateCaseRequest = {
   title: string;
   caseType?: CaseType;

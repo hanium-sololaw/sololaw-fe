@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { listMyCases } from "@/shared/api/cases";
+import { countOngoingCases } from "@/shared/api/cases";
 import { getMyProfile } from "@/shared/api/users";
 import { getSchedules } from "@/pages/schedule/api/getSchedules";
 import { formatDDay } from "@/pages/schedule/lib/scheduleMapping";
@@ -25,9 +25,9 @@ export default function DashboardHeader({ hasCases }: DashboardHeaderProps) {
       });
 
     if (hasCases) {
-      listMyCases({ status: "IN_PROGRESS", size: 1 })
-        .then((page) => {
-          if (!cancelled) setActiveCaseCount(page.totalElements);
+      countOngoingCases()
+        .then((count) => {
+          if (!cancelled) setActiveCaseCount(count);
         })
         .catch(() => {
           // keep the placeholder count when the API call fails

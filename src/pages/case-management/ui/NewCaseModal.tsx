@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import CloseIcon from "@/assets/icons/mypage/close-icon.svg?react";
 import ChevronDownIcon from "@/assets/icons/home/arrow-bottom.svg?react";
 import UploadIcon from "@/assets/icons/schedule/upload-outline-icon.svg?react";
-import AboutIcon from "@/assets/icons/case-search/about-icon.svg?react";
 import { createCase } from "@/shared/api/cases";
+import { toDigits, withCommas } from "@/shared/utils/formatNumber";
 import {
   caseTypeByLabel,
   startingStageByProgressId,
@@ -226,9 +226,10 @@ export default function NewCaseModal({ onClose, onCreated }: NewCaseModalProps) 
             </label>
             <div className="relative flex items-center">
               <input
-                type="number"
-                value={claimAmount}
-                onChange={(event) => setClaimAmount(event.target.value)}
+                type="text"
+                inputMode="numeric"
+                value={withCommas(claimAmount)}
+                onChange={(event) => setClaimAmount(toDigits(event.target.value))}
                 placeholder="0"
                 className="w-full rounded-xl border border-gray-200 py-3 pr-9 pl-4 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-blue-300"
               />
@@ -344,9 +345,14 @@ export default function NewCaseModal({ onClose, onCreated }: NewCaseModalProps) 
           </p>
         </div>
 
-        <div className="flex items-start gap-2 rounded-xl border border-blue-100 bg-blue-50 p-3.5">
-          <AboutIcon className="mt-0.5 h-4 w-4 shrink-0 text-blue-500" />
-          <p className="text-xs text-blue-700">
+        <div className="flex items-center gap-2.5 rounded-xl bg-blue-50 px-4 py-3">
+          <span
+            aria-hidden="true"
+            className="w-2 shrink-0 text-center text-base leading-none font-extrabold text-blue-400"
+          >
+            !
+          </span>
+          <p className="text-sm text-blue-400">
             관할 법원은 사건 유형·주소지에 따라 정해집니다. 정확한 관할은
             반드시 직접 확인하세요.
           </p>

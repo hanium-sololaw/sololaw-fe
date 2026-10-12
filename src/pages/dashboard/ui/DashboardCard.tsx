@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { listMyCases } from "@/shared/api/cases";
+import { countOngoingCases } from "@/shared/api/cases";
 import { getSchedules } from "@/pages/schedule/api/getSchedules";
 import { formatDDay, formatMonthDay } from "@/pages/schedule/lib/scheduleMapping";
 import { listDocuments } from "@/pages/document/shared/listDocuments";
@@ -84,9 +84,9 @@ export default function DashboardSummary() {
   useEffect(() => {
     let cancelled = false;
 
-    listMyCases({ status: "IN_PROGRESS", size: 1 })
-      .then((page) => {
-        if (!cancelled) setActiveCaseCount(page.totalElements);
+    countOngoingCases()
+      .then((count) => {
+        if (!cancelled) setActiveCaseCount(count);
       })
       .catch(() => {
         // keep the placeholder count when the API call fails
