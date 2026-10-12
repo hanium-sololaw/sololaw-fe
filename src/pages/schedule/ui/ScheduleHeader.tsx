@@ -3,7 +3,11 @@ import { useSearchParams } from "react-router-dom";
 import UploadIcon from "@/assets/icons/schedule/upload-icon.svg?react";
 import CourtNoticeUploadModal from "./CourtNoticeUploadModal";
 
-export default function ScheduleHeader() {
+type ScheduleHeaderProps = {
+  onCreated: () => void;
+};
+
+export default function ScheduleHeader({ onCreated }: ScheduleHeaderProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   // ?upload=court-notice (e.g. from the notification settings notice) opens the upload modal on arrival
   const [isUploadOpen, setIsUploadOpen] = useState(
@@ -39,7 +43,9 @@ export default function ScheduleHeader() {
         법원 통지서 업로드
       </button>
 
-      {isUploadOpen && <CourtNoticeUploadModal onClose={closeUpload} />}
+      {isUploadOpen && (
+        <CourtNoticeUploadModal onClose={closeUpload} onCreated={onCreated} />
+      )}
     </div>
   );
 }

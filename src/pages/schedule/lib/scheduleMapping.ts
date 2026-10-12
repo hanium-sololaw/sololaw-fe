@@ -5,8 +5,16 @@ export const scheduleTypeByLabel: Record<string, ScheduleType> = {
   "제출기한": "SUBMISSION_DEADLINE",
   "서류 준비": "PREPARATION",
   "상담": "ATTENDANCE",
+  "이의신청 기간": "OBJECTION_PERIOD",
   "기타": "OTHER",
 };
+
+export function labelByValue<T>(
+  map: Record<string, T>,
+  value: T | null | undefined,
+): string {
+  return Object.entries(map).find(([, item]) => item === value)?.[0] ?? "";
+}
 
 export const reminderValueByLabel: Record<string, number> = {
   "당일": 0,

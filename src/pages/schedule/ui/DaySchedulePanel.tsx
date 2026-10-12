@@ -3,6 +3,7 @@ import CalendarIcon from "@/assets/icons/mypage/calendar-icon.svg?react";
 import { useModal } from "@/shared/hooks/useModal";
 import type { ScheduleEvent } from "../data/mockSchedule";
 import AddScheduleModal from "./AddScheduleModal";
+import ScheduleItemMenu from "./ScheduleItemMenu";
 
 const WEEKDAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -48,11 +49,17 @@ export default function DaySchedulePanel({
           {events.map((event) => (
             <div
               key={event.id}
-              className="rounded-xl border border-gray-100 px-4 py-3"
+              className="flex items-center justify-between gap-2 rounded-xl border border-gray-100 px-4 py-3"
             >
-              <p className="text-sm font-semibold text-gray-900">
+              <p className="min-w-0 truncate text-sm font-semibold text-gray-900">
+                {event.time && (
+                  <span className="mr-2 font-medium text-gray-500">
+                    {event.time}
+                  </span>
+                )}
                 {event.title}
               </p>
+              <ScheduleItemMenu event={event} onChanged={onCreated} />
             </div>
           ))}
         </div>
