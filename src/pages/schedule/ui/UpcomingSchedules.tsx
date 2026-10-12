@@ -19,17 +19,20 @@ export default function UpcomingSchedules({
   events,
   onChanged,
 }: UpcomingSchedulesProps) {
+  // past schedules (D+n) stay on the calendar but don't belong in "upcoming"
+  const upcoming = events.filter((event) => (event.record?.dDay ?? 0) >= 0);
+
   return (
     <section className="flex flex-col gap-3 rounded-[20px] border border-gray-200 bg-white p-5">
       <h2 className="text-base font-bold text-gray-900">다가오는 일정</h2>
 
-      {events.length === 0 ? (
+      {upcoming.length === 0 ? (
         <div className="rounded-xl bg-gray-50 px-4 py-4 text-center text-sm text-gray-400">
-          아직 등록된 사건 일정이 없습니다.
+          다가오는 일정이 없습니다.
         </div>
       ) : (
         <div className="flex flex-col gap-4">
-          {events.map((event) => (
+          {upcoming.map((event) => (
             <div key={event.id} className="flex items-start gap-2.5">
               <span
                 className={`mt-2 h-2.5 w-2.5 shrink-0 rounded-full ${
@@ -53,7 +56,9 @@ export default function UpcomingSchedules({
                   </span>
                 </div>
                 <p className="truncate text-xs text-gray-400">
-                  {formatEventDate(event)} · {event.caseName}
+                  {[formatEventDate(event), event.caseName]
+                    .filter(Boolean)
+                    .join(" · ")}
                 </p>
               </div>
 
