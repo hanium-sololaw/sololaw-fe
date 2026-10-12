@@ -1,4 +1,4 @@
-import FolderImage from "@/assets/lawsuit/folder-image.svg?react";
+import PaperStack from "@/shared/ui/PaperStack";
 import type { Case } from "@/shared/api/cases";
 import {
   caseStatusMeta,
@@ -28,23 +28,24 @@ export default function CaseCard({
     <button
       type="button"
       onClick={onClick}
-      className="relative flex h-95 w-full flex-col overflow-hidden rounded-[20px] border border-gray-200 bg-[#F2F4F6] text-left hover:border-blue-200"
+      // hover animation mirrors the document type cards (document/ui/home/DocumentTypeSelector)
+      className="group relative flex h-95 w-full flex-col overflow-hidden rounded-[20px] border border-gray-200 bg-[#F2F4F6] text-left transition-colors duration-300 hover:border-blue-200 hover:bg-blue-50"
     >
       <div className="flex flex-col gap-1 px-6 pt-4">
-        <h3 className="text-xl leading-[1.4] font-bold text-gray-700">
+        <h3 className="text-xl leading-[1.4] font-bold text-gray-700 transition-colors duration-300 group-hover:text-blue-400">
           {title}
         </h3>
-        <p className="text-sm font-medium text-gray-600">
+        <p className="text-sm font-medium text-gray-600 transition-colors duration-300 group-hover:text-blue-400">
           {court} <span className="mx-1 text-gray-300">|</span>
           {caseNumber}
         </p>
       </div>
 
       <div className="flex flex-1 items-center justify-center">
-        <FolderImage className="h-auto w-60" />
+        <PaperStack className="w-60" />
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 flex flex-col gap-3 rounded-b-[20px] bg-[rgba(242,244,246,0.68)] px-6 pt-5 pb-6 backdrop-blur-md">
+      <div className="absolute inset-x-0 bottom-0 flex flex-col gap-3 rounded-b-[20px] bg-[rgba(242,244,246,0.68)] px-6 pt-5 pb-6 backdrop-blur-md transition-colors duration-300 group-hover:bg-[rgba(198,225,255,0.34)]">
         <div className="flex items-start justify-between gap-2">
           <p className="text-xs font-semibold text-blue-500">
             {caseTypeLabel[caseType]}
