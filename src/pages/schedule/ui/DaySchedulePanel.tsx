@@ -7,6 +7,13 @@ import ScheduleItemMenu from "./ScheduleItemMenu";
 
 const WEEKDAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 
+/** "14:00 · 사건명 · 장소", skipping whatever is missing. */
+function formatMeta(event: ScheduleEvent) {
+  return [event.time, event.caseName, event.record?.location]
+    .filter(Boolean)
+    .join(" · ");
+}
+
 type DaySchedulePanelProps = {
   selectedDate: Date;
   events: ScheduleEvent[];
@@ -49,16 +56,25 @@ export default function DaySchedulePanel({
           {events.map((event) => (
             <div
               key={event.id}
-              className="flex items-center justify-between gap-2 rounded-xl border border-gray-100 px-4 py-3"
+              className="flex items-start gap-2.5 rounded-xl border border-gray-100 px-4 py-3"
             >
-              <p className="min-w-0 truncate text-sm font-semibold text-gray-900">
-                {event.time && (
-                  <span className="mr-2 font-medium text-gray-500">
-                    {event.time}
-                  </span>
+              <span
+                className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${
+                  event.urgent ? "bg-red-300" : "bg-blue-300"
+                }`}
+              />
+
+              <div className="flex min-w-0 flex-1 flex-col gap-1">
+                <p className="text-sm font-semibold text-gray-900">
+                  {event.title}
+                </p>
+                {formatMeta(event) && (
+                  <p className="text-xs leading-relaxed text-gray-400">
+                    {formatMeta(event)}
+                  </p>
                 )}
-                {event.title}
-              </p>
+              </div>
+
               <ScheduleItemMenu event={event} onChanged={onCreated} />
             </div>
           ))}

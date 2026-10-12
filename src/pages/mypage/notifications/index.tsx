@@ -7,7 +7,7 @@ export default function NotificationsPage() {
   const notifications = useNotifications();
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-10">
       <NotificationHeader
         hasUnread={notifications.items.some((item) => !item.isRead)}
         onMarkAllRead={notifications.markAllRead}
