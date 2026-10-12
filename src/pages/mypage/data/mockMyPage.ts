@@ -8,15 +8,9 @@ export type MyCase = {
   court: string;
 };
 
+// no plan/subscription API yet — every account is shown as free
 export const myProfile = {
-  name: "김지민",
-  email: "example@gmail.com",
   plan: "free",
-  stats: {
-    documents: 7,
-    evidence: 14,
-    schedules: 9,
-  },
 };
 
 export const myCases: MyCase[] = [];
@@ -42,7 +36,7 @@ export const accountSettingItems: AccountSettingItem[] = [
   {
     id: "password",
     label: "비밀번호 및 보안",
-    description: "기일·제출 기한 알림을 관리해요",
+    description: "비밀번호를 변경해보세요",
   },
   {
     id: "terms",

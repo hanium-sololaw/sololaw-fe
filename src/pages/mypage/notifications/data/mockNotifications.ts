@@ -1,67 +1,31 @@
-export type NotificationItem = {
-  id: string;
-  title: string;
-  meta: string;
-  read: boolean;
-};
-
-export const notifications: NotificationItem[] = [
-  {
-    id: "1",
-    title: "준비서면 제출 기한 D-3",
-    meta: "2024가단12345 · 방금",
-    read: false,
-  },
-  {
-    id: "2",
-    title: "상대방이 답변서를 제출했습니다",
-    meta: "오늘 오전 8:42 · AI 분석",
-    read: false,
-  },
-  {
-    id: "3",
-    title: "유사 판례 결과가 새로 발견되었습니다",
-    meta: "어제 · 업데이트된 판례집 보기",
-    read: false,
-  },
-  {
-    id: "4",
-    title: "변론기일 D-17 리마인더",
-    meta: "어제 오전 9:00",
-    read: true,
-  },
-];
+import type { NotificationSettingKey } from "../api/notificationSettings";
 
 export type NotificationSetting = {
-  id: string;
+  key: NotificationSettingKey;
   title: string;
   description: string;
-  enabled: boolean;
 };
 
+// aiPrecedentAlert is intentionally not shown — similar-case updates are listed under 유의사항 instead
 export const notificationSettings: NotificationSetting[] = [
   {
-    id: "hearing",
-    title: "변론기일 리마인더",
-    description: "기일 3일 전, 1일 전 알림",
-    enabled: true,
+    key: "hearingReminderAlert",
+    title: "기일 알림",
+    description: "내가 등록한 기일 7일 전·3일 전·1일 전",
   },
   {
-    id: "deadline",
+    key: "submissionDeadlineAlert",
     title: "제출 기한 알림",
-    description: "준비서면·증거 제출 기한 임박 시",
-    enabled: true,
+    description: "답변서·준비서면 등 기한이 다가올 때",
   },
   {
-    id: "opponent",
-    title: "상대방 서면 제출 알림",
-    description: "답변서·준비서면 제출 시",
-    enabled: true,
+    key: "overdueDeadlineAlert",
+    title: "기한 지남 알림",
+    description: "기한이 지났는데 완료 표시가 없을 때",
   },
   {
-    id: "similarCase",
-    title: "유사 판례 업데이트",
-    description: "새 판례 발견 시",
-    enabled: false,
+    key: "evidenceSupplementAlert",
+    title: "증거 보완 알림",
+    description: "보완필요로 표시해 둔 증거가 남아 있을 때",
   },
 ];
