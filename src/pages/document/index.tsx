@@ -65,7 +65,7 @@ export default function DocumentPage() {
       {newCaseModal.isOpen && <NewCaseModal onClose={newCaseModal.close} onCreated={handleCreated} />}
 
       <DocumentTypeSelector onPick={pickType} />
-      <DocumentQuickLinks />
+      <DocumentQuickLinks selectedCase={activeSource === "case" ? selectedCase : undefined} onPickType={pickType} />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]">
         <RecentDocumentsList />
