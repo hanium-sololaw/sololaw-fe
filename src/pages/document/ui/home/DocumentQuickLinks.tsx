@@ -3,9 +3,13 @@ import calculatorImage from "@/assets/images/document/calculator.png";
 import guideBookImage from "@/assets/images/document/guide-book.png";
 import recommendImage from "@/assets/images/document/recommend.png";
 import templateImage from "@/assets/images/document/template.png";
+import type { Case } from "@/shared/api/cases";
 import { useModal } from "@/shared/hooks/useModal";
+import type { DocumentTypeId } from "../../data/documentTypes";
 import { quickLinks, type QuickLinkId } from "../../data/quickLinks";
 import CostCalculatorModal from "./CostCalculatorModal";
+import RecommendModal from "./RecommendModal";
+import TemplateViewModal from "./TemplateViewModal";
 
 const quickLinkImages: Record<QuickLinkId, string> = {
   calculator: calculatorImage,
@@ -14,13 +18,22 @@ const quickLinkImages: Record<QuickLinkId, string> = {
   recommend: recommendImage,
 };
 
-export default function DocumentQuickLinks() {
+type DocumentQuickLinksProps = {
+  selectedCase?: Case;
+  onPickType: (type: DocumentTypeId) => void;
+};
+
+export default function DocumentQuickLinks({ selectedCase, onPickType }: DocumentQuickLinksProps) {
   const calculatorModal = useModal();
+  const templateModal = useModal();
+  const recommendModal = useModal();
   const navigate = useNavigate();
 
   const handleClick = (id: QuickLinkId) => {
     if (id === "calculator") calculatorModal.open();
     if (id === "guide") navigate("/guide");
+    if (id === "template") templateModal.open();
+    if (id === "recommend") recommendModal.open();
   };
 
   return (
@@ -48,6 +61,17 @@ export default function DocumentQuickLinks() {
       </section>
 
       {calculatorModal.isOpen && <CostCalculatorModal onClose={calculatorModal.close} />}
+      {templateModal.isOpen && <TemplateViewModal onClose={templateModal.close} />}
+      {recommendModal.isOpen && (
+        <RecommendModal
+          selectedCase={selectedCase}
+          onPick={(type) => {
+            recommendModal.close();
+            onPickType(type);
+          }}
+          onClose={recommendModal.close}
+        />
+      )}
     </>
   );
 }

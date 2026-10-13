@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "docx": "^9.10.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-loading-skeleton": "^3.5.0",
