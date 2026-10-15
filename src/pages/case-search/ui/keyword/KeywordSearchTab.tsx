@@ -6,9 +6,11 @@ import { useKeywordSearch } from "../../hooks/useKeywordSearch";
 import type { CaseCard } from "../../lib/search";
 import { useCaseSearchStore } from "../../store/useCaseSearchStore";
 import CaseResultCard from "../shared/CaseResultCard";
+import Pagination from "../shared/Pagination";
 import ResultTabSwitch, { type ResultTab } from "../shared/ResultTabSwitch";
 import SearchLoading from "../shared/SearchLoading";
 
+const PAGE_SIZE = 5;
 const QUICK_KEYWORDS = ["민사", "대여금", "임대차", "보증금", "임금 체불"];
 
 function KeywordCaseCard({ item }: { item: CaseCard }) {
@@ -65,6 +67,8 @@ function KeywordResults({ tab, onSearch }: KeywordResultsProps) {
   const searchError = useCaseSearchStore((state) => state.searchError);
   const keywordCases = useCaseSearchStore((state) => state.keywordCases);
   const savedIds = useCaseSearchStore((state) => state.savedKeywordCaseIds);
+  const page = useCaseSearchStore((state) => state.keywordPage);
+  const setPage = useCaseSearchStore((state) => state.setKeywordPage);
 
   if (tab === "saved") {
     const savedCases = keywordCases.filter((item) => savedIds.has(item.id));
@@ -130,7 +134,14 @@ function KeywordResults({ tab, onSearch }: KeywordResultsProps) {
     );
   }
 
-  return keywordCases.map((item) => <KeywordCaseCard key={item.id} item={item} />);
+  return (
+    <>
+      {keywordCases.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map((item) => (
+        <KeywordCaseCard key={item.id} item={item} />
+      ))}
+      <Pagination page={page} pageCount={Math.ceil(keywordCases.length / PAGE_SIZE)} onChange={setPage} />
+    </>
+  );
 }
 
 export default function KeywordSearchTab() {
