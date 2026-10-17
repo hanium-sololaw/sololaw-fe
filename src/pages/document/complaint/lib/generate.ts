@@ -3,7 +3,14 @@ import { toLines, toParagraphs } from "../../shared/text";
 import { runGeneration } from "../../shared/persistGeneration";
 import type { ComplaintDoc } from "./buildDoc";
 import type { ComplaintType } from "./complaintTypes";
-import type { ClaimType, ComplaintForm, DemandMethod, LawsuitType, Party, ValuationType } from "./types";
+import type {
+  ClaimType,
+  ComplaintForm,
+  DemandMethod,
+  LawsuitType,
+  Party,
+  ValuationType,
+} from "./types";
 
 type ApiParty = {
   name: string;
@@ -100,7 +107,7 @@ export async function generateComplaint(
     claimCause: toParagraphs(sections.claim_cause),
     evidence: toLines(sections.evidence),
     attachments: toLines(sections.attachments),
-    court: sections.court,
+    court: sections.court.replace(/\s*귀중\s*$/, ""),
     annex: sections.annex,
     date: formatDate(new Date()),
     plaintiffName: form.plaintiffs[0]?.name || "",
