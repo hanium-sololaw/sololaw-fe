@@ -81,14 +81,14 @@ export default function WizardLayout({
   children,
 }: WizardLayoutProps) {
   return (
-    <div className="flex flex-col gap-5 lg:flex-row lg:items-start">
-      <aside className="flex w-full shrink-0 flex-col gap-6 lg:w-[264px]">
+    <div className="flex flex-1 flex-col gap-5 lg:flex-row lg:items-stretch">
+      <aside className="flex w-full shrink-0 flex-col gap-6 pb-6 lg:w-[264px]">
         <WizardSidebar badge={badge} steps={steps} activeIndex={activeIndex} onSelectStep={onSelectStep} />
         {sideContent}
       </aside>
 
-      <div className="min-w-0 flex-1 rounded-[14px] bg-white">
-        <div className="px-5 py-5 sm:px-6 sm:py-6">{children}</div>
+      <div className="flex min-w-0 flex-1 flex-col rounded-[14px] bg-white">
+        <div className="flex-1 px-5 py-5 sm:px-6 sm:py-6">{children}</div>
 
         <div className="sticky bottom-0 flex flex-wrap items-center gap-2 rounded-t-[20px] bg-white px-5 py-2.5 shadow-[0_0_20px_rgba(0,0,0,0.1)]">
           <div className="ml-auto flex items-center gap-2">

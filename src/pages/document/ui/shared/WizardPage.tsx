@@ -79,7 +79,7 @@ export default function WizardPage({
   const steps = stepTitles.map((stepTitle, index) => ({ title: stepTitle, done: index < wizard.stepIndex }));
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex min-h-full flex-col gap-5">
       <WizardPageHeader title={title} current={current} subtitle={subtitle} onBack={onBack} />
 
       {wizard.error && (
